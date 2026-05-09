@@ -1,0 +1,1967 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasbi LH - Official Music Catalog</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a0f1e;
+    --navy2: #0d1528;
+    --navy3: #111c35;
+    --navy4: #162040;
+    --blue: #1a3a6e;
+    --blue2: #1e4a8a;
+    --accent: #2563eb;
+    --accent2: #3b82f6;
+    --glow: #60a5fa;
+    --cyan: #0ea5e9;
+    --white: #f0f4ff;
+    --muted: #8899bb;
+    --muted2: #5a6e99;
+    --border: rgba(59,130,246,0.15);
+    --border2: rgba(59,130,246,0.3);
+    --card: rgba(13,21,40,0.85);
+    --card2: rgba(22,32,64,0.6);
+    --font-title: 'Bebas Neue', sans-serif;
+    --font-body: 'Space Grotesk', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--navy);
+    color: var(--white);
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--navy); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+  /* PROGRESS BAR */
+  #progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--cyan), var(--glow));
+    z-index: 9999;
+    width: 0%;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 12px var(--accent2);
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 3px; left: 0; right: 0;
+    z-index: 1000;
+    padding: 16px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(10,15,30,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+
+  .nav-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .nav-logo img {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+    display: block;
+  }
+
+  .nav-logo span { color: var(--accent2); }
+
+  .nav-toggle {
+    display: none;
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.04);
+    color: var(--white);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .nav-toggle:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+  .nav-toggle svg { width: 22px; height: 22px; }
+
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+    font-weight: 500;
+  }
+  .nav-links a:hover { color: var(--white); }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 100px 40px 60px;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(37,99,235,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(37,99,235,0.06) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(37,99,235,0.18) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  /* Particles */
+  #particles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .particle {
+    position: absolute;
+    background: var(--accent2);
+    border-radius: 50%;
+    animation: float-particle linear infinite;
+    opacity: 0;
+  }
+  @keyframes float-particle {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.3; }
+    100% { transform: translateY(-20px) scale(1); opacity: 0; }
+  }
+
+  .hero-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--accent2);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.3s forwards;
+  }
+
+  .hero-title {
+    font-family: var(--font-title);
+    font-size: clamp(80px, 15vw, 180px);
+    line-height: 0.88;
+    letter-spacing: 6px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.5s forwards;
+  }
+
+  .hero-title .line1 { display: block; color: var(--white); }
+  .hero-title .line2 {
+    display: block;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--accent2);
+    font-size: clamp(60px, 11vw, 130px);
+  }
+
+  .hero-tagline {
+    margin-top: 28px;
+    font-size: 15px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-align: center;
+    max-width: 480px;
+    line-height: 1.7;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.7s forwards;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 48px;
+    margin-top: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.9s forwards;
+  }
+
+  .hero-stat { text-align: center; }
+  .hero-stat-num {
+    font-family: var(--font-title);
+    font-size: 42px;
+    letter-spacing: 2px;
+    color: var(--accent2);
+    line-height: 1;
+  }
+  .hero-stat-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    margin-top: 40px;
+    opacity: 0;
+    animation: fadeUp 0.8s 1.1s forwards;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 28px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 28px;
+    background: transparent;
+    color: var(--white);
+    border: 1px solid var(--border2);
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--accent2); color: var(--accent2); transform: translateY(-2px); }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeUp 0.8s 1.3s forwards;
+  }
+  .scroll-indicator span { font-size: 10px; letter-spacing: 3px; color: var(--muted2); text-transform: uppercase; }
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--accent2), transparent);
+    animation: scrollPulse 1.5s ease-in-out infinite;
+  }
+  @keyframes scrollPulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
+
+  /* SECTIONS */
+  section { padding: 100px 40px; max-width: 1200px; margin: 0 auto; }
+  .section-full { max-width: 100%; padding: 100px 60px; }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--accent2);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: var(--font-title);
+    font-size: clamp(40px, 6vw, 72px);
+    letter-spacing: 3px;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 48px;
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .about-photo {
+    position: relative;
+  }
+
+  .about-photo-frame {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: var(--navy3);
+    border: 1px solid var(--border2);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .about-photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.8) contrast(1.1);
+  }
+
+  .about-photo-frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10,15,30,0.6) 0%, transparent 40%);
+    pointer-events: none;
+  }
+
+  .about-photo-tag {
+    position: absolute;
+    bottom: -12px;
+    right: -12px;
+    background: var(--accent);
+    color: white;
+    font-family: var(--font-title);
+    font-size: 14px;
+    letter-spacing: 2px;
+    padding: 8px 16px;
+    border-radius: 2px;
+  }
+
+  .about-stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .stat-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+  .stat-card-num {
+    font-family: var(--font-title);
+    font-size: 36px;
+    letter-spacing: 2px;
+    color: var(--accent2);
+    line-height: 1;
+  }
+  .stat-card-label {
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .about-bio {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 24px;
+  }
+
+  .about-bio strong { color: var(--white); font-weight: 600; }
+
+  .tags-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+  .tag {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border: 1px solid var(--border2);
+    border-radius: 20px;
+    color: var(--accent2);
+    background: rgba(37,99,235,0.08);
+  }
+
+  .spotify-embed-wrap {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 16px;
+  }
+
+  /* DISCOGRAPHY */
+  #discography { background: none; }
+
+  .disco-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .filter-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .sort-controls {
+    display: flex;
+    justify-content: center;
+  }
+
+  .sort-controls select {
+    background: var(--card);
+    color: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .sort-controls select option {
+    background: var(--navy);
+    color: var(--white);
+  }
+
+  .filter-btn {
+    padding: 7px 18px;
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .search-bar {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px 16px;
+    gap: 8px;
+  }
+  .search-bar input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 13px;
+    width: 200px;
+  }
+  .search-bar input::placeholder { color: var(--muted2); }
+  .search-icon { color: var(--muted2); font-size: 14px; }
+
+  .disco-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }
+
+  .disco-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+  }
+  .disco-card:hover { border-color: var(--border2); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+
+  .disco-cover {
+    width: 100%;
+    aspect-ratio: 1;
+    background: var(--navy3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .disco-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s;
+  }
+  .disco-card:hover .disco-cover img { transform: scale(1.08); }
+
+  .disco-cover-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--navy3), var(--blue));
+    font-family: var(--font-title);
+    font-size: 48px;
+    color: rgba(59,130,246,0.3);
+    letter-spacing: 2px;
+  }
+
+  .disco-play-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(10,15,30,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .disco-card:hover .disco-play-overlay { opacity: 1; }
+  .play-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .play-icon svg { fill: white; margin-left: 3px; }
+
+  .disco-info { padding: 14px; }
+  .disco-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .disco-meta { display: flex; justify-content: space-between; align-items: center; }
+  .disco-year { font-size: 11px; color: var(--muted2); }
+  .disco-type {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: rgba(37,99,235,0.15);
+    color: var(--accent2);
+    border: 1px solid rgba(37,99,235,0.2);
+  }
+  .disco-type.collab { background: rgba(14,165,233,0.12); color: var(--cyan); border-color: rgba(14,165,233,0.2); }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(5,8,20,0.92);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    padding: 20px;
+    backdrop-filter: blur(12px);
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+  .modal {
+    background: var(--navy2);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    max-width: 640px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: scale(0.92) translateY(20px);
+    transition: transform 0.3s;
+  }
+  .modal-overlay.open .modal { transform: scale(1) translateY(0); }
+
+  .modal-header {
+    display: flex;
+    gap: 20px;
+    padding: 28px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .modal-cover {
+    width: 80px;
+    height: 80px;
+    border-radius: 4px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: var(--navy3);
+  }
+
+  .modal-cover-placeholder {
+    width: 80px;
+    height: 80px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, var(--navy3), var(--blue));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-title);
+    font-size: 24px;
+    color: var(--accent2);
+  }
+
+  .modal-title { font-size: 20px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+  .modal-artist { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+  .modal-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .modal-tag {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 10px;
+    background: rgba(37,99,235,0.12);
+    color: var(--accent2);
+    border: 1px solid rgba(37,99,235,0.2);
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 20px; right: 20px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 16px;
+    transition: all 0.2s;
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.1); color: var(--white); }
+
+  .modal-body { padding: 24px 28px; }
+
+  .modal-embed { border-radius: 8px; overflow: hidden; margin-bottom: 20px; }
+
+  .platform-links { display: flex; flex-wrap: wrap; gap: 10px; }
+  .platform-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+  }
+  .platform-link:hover { border-color: var(--border2); color: var(--white); background: rgba(255,255,255,0.08); transform: translateY(-1px); }
+  .platform-link svg { width: 16px; height: 16px; }
+
+  /* YOUTUBE / VIDEOS */
+  #videos { background: linear-gradient(180deg, transparent, rgba(10,15,30,0.6), transparent); }
+
+  .videos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+  }
+
+  .video-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.25s;
+  }
+  .video-card:hover { border-color: var(--border2); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+
+  .video-thumb {
+    position: relative;
+    aspect-ratio: 16/9;
+    background: var(--navy3);
+    overflow: hidden;
+  }
+  .video-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s;
+  }
+  .video-card:hover .video-thumb img { transform: scale(1.05); }
+
+  .video-play-btn {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(10,15,30,0.4);
+    transition: background 0.2s;
+  }
+  .video-card:hover .video-play-btn { background: rgba(10,15,30,0.2); }
+
+  .yt-play {
+    width: 56px;
+    height: 40px;
+    background: #ff0000;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+  }
+  .video-card:hover .yt-play { transform: scale(1.1); }
+  .yt-play svg { fill: white; margin-left: 3px; }
+
+  .video-info { padding: 16px; }
+  .video-title { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 6px; line-height: 1.4; }
+  .video-date { font-size: 11px; color: var(--muted2); }
+
+  /* PRODUCED */
+  #produced { }
+
+  .produced-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }
+
+  /* PLATFORMS */
+  #platforms {
+    background: linear-gradient(135deg, rgba(13,21,40,0.8), rgba(22,32,64,0.6));
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 80px 60px;
+    max-width: 100%;
+    margin: 0;
+    text-align: center;
+  }
+
+  .platforms-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .platform-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 20px 24px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s;
+    min-width: 100px;
+    color: var(--muted);
+  }
+  .platform-card:hover { border-color: var(--border2); transform: translateY(-4px); background: var(--card2); color: var(--white); }
+  .platform-card-icon { font-size: 28px; }
+  .platform-card-name { font-size: 11px; letter-spacing: 1px; color: var(--muted); text-transform: uppercase; }
+
+  /* SOCIAL */
+  .social-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 24px;
+  }
+
+  .social-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .social-btn:hover { border-color: var(--border2); color: var(--white); background: rgba(255,255,255,0.08); transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer {
+    padding: 40px 60px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p { font-size: 12px; color: var(--muted2); }
+  footer a { color: var(--accent2); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* REVEAL ANIMATIONS */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* LINE DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border2), transparent);
+    margin: 0 60px;
+  }
+
+  /* NO RESULTS */
+  .no-results {
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted2);
+    font-size: 14px;
+  }
+
+  /* LOADING */
+  .loading-spinner {
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+  }
+  .spinner {
+    width: 36px; height: 36px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent2);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 12px 20px; }
+    .nav-toggle { display: inline-flex; }
+    .nav-links {
+      display: flex;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      padding: 0;
+      margin: 0;
+      flex-direction: column;
+      gap: 0;
+      background: rgba(10,15,30,0.98);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: max-height 0.35s ease, opacity 0.35s ease;
+    }
+    nav.nav-open .nav-links {
+      max-height: 320px;
+      opacity: 1;
+      pointer-events: all;
+    }
+    .nav-links li { width: 100%; }
+    .nav-links a {
+      display: block;
+      width: 100%;
+      padding: 16px 20px;
+      font-size: 14px;
+      color: var(--white);
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-links a:hover { color: var(--accent2); }
+    .nav-links li:first-child a { border-top: none; }
+    section { padding: 60px 20px; }
+    .hero-stats { gap: 24px; }
+    .hero-cta { flex-direction: column; gap: 14px; }
+    .disco-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+    .section-full { padding: 60px 20px; }
+    #platforms { padding: 60px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<nav>
+  <a href="#hero" class="nav-logo">
+    <img src="favicon.png" alt="Hasbi LH logo">
+  </a>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Buka menu" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 7h16" />
+      <path d="M4 12h16" />
+      <path d="M4 17h16" />
+    </svg>
+  </button>
+  <ul class="nav-links">
+    <li><a href="#about">Tentang</a></li>
+    <li><a href="#discography">Diskografi</a></li>
+    <li><a href="#videos">Video</a></li>
+    <li><a href="#platforms">Platform</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div id="particles"></div>
+
+  <p class="hero-label">Independent Musician since 2010</p>
+  <h1 class="hero-title">
+    <span class="line1">HASBI</span>
+    <span class="line2">LH</span>
+  </h1>
+  <p class="hero-tagline">Songwriter, composer & producer — blending pop, emo, melodic rock & R&B into stories that feel deeply personal.</p>
+
+
+  <div class="hero-cta">
+    <a href="#discography" class="btn-primary">Lihat Diskografi</a>
+    <a href="#platforms" class="btn-outline">Dengarkan Sekarang</a>
+  </div>
+
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="reveal">
+    <p class="section-label">// 01 — Tentang</p>
+    <h2 class="section-title">ABOUT THE<br>ARTIST</h2>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-photo reveal reveal-delay-1">
+      <div class="about-photo-frame">
+        <img src="https://i.scdn.co/image/ab6761610000517448ae5e228636519113fa09c9" 
+             alt="Hasbi LH"
+             onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--navy3),var(--blue));font-family:var(--font-title);font-size:80px;color:rgba(59,130,246,0.3);\'>HL</div>'">
+      </div>
+      <div class="about-photo-tag">CILACAP, ID</div>
+    </div>
+
+    <div class="about-content reveal reveal-delay-2">
+      <div class="about-stats-grid">
+        <div class="stat-card">
+          <div class="stat-card-num">2010</div>
+          <div class="stat-card-label">Mulai Bermusik</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-num">2019</div>
+          <div class="stat-card-label">Debut Solo Digital</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-num">Pop/Emo</div>
+          <div class="stat-card-label">Genre Utama</div>
+        </div>
+            </div>
+
+      <p class="about-bio">
+        <strong>Hasbi LH</strong> adalah musisi independen, penulis lagu, dan komposer asal <strong>Cilacap, Indonesia</strong> yang aktif bermusik sejak 2010. Dikenal dengan lirik yang emosional namun sedikit humoris, musiknya terinspirasi dari kisah pribadi dan budaya internet.
+      </p>
+      <p class="about-bio">
+        Perjalanan solonya dimulai dengan perilisan lagu berjudul <strong>"Pulang."</strong> Ia kemudian dikenal luas di kalangan penggemar JKT48 melalui track <strong>"Greesel Lutuna"</strong>. Hasbi merupakan mantan anggota band pop punk <strong>Brave Party</strong> sebagai gitaris dan trio grup <strong>RGH Project</strong> sebagai gitaris/keyboardist/bassist/produser.
+      </p>
+      <p class="about-bio">
+        Kini ia memproduksi seluruh karya solonya secara mandiri — mulai dari rekaman hingga mastering. Memadukan pop, emo, melodic, rock, dan R&B, ia menciptakan lagu yang terasa personal dan beresonansi dengan audiens niche.
+      </p>
+
+      <div class="tags-row">
+        <span class="tag">Pop</span>
+        <span class="tag">Emo</span>
+        <span class="tag">Melodic Rock</span>
+        <span class="tag">R&B</span>
+        <span class="tag">Indie</span>
+        <span class="tag">Songwriter</span>
+        <span class="tag">Producer</span>
+      </div>
+
+      <div class="spotify-embed-wrap">
+        <iframe style="border-radius:8px" 
+                src="https://open.spotify.com/embed/artist/0368tIB0tl0hcEp1ugjBiY?utm_source=generator&theme=0" 
+                width="100%" height="152" frameBorder="0" 
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- DISCOGRAPHY -->
+<section id="discography">
+  <div class="reveal">
+    <p class="section-label">// 02 — Diskografi</p>
+    <h2 class="section-title">DISCOGRAPHY</h2>
+    <p style="color:var(--muted);font-size:14px;margin-top:-30px;margin-bottom:40px;">
+      Daftar lengkap rilisan Hasbi LH dan lagu-lagu yang diproduseri oleh Hasbi LH
+    </p>
+  </div>
+
+  <div class="disco-controls reveal reveal-delay-1">
+    <div class="filter-group">
+      <p style="color:var(--muted);font-size:14px;margin-top:0;margin-bottom:4px;">
+      Tahun Rilis
+    </p>
+      <div class="filter-buttons">
+        <button class="filter-btn active" data-year="all">Semua</button>
+        <button class="filter-btn" data-year="2026">2026</button>
+        <button class="filter-btn" data-year="2025">2025</button>
+        <button class="filter-btn" data-year="2024">2024</button>
+        <button class="filter-btn" data-year="2023">2023</button>
+        <button class="filter-btn" data-year="2022">2022</button>
+        <button class="filter-btn" data-year="2021">2021</button>
+        <button class="filter-btn" data-year="2020">2020</button>
+        <button class="filter-btn" data-year="2019">2019</button>
+        <button class="filter-btn" data-year="2018">2018</button>
+        <button class="filter-btn" data-year="2017">2017</button>
+        <button class="filter-btn" data-year="2015">2015</button>
+      </div>
+      <p style="color:var(--muted);font-size:14px;margin-top:0;margin-bottom:4px;">
+      Kategori
+    </p>
+      <div class="filter-buttons">
+        <button class="filter-btn filter-category active" data-category="all">Semua</button>
+        <button class="filter-btn filter-category" data-category="Solo">Solo</button>
+        <button class="filter-btn filter-category" data-category="Kolaborasi">Kolaborasi</button>
+        <button class="filter-btn filter-category" data-category="Artis Lain">Artis Lain</button>
+      </div>
+    </div>
+    <div class="sort-controls">
+      <select id="sort-select">
+        <option value="date-desc">Tahun Rilis ↓</option>
+        <option value="date-asc">Tahun Rilis ↑</option>
+        <option value="artist-asc">Artis A-Z</option>
+        <option value="artist-desc">Artis Z-A</option>
+        <option value="title-asc">Judul A-Z</option>
+        <option value="title-desc">Judul Z-A</option>
+      </select>
+    </div>
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search-input" placeholder="Cari lagu...">
+    </div>
+  </div>
+
+  <div id="disco-grid" class="disco-grid reveal reveal-delay-2">
+    <!-- populated by JS -->
+  </div>
+</section>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div id="modal-cover-container"></div>
+      <div style="flex:1;min-width:0;">
+        <div class="modal-title" id="modal-title"></div>
+        <div class="modal-artist" id="modal-artist"></div>
+        <div class="modal-tags" id="modal-tags"></div>
+      </div>
+      <button class="modal-close" id="modal-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-embed" id="modal-embed"></div>
+      <div id="modal-platforms" class="platform-links"></div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="divider"></div>
+
+<!-- VIDEOS -->
+<section id="videos">
+  <div class="reveal">
+    <p class="section-label">// 04 — Video</p>
+    <h2 class="section-title">YOUTUBE</h2>
+    <p style="color:var(--muted);font-size:14px;margin-top:-30px;margin-bottom:40px;">
+      YouTube RSS feed
+    </p>
+  </div>
+
+  <div id="videos-grid" class="videos-grid reveal reveal-delay-1">
+    <div class="loading-spinner" style="grid-column:1/-1"><div class="spinner"></div></div>
+  </div>
+
+  <div style="text-align:center;margin-top:32px;" class="reveal">
+    <a href="https://www.youtube.com/@hasbilh_" target="_blank" class="btn-outline">Lihat Semua Video di YouTube →</a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PLATFORMS -->
+<div id="platforms">
+  <p class="section-label" style="text-align:center;margin-bottom:12px;">// 05 — Streaming & Media Sosial</p>
+  <h2 style="font-family:var(--font-title);font-size:clamp(32px,5vw,56px);letter-spacing:3px;text-align:center;margin-bottom:40px;">TEMUKAN SAYA DI</h2>
+
+  <div class="platforms-grid">
+    <a href="https://open.spotify.com/artist/0368tIB0tl0hcEp1ugjBiY" target="_blank" class="platform-card">
+      <span class="platform-card-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.6-.12-.421.18-.78.6-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.241 1.081zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.42-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.781-.18-.601.18-1.2.78-1.381 4.5-1.14 11.28-.86 15.72 1.621.479.3.599 1.02.28 1.5-.319.48-1.041.6-1.52.28z"/>
+        </svg>
+      </span>
+      <span class="platform-card-name">Spotify</span>
+    </a>
+    <a href="https://music.apple.com/id/artist/hasbi-lh/1427415458" target="_blank" class="platform-card">
+      <span class="platform-card-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+        </svg>
+      </span>
+      <span class="platform-card-name">Apple Music</span>
+    </a>
+    <a href="https://www.youtube.com/@hasbilh_" target="_blank" class="platform-card">
+      <span class="platform-card-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+        </svg>
+      </span>
+      <span class="platform-card-name">YouTube</span>
+    </a>
+    <a href="https://music.youtube.com/channel/UCzbwOQAfE1PUvvayXCBdHdw" target="_blank" class="platform-card">
+      <span class="platform-card-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+        </svg>
+      </span>
+      <span class="platform-card-name">YT Music</span>
+    </a>
+    <a href="https://soundcloud.com/hasbilh" target="_blank" class="platform-card">
+      <span class="platform-card-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M7 17.939h-.411c-.907.058-1.586.518-1.739 1.398-.355.167-.671.326-.671.326s1.916.114 4.129.114c2.213 0 4.129-.114 4.129-.114s-.316-.159-.671-.326c-.153-.88-.832-1.34-1.739-1.398H9v-5.969c0-.307.029-.614.089-.91.06-.296.153-.58.278-.841.125-.261.284-.489.472-.683.188-.194.406-.345.647-.45.241-.105.497-.158.765-.158.269 0 .525.053.766.158.241.105.459.256.647.45.188.194.347.422.472.683.125.261.218.545.278.841.06.296.089.603.089.91V17.939zM12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22.083c-5.994 0-10.861-4.867-10.861-10.861S6.006 1.361 12 1.361 22.861 6.228 22.861 12.222 17.994 22.083 12 22.083z"/>
+        </svg>
+      </span>
+      <span class="platform-card-name">SoundCloud</span>
+    </a>
+    <a href="https://www.deezer.com/en/artist/50177352" target="_blank" class="platform-card">
+      <span class="platform-card-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18.81 4.16v3.03H24V4.16h-5.19zM6.27 8.38v3.03h5.19V8.38H6.27zM18.81 8.38v3.03H24V8.38h-5.19zM6.27 12.61v3.03h5.19v-3.03H6.27zM18.81 12.61v3.03H24v-3.03h-5.19zM6.27 16.83v3.03h5.19v-3.03H6.27zM12.54 16.83v3.03h5.19v-3.03h-5.19zM0 16.83v3.03h5.19v-3.03H0zM12.54 4.16v3.03h5.19V4.16h-5.19zM0 4.16v3.03h5.19V4.16H0zM0 8.38v3.03h5.19V8.38H0zM0 12.61v3.03h5.19v-3.03H0z"/>
+        </svg>
+      </span>
+      <span class="platform-card-name">Deezer</span>
+    </a>
+    <a href="https://tidal.com/credits/15281318" target="_blank" class="platform-card">
+      <span class="platform-card-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm.844 17.656c-1.961 0-3.552-1.59-3.552-3.552 0-1.962 1.59-3.552 3.552-3.552s3.552 1.59 3.552 3.552c0 1.962-1.59 3.552-3.552 3.552zm6.504-5.024c-.414 0-.75-.336-.75-.75s.336-.75.75-.75.75.336.75.75-.336.75-.75.75zm-13.008 0c-.414 0-.75-.336-.75-.75s.336-.75.75-.75.75.336.75.75-.336.75-.75.75z"/>
+        </svg>
+      </span>
+      <span class="platform-card-name">Tidal</span>
+    </a>
+  </div>
+
+  <h2 style="font-family:var(--font-title);font-size:clamp(28px,4vw,44px);letter-spacing:3px;text-align:center;margin:56px 0 24px;">MEDIA SOSIAL</h2>
+  <div class="social-row">
+    <a href="https://www.instagram.com/hasbilh_" target="_blank" class="social-btn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+      </svg>
+      Instagram
+    </a>
+    <a href="https://x.com/hasbilh_" target="_blank" class="social-btn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+      </svg>
+      Twitter / X
+    </a>
+    <a href="https://www.tiktok.com/@vengenz21" target="_blank" class="social-btn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+      </svg>
+      TikTok
+    </a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Hasbi LH / Hasubi Eruha</p>
+  <p>Catalog by <a href="https://hasbilh.github.io" target="_blank">hasbilh.github.io</a> | Data via Spotify & YouTube RSS</p>
+</footer>
+
+<script>
+// ====== PROGRESS BAR ======
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = el.scrollTop / (el.scrollHeight - el.clientHeight) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
+});
+
+// ====== PARTICLES ======
+(function() {
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 3 + 1;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      animation-duration:${Math.random()*15+8}s;
+      animation-delay:${Math.random()*10}s;
+      opacity:${Math.random()*0.5+0.1};
+    `;
+    container.appendChild(p);
+  }
+})();
+
+// ====== SCROLL REVEAL ======
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// ====== DISCOGRAPHY DATA ======
+const DISCOGRAPHY = [
+
+  // ===========================
+  // ===== SOLO =====
+  // ===========================
+
+  // 2025
+  { title: "Cathy! Cathy! Cathy!", year: 2025, type: "Solo", spotifyId: "5F86Y3gXkOHBxHLIoXRDhD", spotifyTrackId: "3pRcraLrZBdZ0vZdflkv4U", cover: "https://i.scdn.co/image/ab67616d00001e02a95dbec8e0e5af90c4c182cb", artist: "Hasbi LH" },
+  { title: "Cathy! Cathy! Cathy! - Instrumental", year: 2025, type: "Solo", spotifyId: "5F86Y3gXkOHBxHLIoXRDhD", spotifyTrackId: null, cover: "https://i.scdn.co/image/ab67616d00001e02a95dbec8e0e5af90c4c182cb", artist: "Hasbi LH" },
+  { title: "Greesel Lutuna - Radio Edit", year: 2025, type: "Solo", spotifyId: "3b2kFlzCB8ksjtXoUmO70o", spotifyTrackId: "6VcPmLnvp0GFdCLD2maDeh", cover: "https://i.scdn.co/image/ab67616d00001e02a855fe1fbeb7cbd0882bd1bc", artist: "Hasbi LH" },
+  { title: "Greesel Lutuna Part 2: Angan Terindah", year: 2025, type: "Solo", spotifyId: "3b2kFlzCB8ksjtXoUmO70o", spotifyTrackId: "47UmYxjk2Wv7CkCMrWB6R5", cover: "https://i.scdn.co/image/ab67616d00001e02a855fe1fbeb7cbd0882bd1bc", artist: "Hasbi LH" },
+  { title: "Keberanian - Instrumental", year: 2025, type: "Solo", spotifyId: "3b2kFlzCB8ksjtXoUmO70o", spotifyTrackId: "0ggD0QzXWOeRDKMERV3aVm", cover: "https://i.scdn.co/image/ab67616d00001e02a855fe1fbeb7cbd0882bd1bc", artist: "Hasbi LH" },
+  // 2024
+  { title: "Teruslah Melangkah", year: 2024, type: "Solo", spotifyId: null, spotifyTrackId: "3hq9lO6bpsIIKkvQpGOcJJ", cover: "https://i.scdn.co/image/ab67616d00001e022ddf071e8930da638111c695", artist: "Hasbi LH" },
+  { title: "Oline in Love with You", year: 2024, type: "Solo", spotifyId: null, spotifyTrackId: "2lMDD3u2QxIVJQzOWY3oAc", cover: "https://i.scdn.co/image/ab67616d00001e02a83db673825313aed77ec1f3", artist: "Hasbi LH" },
+  { title: "Terkunang-kunang", year: 2024, type: "Solo", spotifyId: null, spotifyTrackId: "6SXWhnGWFFrEp1C51Y7F0c", cover: null, artist: "Hasbi LH" },
+  { title: "Greesel Lutuna - Acoustic", year: 2024, type: "Solo", spotifyId: "3b2kFlzCB8ksjtXoUmO70o", spotifyTrackId: "4K0uQ2GL1hxZsxzSqHBdY5", cover: "https://i.scdn.co/image/ab67616d00001e02a855fe1fbeb7cbd0882bd1bc", artist: "Hasbi LH" },
+  // 2023
+  { title: "Greesel Lutuna", year: 2023, type: "Solo", spotifyId: "6NfA38jsJhOCHz8j1HBPGx", spotifyTrackId: "5kqKkVCK8qYI5S6aNzaNaa", cover: "https://i.scdn.co/image/ab67616d00001e0279375407f557aa85a90ee1f3", artist: "Hasbi LH" },
+  { title: "Chik", year: 2023, type: "Solo", spotifyId: null, spotifyTrackId: "68XLPtCIhBMPHa0XVdjwQU", cover: "https://i.scdn.co/image/ab67616d00001e02470df6147c8f7104a670bd03", artist: "Hasbi LH" },
+  // 2022
+  { title: "Siapa yang Flora", year: 2022, type: "Solo", spotifyId: null, spotifyTrackId: "0vip5iTDjaYDLwdx0y4jmM", cover: "https://i.scdn.co/image/ab67616d00001e029b004b13cf78e1f186b724b5", artist: "Hasbi LH" },
+  // 2020
+  { title: "Wake Me Up From The Night", year: 2020, type: "Solo", spotifyId: null, spotifyTrackId: "5CAJqhGUoUSRIUZtr6Uht5", cover: "https://i.scdn.co/image/ab67616d00001e021fef68394ee11e8d9514357e", artist: "Hasbi LH" },
+  { title: "Kiamat Kubro", year: 2020, type: "Solo", spotifyId: null, spotifyTrackId: "0ndr6ZRr85sCQ3bloW9TJX", cover: "https://i.scdn.co/image/ab67616d00001e021fef68394ee11e8d9514357e", artist: "Hasbi LH" },
+  { title: "Dying Experience", year: 2020, type: "Solo", spotifyId: null, spotifyTrackId: "4LrcqizgD6tzlmCrg1an8Q", cover: "https://i.scdn.co/image/ab67616d00001e021fef68394ee11e8d9514357e", artist: "Hasbi LH" },
+  // 2019
+  { title: "Lebih Dari Ini", year: 2019, type: "Solo", spotifyId: null, spotifyTrackId: "1uhH5UYxJ2UPn4lZ5piYbM", cover: "https://i.scdn.co/image/ab67616d00001e0237e15800b9f065480ff6d93f", artist: "Hasbi LH" },
+  // 2017
+  { title: "Sunrise", year: 2017, type: "Solo", spotifyId: null, spotifyTrackId: "4m53ONQ9U92vNAqLUvp9Gt", cover: "https://i.scdn.co/image/ab67616d00001e026bd3a9c770d94b5b1766dd70", artist: "Hasbi LH" },
+  { title: "Pelan-pelan", year: 2017, type: "Solo", spotifyId: null, spotifyTrackId: "6cQ54qnrUhC1QIZHCqEUlZ", cover: "https://i.scdn.co/image/ab67616d00001e021b0f6f96d5e5863155924eaf", artist: "Hasbi LH" },
+
+  // ===========================
+  // ===== KOLABORASI =====
+  // ===========================
+
+  // 2026
+  { title: "Jemima Idola Semua", year: 2026, type: "Kolaborasi", spotifyId: "7o75QzS74V3xDmkXPTrDOu", spotifyTrackId: "5KpbzGpvX84590l0Lw7bP0", cover: "https://i.scdn.co/image/ab67616d00001e0284e2004075372521d681e903", artist: "Hasbi LH, Linggar Jabo" },
+  { title: "Kanvas Hariku", year: 2026, type: "Kolaborasi", spotifyId: "1MrvkQODr0qZAGKlN8023d", spotifyTrackId: "5lA2WUwo1XYTxpcGfrpXRC", cover: "https://i.scdn.co/image/ab67616d00001e021ccfd0203af66a4b017fdb25", artist: "Hasbi LH, Degrees" },
+  { title: "Freya", year: 2026, type: "Kolaborasi", spotifyId: "3k0HX5WW4dg7sBrdfri6ev", spotifyTrackId: "6qBJiMomtLvcgPXq7DKUYI", cover: "https://i.scdn.co/image/ab67616d00001e020e5b16843d0eff500448ce88", artist: "Nares Area, Hasbi LH" },
+  { title: "Selamat Malam Intan", year: 2026, type: "Kolaborasi", spotifyId: "030LJwBI5XYO8sStL65nBD", spotifyTrackId: "7rSGiEaYiamrLNMrGPnaDP", cover: "https://i.scdn.co/image/ab67616d00001e02dd70398558d16661953dfc32", artist: "Tayateya, Hasbi LH" },
+  { title: "Kenalan", year: 2026, type: "Kolaborasi", spotifyId: "7uzQrjGA7yTJHHHd93BWMW", spotifyTrackId: null, cover: null, artist: "Fikgi Tanumihardja, Hasbi LH", appleId: "1888276026" },
+  // 2025
+  { title: "Greesel Lutuna Part 3: Icel Only", year: 2025, type: "Kolaborasi", spotifyId: "3b2kFlzCB8ksjtXoUmO70o", spotifyTrackId: "5vlf6SWSj2Jfc5JhnEwqdV", cover: "https://i.scdn.co/image/ab67616d00001e02a855fe1fbeb7cbd0882bd1bc", artist: "Hasbi LH, Linggar Jabo, Gads" },
+  { title: "Keberanian", year: 2025, type: "Kolaborasi", spotifyId: "3b2kFlzCB8ksjtXoUmO70o", spotifyTrackId: "6Il2zRE2Dh3bnuETD9GywR", cover: "https://i.scdn.co/image/ab67616d00001e02a855fe1fbeb7cbd0882bd1bc", artist: "Hasbi LH, Arienovs" },
+  { title: "Terkunang-kunang - Remix", year: 2025, type: "Kolaborasi", spotifyId: "3b2kFlzCB8ksjtXoUmO70o", spotifyTrackId: "35mZ2vF88gbCr7W324FNfR", cover: "https://i.scdn.co/image/ab67616d00001e02a855fe1fbeb7cbd0882bd1bc", artist: "Hasbi LH, Leonarie" },
+  { title: "Berkelana Lagi", year: 2025, type: "Kolaborasi", spotifyId: "5UA8f89mhD3JrgPOyXqhfT", spotifyTrackId: "7JkwOGgdKzmx5qobix0Qmu", cover: "https://i.scdn.co/image/ab67616d00001e02e89a7493165f01564437c570", artist: "Hasbi LH, Linggar Jabo, Misel" },
+  { title: "Lagu Kedua Untuk Delynn", year: 2025, type: "Kolaborasi", spotifyId: "0EXTk5qVjr5bNA3cAgmNOy", spotifyTrackId: "1YpYuOAiI7npeIQPhUHQUk", cover: "https://i.scdn.co/image/ab67616d00001e023660247ab67bca39bf686aad", artist: "Hasbi LH, Linggar Jabo" },
+  { title: "Ekin", year: 2025, type: "Kolaborasi", spotifyId: "0CE5lDgxV3DExFRAb00wyy", spotifyTrackId: "5n7wXEKhaAGR88sAEJiuJ1", cover: "https://i.scdn.co/image/ab67616d00001e02da670ff3274bd0f57b5d0bc6", artist: "Hasbi LH, Linggar Jabo" },
+  { title: "Kutemukan Cahaya (Nur Intan)", year: 2025, type: "Kolaborasi", spotifyId: "7Lp3FNAisPiUtSsCjR6r9U", spotifyTrackId: "6hl6cY5mfC8ungpnZ6oX1f", cover: "https://i.scdn.co/image/ab67616d00001e0279c9cd766bb691391c77b4fb", artist: "Hasbi LH, Linggar Jabo, Ihza Mamta" },
+  { title: "Serigala Tangguh", year: 2025, type: "Kolaborasi", spotifyId: "2r4vi4g1wiPFJJesnGkRrB", spotifyTrackId: null, cover: null, artist: "AuLavana, Hasbi LH, Linggar Jabo" },
+  { title: "Seperti Teka Teki (STT)", year: 2025, type: "Kolaborasi", spotifyId: "3BRoNkvBfb5ErNvcP5ECfB", spotifyTrackId: "6izihi34i6IK4bhuBBFXf4", cover: "https://i.scdn.co/image/ab67616d00001e02e20a3f347397d3a283bf9f58", artist: "Linggar Jabo, Hasbi LH" },
+  { title: "Oline Deeper", year: 2025, type: "Kolaborasi", spotifyId: "6s49MKRCvlTWoy8qsTVLp3", spotifyTrackId: "0yqSpW91eQ9HHwGgBNhswK", cover: "https://i.scdn.co/image/ab67616d00001e0213e7ad078cd6a38340c602f7", artist: "vxeds, Hasbi LH" },
+  { title: "Temani Perjalanan", year: 2025, type: "Kolaborasi", spotifyId: null, spotifyTrackId: "3EX5MrJdzJYp9bgO1uVLoS", cover: "https://i.scdn.co/image/ab67616d00001e023508451773f52eb3af02100b", artist: "Hillaryours, Hasbi LH, Linggar Jabo, thisiskowalski, Asa" },
+  { title: "Bintang Panggungnya", year: 2025, type: "Kolaborasi", spotifyId: "0j0JfGBw4qSeD8WCvOBD08", spotifyTrackId: null, cover: null, artist: "Nauu, Hasbi LH", appleId: "1851830081" },
+  // 2024
+  { title: "hiatus", year: 2024, type: "Kolaborasi", spotifyId: "7LrrYd2f2bY39dUPwrJ62D", spotifyTrackId: "3kohUEcFeNTzma6T7L9RbF", cover: null, artist: "Hasbi LH, Andre Ibrahim, Ihza Mamta, Linggar Jabo, Brawas Handoko, Farhan Pamungkas" },
+  { title: "Makin Cornelia", year: 2024, type: "Kolaborasi", spotifyId: "6CdEUnaXyYhf1GZb0lnsuZ", spotifyTrackId: "1abzS8Jxmre7xpWD2PESo6", cover: null, artist: "Linggar Jabo, Hasbi LH, Pinandito Prajamukti" },
+  { title: "Aralie", year: 2024, type: "Kolaborasi", spotifyId: "3mp94pa02VVijw6o525NiD", spotifyTrackId: "1SAXsimX1JtUXNh5iEdNAG", cover: null, artist: "Hasbi LH, Ihza Mamta" },
+  { title: "Catherina", year: 2024, type: "Kolaborasi", spotifyId: "081xYrQx3UgAQhbVHGSNUf", spotifyTrackId: "548M3VG876qJEFQHcA3zfZ", cover: "https://i.scdn.co/image/ab67616d00001e02a83db673825313aed77ec1f3", artist: "vxeds, Hasbi LH" },
+  { title: "Delynn", year: 2024, type: "Kolaborasi", spotifyId: "3ZrXdQiW84k0IzRGx92vbV", spotifyTrackId: "2PS7dcSCzON9niv6soIc1k", cover: null, artist: "Hasbi LH, Linggar Jabo, Ihza Mamta, Andre Ibrahim" },
+  { title: "Berkelana", year: 2024, type: "Kolaborasi", spotifyId: "6vbN3Nh891js7FA1y1enzY", spotifyTrackId: "30d0aLz9h65J3JgouWehdm", cover: null, artist: "Hasbi LH, Linggar Jabo" },
+  { title: "Lilyttle girl", year: 2024, type: "Kolaborasi", spotifyId: null, spotifyTrackId: "5au87HPplH4zjx1ZMG4E13", cover: null, artist: "Hasbi LH, Linggar Jabo, Ihza Mamta" },
+  { title: "Kimmy no Koto ga", year: 2024, type: "Kolaborasi", spotifyId: null, spotifyTrackId: "0Zbs58WlGWGdHL4q5EuaN7", cover: "https://i.scdn.co/image/ab67616d00001e022d76bd063ae0fc699595c562", artist: "Anisa Dwila, Hasbi LH, Arienovs" },
+  { title: "Chalista", year: 2024, type: "Kolaborasi", spotifyId: "0DI0ZqBofLrrkoJfck2r2F", spotifyTrackId: null, cover: null, artist: "ChalistaR, Hasbi LH", appleId: "1751070144" },
+  { title: "merindu", year: 2024, type: "Kolaborasi", spotifyId: null, spotifyTrackId: "1i09HCzfVPI7GwX28reJt5", cover: "https://i.scdn.co/image/ab67616d00001e0227fb94105b9adf9eeb3655ec", artist: "Brawas Handoko, Hasbi LH" },
+  { title: "kue tahun lalu", year: 2024, type: "Kolaborasi", spotifyId: null, spotifyTrackId: "5IihvHUEAmNBwlhWpjxFBx", cover: "https://i.scdn.co/image/ab67616d00001e027fccd1015e4857b14e60ac78", artist: "Andre Ibrahim, Hasbi LH" },
+  // 2023
+  { title: "Manda, Bolehkah?", year: 2023, type: "Kolaborasi", spotifyId: null, spotifyTrackId: "0Mrpf2mUxr7wrsG7Pnox0i", cover: "https://i.scdn.co/image/ab67616d00001e02218dfaa18f6449ec7cd2816e", artist: "Hasbi LH, Leonarie" },
+  { title: "Jyessica", year: 2023, type: "Kolaborasi", spotifyId: null, spotifyTrackId: "625u8NXkD4xQ7a1YuX1o7X", cover: null, artist: "Hasbi LH, Leonarie" },
+  { title: "Kenalyn", year: 2023, type: "Kolaborasi", spotifyId: "44XAbXa93Y2ckYgCQ6AjAx", spotifyTrackId: "2qraEFQtvZoxHDtNk8mZTI", cover: "https://i.scdn.co/image/ab67616d00001e027870cc12d25798f7989c0e29", artist: "Pinandito Prajamukti, Hasbi LH", appleId: "1721120352" },
+  // 2021
+  { title: "Teman Baru Azizi", year: 2021, type: "Kolaborasi", spotifyId: null, spotifyTrackId: "5oFwhOmCY0w3YZbjfX44mO", cover: "https://i.scdn.co/image/ab67616d00001e021de515ca663ac6840b358c75", artist: "Hasbi LH, Hanafi" },
+  // 2020
+  { title: "Sempurna", year: 2020, type: "Kolaborasi", spotifyId: "3SEERIOFR26bddMX3SLb2v", spotifyTrackId: "6uIxyc4NCfK3xdBQctQuaQ", cover: "https://i.scdn.co/image/ab67616d00001e024bbb040e3b60d996e5fb13e3", artist: "Pnkrs Project, Taya, Hanafi, Anisa Dwila, Hasbi LH, Arienovs, Agspry", appleId: "1847164169" },
+  { title: "Selamat Ulang Tahun, Jinan!", year: 2020, type: "Kolaborasi", spotifyId: "48ZwKbHUDQTSgZqEIgSFE6", spotifyTrackId: null, cover: null, artist: "Pnkrs Project, Taya, Hanafi, Anisa Dwila, Hasbi LH, Arienovs, Agspry", appleId: "1847160464" },
+  { title: "Syair Semesta", year: 2020, type: "Kolaborasi", spotifyId: "4SQet59bX9TRrqkl6u6Ret", spotifyTrackId: null, cover: null, artist: "Pnkrs Project, Taya, Hanafi, Anisa Dwila, Hasbi LH, Arienovs, Agspry", appleId: "1847164330" },
+  { title: "Cuitan Viona", year: 2020, type: "Kolaborasi", spotifyId: null, spotifyTrackId: "4mzgKMqqOvu2SHIMK94GQp", cover: "https://i.scdn.co/image/ab67616d00001e0227f8af9db4e421c570755ed0", artist: "Anisa Dwila, Hasbi LH", appleId: "1546636267" },
+  { title: "Viona Fadrin", year: 2020, type: "Kolaborasi", spotifyId: null, spotifyTrackId: "6u9730QseHGPgMVe7gjGFG", cover: "https://i.scdn.co/image/ab67616d00001e02cc1b96cd92a7cb5186f387da", artist: "Hasbi LH, Anisa Dwila" },
+  // 2019
+  { title: "Pulang", year: 2019, type: "Kolaborasi", spotifyId: "657NubdKutLmIfMxPirmvP", spotifyTrackId: "0dkKignGdGGBSuwh6JVT5B", cover: "https://i.scdn.co/image/ab67616d00001e0246b829636e0635baa28e152d", artist: "Hasbi LH, Rizky Alvian" },
+  { title: "Jarak", year: 2019, type: "Kolaborasi", spotifyId: "5n0Z9a3FEWPegjIZkDMRK1", spotifyTrackId: "4lXVNKWGJ7b7cPMMXWpGjU", cover: "https://i.scdn.co/image/ab67616d00001e02dcaceed59080887b013ab099", artist: "Hasbi LH, Rizky Alvian, Ica" },
+  { title: "Berbeda: Musikalisasi Puisi - Live Performance", year: 2019, type: "Kolaborasi", spotifyId: null, spotifyTrackId: "7hMNQTMzk9oYROWINMWSP6", cover: "https://i.scdn.co/image/ab67616d00001e02f36c44be53bec32b667c1e3c", artist: "Hasbi LH, Ayuoctvn" },
+  // 2018
+  { title: "Sejatinya Keluarga", year: 2018, type: "Kolaborasi", spotifyId: "0VXjIQxBvFGpGTpemxvMev", spotifyTrackId: "5XVwPhM8P7XULR16afERWk", cover: null, artist: "RGH Project, Gilang Rama, Hasbi LH, Riki Okta" },
+  // 2015
+  { title: "Happy Birthday, Shania Gracia!", year: 2015, type: "Kolaborasi", spotifyId: null, spotifyTrackId: "1eLEY3zV1bKySmu3K0m61q", cover: "https://i.scdn.co/image/ab67616d00001e02d21830dbdbead47800704c1a", artist: "Hasbi LH, Yanuar Prima, Ricky Abi Valentino" },
+
+  // ===========================
+  // ===== ARTIS LAIN (PRODUKSI) =====
+  // ===========================
+
+  { title: "Semua Tentangmu", year: 2020, type: "Artis Lain", spotifyId: null, spotifyTrackId: "0dJ5zH21AIKHAID1Dqi7DG", cover: "https://i.scdn.co/image/ab67616d00001e029548d5929dd9369e6d9c75de", artist: "Cello Pangemanan" },
+  { title: "Terus Berlari", year: 2023, type: "Artis Lain", spotifyId: null, spotifyTrackId: "3TjFMTqbcDQohOfqgscCeD", cover: "https://i.scdn.co/image/ab67616d00001e02523cff52238fe6fcea18ad82", artist: "Pnkrs Project" },
+  { title: "Selamat Berkepala Dua", year: 2023, type: "Artis Lain", spotifyId: null, spotifyTrackId: "3BNZBEkzVigf5b6mExW8TB", cover: "https://i.scdn.co/image/ab67616d00001e0271dcf428aa018a94ec46df6c", artist: "Pnkrs Project" },
+  { title: "Pengantar Mimpimu", year: 2023, type: "Artis Lain", spotifyId: null, spotifyTrackId: "2d07BATOoyJXeCYeZJ22j3", cover: "https://i.scdn.co/image/ab67616d00001e02dad73c0ba881373359280baa", artist: "Pnkrs Project" },
+  { title: "Yessica, Satu-satunya", year: 2021, type: "Artis Lain", spotifyId: "4htTYjjtexg2hebz15jPWW", spotifyTrackId: null, cover: null, artist: "Tayateya" },
+  { title: "Si Kucing Kalem", year: 2023, type: "Artis Lain", spotifyId: null, spotifyTrackId: "6omeJxm7rFveEcR91hw9h2", cover: "https://i.scdn.co/image/ab67616d00001e02e3f0f3e258d38efaa19e1f69", artist: "Pnkrs Project" },
+  { title: "Sweet Victoria", year: 2023, type: "Artis Lain", spotifyId: null, spotifyTrackId: "4dr1qjcW5T9UO8VOQGmzL0", cover: "https://i.scdn.co/image/ab67616d00001e02982d6dd5b400dee7c2e86a9e", artist: "Pnkrs Project" },
+  { title: "Niel, Rindu, Niel!!", year: 2023, type: "Artis Lain", spotifyId: null, spotifyTrackId: "63BwzytfcXcVNOIB7SnNeU", cover: "https://i.scdn.co/image/ab67616d00001e02bd25a7a22a02eba50fdfc573", artist: "Linggar Jabo" },
+  { title: "As Your Rainbow", year: 2023, type: "Artis Lain", spotifyId: null, spotifyTrackId: "0pYL8xTqpHb7pZXpuAjQjG", cover: "https://i.scdn.co/image/ab67616d00001e02e25a3b549302b1034966f237", artist: "Andre Ibrahim" },
+  { title: "Victoria Milikku", year: 2024, type: "Artis Lain", spotifyId: null, spotifyTrackId: "6SsOoiBhAKEsSJEvwBm2HK", cover: "https://i.scdn.co/image/ab67616d00001e021e529d43d970aff7edb4c2d0", artist: "Arienovs, Tie Livia" },
+  { title: "Pilihanku, Jessica", year: 2024, type: "Artis Lain", spotifyId: null, spotifyTrackId: "3QrjsDTJH7VdCzk5fIXzw8", cover: "https://i.scdn.co/image/ab67616d00001e024101a08a334ad7d1acdff1b8", artist: "Brawas Handoko" },
+  { title: "I. L. Y. A.", year: 2024, type: "Artis Lain", spotifyId: null, spotifyTrackId: "1MwWl3OzDFD3q1GRBB5C2P", cover: "https://i.scdn.co/image/ab67616d00001e024b1a994196a4f83e56e7ad58", artist: "Andre Ibrahim" },
+  { title: "Gabriela Abigail", year: 2024, type: "Artis Lain", spotifyId: null, spotifyTrackId: "6OWUFU7S0zOWKLQreBWdaF", cover: "https://i.scdn.co/image/ab67616d00001e0241fd184449010082c1ecd645", artist: "Ihza Mamta" },
+  { title: "I'm Glad That I Met You", year: 2024, type: "Artis Lain", spotifyId: null, spotifyTrackId: "5gasAM18CZVuUTWJj5fnSF", cover: "https://i.scdn.co/image/ab67616d00001e021b88eb672489207464c8578a", artist: "Farhan Pamungkas" },
+  { title: "Cornelia", year: 2024, type: "Artis Lain", spotifyId: null, spotifyTrackId: "2ngDc0TrhOwmQrKXrg8Wvt", cover: "https://i.scdn.co/image/ab67616d00001e0299295f9125246238033acae3", artist: "Linggar Jabo" },
+  { title: "Viva la Victoria", year: 2024, type: "Artis Lain", spotifyId: null, spotifyTrackId: "1yejCBqHGQVDWDW4EJKgc7", cover: "https://i.scdn.co/image/ab67616d00001e02cf673b4d6bab929f4e376fe0", artist: "Arienovs, Tie Livia" },
+  { title: "Hari Spesial", year: 2024, type: "Artis Lain", spotifyId: null, spotifyTrackId: "0DGiTLZcnD3icb239cYekY", cover: "https://i.scdn.co/image/ab67616d00001e02e7d7524b7e92d837cdea4ccc", artist: "Ihza Mamta" },
+  { title: "Dreamcatcher", year: 2024, type: "Artis Lain", spotifyId: null, spotifyTrackId: "5sLC8CCooLupnGMF3lh3mH", cover: "https://i.scdn.co/image/ab67616d00001e029e93e24f1f65ceaead3cc546", artist: "Wargavi, Rizuka Miku" },
+  { title: "Aralie Setiap Hari", year: 2024, type: "Artis Lain", spotifyId: null, spotifyTrackId: "1gIJ8sxPWfikDzHkm7GLUo", cover: "https://i.scdn.co/image/ab67616d00001e02fadfa96b13ba52803658dc7c", artist: "Arienovs" },
+  { title: "PEMILU", year: 2024, type: "Artis Lain", spotifyId: null, spotifyTrackId: "0xfBRTJXieTWJaSbCdaq0Y", cover: "https://i.scdn.co/image/ab67616d00001e025d4dff7bbe43ae96e2919e64", artist: "Erlangga Danantara, Farhan Pamungkas" },
+  { title: "Only You", year: 2025, type: "Artis Lain", spotifyId: null, spotifyTrackId: "1LOMdlVBeksN79FLsv2dhA", cover: "https://i.scdn.co/image/ab67616d00001e0292f1c459b41bc77a38aa7cda", artist: "Ihza Mamta" },
+  { title: "Matahariku", year: 2025, type: "Artis Lain", spotifyId: null, spotifyTrackId: "4o2BSpCTQuExpXunizvgIY", cover: "https://i.scdn.co/image/ab67616d00001e020fcd43498199925bba31fd12", artist: "Teman Aralie" },
+  { title: "Astrella 2025", year: 2025, type: "Artis Lain", spotifyId: "0u8hona4hRFIp1OkwsQSiA", spotifyTrackId: null, cover: null, artist: "Nares Area, Broccoza" },
+  { title: "My Lave", year: 2025, type: "Artis Lain", spotifyId: null, spotifyTrackId: "2wGYX0xuKjMaszW3e0ERCZ", cover: "https://i.scdn.co/image/ab67616d00001e021dc6a14ad838e03507ecd432", artist: "Fikgi Tanumihardja" },
+  { title: "Titik Kedua", year: 2025, type: "Artis Lain", spotifyId: null, spotifyTrackId: "7o0UNlcsFZdbjbSqcPsSRB", cover: "https://i.scdn.co/image/ab67616d00001e02860727a93956ab386b098043", artist: "Teman Aralie" },
+  { title: "ManCyn", year: 2025, type: "Artis Lain", spotifyId: null, spotifyTrackId: "1wzJTKAiFxaCDU8VIaJpFX", cover: "https://i.scdn.co/image/ab67616d00001e02c1ad800ca783d822aa1ad49b", artist: "Ivan B0B" },
+];
+
+const PLATFORM_METADATA = {
+  "Cathy! Cathy! Cathy!": { appleUrl: "https://music.apple.com/id/album/cathy-cathy-cathy/1818993667?i=1818993668&uo=4", appleTrackId: "1818993668", appleAlbumId: "1818993667", youtubeId: "ajDRMv8tSyk", deezerTrackId: "3366114541" },
+  "Cathy! Cathy! Cathy! - Instrumental": { appleUrl: "https://music.apple.com/id/album/cathy-cathy-cathy-instrumental/1818993667?i=1818993669&uo=4", appleTrackId: "1818993669", appleAlbumId: "1818993667", deezerTrackId: "3366114551" },
+  "Greesel Lutuna - Radio Edit": { appleUrl: "https://music.apple.com/id/album/greesel-lutuna-radio-edit/1877756546?i=1877756554&uo=4", appleTrackId: "1877756554", appleAlbumId: "1877756546" },
+  "Greesel Lutuna Part 2: Angan Terindah": { appleUrl: "https://music.apple.com/id/album/greesel-lutuna-part-2-angan-terindah/1877756546?i=1877756551&uo=4", appleTrackId: "1877756551", appleAlbumId: "1877756546", youtubeId: "2ZFjG9J1hx0" },
+  "Teruslah Melangkah": { appleUrl: "https://music.apple.com/id/album/teruslah-melangkah-original-soundtrack-from-amor-fati/1604849912?i=1604850409&uo=4", appleTrackId: "1604850409", appleAlbumId: "1604849912", youtubeId: "Az_XUBAoWwo", deezerTrackId: "2620042382" },
+  "Oline in Love with You": { deezerTrackId: "3993452551" },
+  "Terkunang-kunang": { appleUrl: "https://music.apple.com/id/album/terkunang-kunang/1771112230?i=1771112233&uo=4", appleTrackId: "1771112233", appleAlbumId: "1771112230", youtubeId: "yY6hkF4z60w" },
+  "Greesel Lutuna": { appleUrl: "https://music.apple.com/id/album/greesel-lutuna/1745706712?i=1745706713&uo=4", appleTrackId: "1745706713", appleAlbumId: "1745706712" },
+  "Chik": { appleUrl: "https://music.apple.com/id/album/chik/1705189062?i=1705189426&uo=4", appleTrackId: "1705189426", appleAlbumId: "1705189062", deezerTrackId: "2300288635" },
+  "Siapa yang Flora": { deezerTrackId: "2944973871" },
+  "Wake Me Up From The Night": { appleUrl: "https://music.apple.com/id/album/wake-me-up-from-the-night/1588385328?i=1588385329&uo=4", appleTrackId: "1588385329", appleAlbumId: "1588385328", youtubeId: "o8Yiv_m7xH0", deezerTrackId: "1510611632" },
+  "Kiamat Kubro": { appleUrl: "https://music.apple.com/id/album/kiamat-kubro/1588385328?i=1588385331&uo=4", appleTrackId: "1588385331", appleAlbumId: "1588385328", youtubeId: "0FIBSiYMUNo", deezerTrackId: "1510611642" },
+  "Dying Experience": { appleUrl: "https://music.apple.com/id/album/dying-experience/1588385328?i=1588385332&uo=4", appleTrackId: "1588385332", appleAlbumId: "1588385328", youtubeId: "T0qAOMtmJDA", deezerTrackId: "1510611652" },
+  "Lebih Dari Ini": { youtubeId: "hcwwnGNiJTk" },
+  "Sunrise": { appleUrl: "https://music.apple.com/id/album/sunrise/1694663386?i=1694663396&uo=4", appleTrackId: "1694663396", appleAlbumId: "1694663386", youtubeId: "VgUXtL4ORRM", deezerTrackId: "2345659855" },
+  "Pelan-pelan": { appleUrl: "https://music.apple.com/id/album/pelan-pelan/1707019416?i=1707019417&uo=4", appleTrackId: "1707019417", appleAlbumId: "1707019416", deezerTrackId: "2450307565" },
+  "Jemima Idola Semua": { appleUrl: "https://music.apple.com/id/album/jemima-idola-semua/1880159797?i=1880160338&uo=4", appleTrackId: "1880160338", appleAlbumId: "1880159797", youtubeId: "dy6aquOCB_0", deezerTrackId: "3867388291" },
+  "Kanvas Hariku": { appleUrl: "https://music.apple.com/id/album/kanvas-hariku/1866679048?i=1866679055&uo=4", appleTrackId: "1866679055", appleAlbumId: "1866679048", deezerTrackId: "3757418532" },
+  "Freya": { appleUrl: "https://music.apple.com/id/album/freya/1875324491?i=1875324492&uo=4", appleTrackId: "1875324492", appleAlbumId: "1875324491", youtubeId: "limhwzv_jx4", deezerTrackId: "3828516311" },
+  "Selamat Malam Intan": { appleUrl: "https://music.apple.com/id/album/selamat-malam-intan/1876291160?i=1876291162&uo=4", appleTrackId: "1876291162", appleAlbumId: "1876291160", youtubeId: "9Pnyp8DxK_Q", deezerTrackId: "3835549371" },
+  "Kenalan": { appleUrl: "https://music.apple.com/id/album/kenalan-feat-hasbi-lh/1888276026?i=1888276027&uo=4", appleTrackId: "1888276027", appleAlbumId: "1888276026", deezerTrackId: "3923750431" },
+  "Greesel Lutuna Part 3: Icel Only": { appleUrl: "https://music.apple.com/id/album/greesel-lutuna-part-3-icel-only-feat-linggar-jabo-gads/1877756546?i=1877756795&uo=4", appleTrackId: "1877756795", appleAlbumId: "1877756546", deezerTrackId: "3848269961" },
+  "Keberanian": { appleUrl: "https://music.apple.com/id/album/keberanian-feat-arienovs/1877756546?i=1877756549&uo=4", appleTrackId: "1877756549", appleAlbumId: "1877756546", youtubeId: "at4xT7ZPXtc" },
+  "Berkelana Lagi": { appleUrl: "https://music.apple.com/id/album/berkelana-lagi/1837076270?i=1837076271&uo=4", appleTrackId: "1837076271", appleAlbumId: "1837076270", youtubeId: "ECS-fFO2Qfg", deezerTrackId: "3536249171" },
+  "Lagu Kedua Untuk Delynn": { appleUrl: "https://music.apple.com/id/album/lagu-kedua-untuk-delynn/1867463668?i=1867463669&uo=4", appleTrackId: "1867463669", appleAlbumId: "1867463668", youtubeId: "DNR8HI5io_I", deezerTrackId: "3762600872" },
+  "Ekin": { youtubeId: "jLbA79ZEMpk", deezerTrackId: "3332897041" },
+  "Kutemukan Cahaya (Nur Intan)": { youtubeId: "qZ1qr354thk", deezerTrackId: "3276345171" },
+  "Serigala Tangguh": { appleUrl: "https://music.apple.com/id/album/serigala-tangguh/1827656419?i=1827656421&uo=4", appleTrackId: "1827656421", appleAlbumId: "1827656419", youtubeId: "mxbziKdWZ_w", deezerTrackId: "3425674111" },
+  "Seperti Teka Teki (STT)": { youtubeId: "HBe_Dc3faxk", deezerTrackId: "3492321061" },
+  "Oline Deeper": { appleUrl: "https://music.apple.com/id/album/oline-deeper/1850961004?i=1850961007&uo=4", appleTrackId: "1850961007", appleAlbumId: "1850961004", youtubeId: "1hoQbrt97C0", deezerTrackId: "3639832382" },
+  "Temani Perjalanan": { appleUrl: "https://music.apple.com/id/album/temani-perjalanan/1847162098?i=1847162101&uo=4", appleTrackId: "1847162101", appleAlbumId: "1847162098", deezerTrackId: "3609871282" },
+  "Bintang Panggungnya": { appleUrl: "https://music.apple.com/id/album/bintang-panggungnya-feat-hasbi-lh/1851830081?i=1851830083&uo=4", appleTrackId: "1851830083", appleAlbumId: "1851830081" },
+  "hiatus": { appleUrl: "https://music.apple.com/id/album/hiatus-feat-brawas-handoko-farhan-pamungkas/1765818894?i=1765818895&uo=4", appleTrackId: "1765818895", appleAlbumId: "1765818894", youtubeId: "ul1i1zN0l4c", deezerTrackId: "2839882572" },
+  "Makin Cornelia": { youtubeId: "2SJHEpX_-48", deezerTrackId: "2912782391" },
+  "Aralie": { youtubeId: "cLy1mI1hw94", deezerTrackId: "2928120421" },
+  "Catherina": { appleUrl: "https://music.apple.com/id/album/catherina-no-sanbika/1497863259?i=1497863600&uo=4", appleTrackId: "1497863600", appleAlbumId: "1497863259", youtubeId: "0j1JUuW8eQo", deezerTrackId: "2937102571" },
+  "Delynn": { youtubeId: "MmCtSIj4zJc", deezerTrackId: "2975489511" },
+  "Berkelana": { appleUrl: "https://music.apple.com/id/album/berkelana-lagi/1837076270?i=1837076271&uo=4", appleTrackId: "1837076271", appleAlbumId: "1837076270", youtubeId: "9GZRNLqHD_A", deezerTrackId: "2996114331" },
+  "Lilyttle girl": { appleUrl: "https://music.apple.com/id/album/lilyttle-girl/1777387349?i=1777387353&uo=4", appleTrackId: "1777387353", appleAlbumId: "1777387349", youtubeId: "VGLZ0Vz16fU", deezerTrackId: "3042492221" },
+  "Kimmy no Koto ga": { deezerTrackId: "3005729891" },
+  "Chalista": { deezerTrackId: "2836962192" },
+  "merindu": { deezerTrackId: "3005256671" },
+  "kue tahun lalu": { deezerTrackId: "2941699401" },
+  "Manda, Bolehkah?": { youtubeId: "kFIW47O5Mss", deezerTrackId: "2366306535" },
+  "Jyessica": { deezerTrackId: "2598844252" },
+  "Kenalyn": { deezerTrackId: "2543123391" },
+  "Teman Baru Azizi": { deezerTrackId: "2945098761" },
+  "Selamat Ulang Tahun, Jinan!": { deezerTrackId: "3609866722" },
+  "Syair Semesta": { appleUrl: "https://music.apple.com/id/album/syair-semesta-feat-hasbi-lh-hanafi-arienovs-anisa-dwila/1847164330?i=1847164331&uo=4", appleTrackId: "1847164331", appleAlbumId: "1847164330" },
+  "Cuitan Viona": { appleUrl: "https://music.apple.com/id/album/cuitan-viona-feat-hasbi-lh/1546636267?i=1546636270&uo=4", appleTrackId: "1546636270", appleAlbumId: "1546636267" },
+  "Viona Fadrin": { appleUrl: "https://music.apple.com/id/album/viona-fadrin-feat-anisa-dwila/1588486088?i=1588486093&uo=4", appleTrackId: "1588486093", appleAlbumId: "1588486088", deezerTrackId: "1510623962" },
+  "Pulang": { appleUrl: "https://music.apple.com/id/album/pulang-feat-rizky-alvian/1427415457?i=1427417561&uo=4", appleTrackId: "1427417561", appleAlbumId: "1427415457", deezerTrackId: "542109442" },
+  "Jarak": { appleUrl: "https://music.apple.com/id/album/jarak-feat-rizky-alvian-ica/1456415157?i=1456415165&uo=4", appleTrackId: "1456415165", appleAlbumId: "1456415157", deezerTrackId: "2386684875" },
+  "Happy Birthday, Shania Gracia!": { youtubeId: "nScbmYOCGLQ", deezerTrackId: "2413386245" },
+  "Semua Tentangmu": { appleUrl: "https://music.apple.com/id/album/semua-tentangmu/1753916428?i=1753916540&uo=4", appleTrackId: "1753916540", appleAlbumId: "1753916428" },
+  "Terus Berlari": { appleUrl: "https://music.apple.com/id/album/terus-berlari/1482644124?i=1482644125&uo=4", appleTrackId: "1482644125", appleAlbumId: "1482644124", deezerTrackId: "2301700955" },
+  "Selamat Berkepala Dua": { deezerTrackId: "2386684775" },
+  "Pengantar Mimpimu": { deezerTrackId: "2300484375" },
+  "Yessica, Satu-satunya": { deezerTrackId: "1205161112" },
+  "Si Kucing Kalem": { appleUrl: "https://music.apple.com/id/album/si-kucing-kalem/1705033571?i=1705033572&uo=4", appleTrackId: "1705033572", appleAlbumId: "1705033571", deezerTrackId: "2364587465" },
+  "Sweet Victoria": { deezerTrackId: "2379245415" },
+  "Niel, Rindu, Niel!!": { deezerTrackId: "2379719665" },
+  "Victoria Milikku": { deezerTrackId: "2626672142" },
+  "Pilihanku, Jessica": { appleUrl: "https://music.apple.com/id/album/pilihanku-jessica/1869422827?i=1869422828&uo=4", appleTrackId: "1869422828", appleAlbumId: "1869422827", deezerTrackId: "3776679272" },
+  "I. L. Y. A.": { deezerTrackId: "2616570282" },
+  "Gabriela Abigail": { deezerTrackId: "2973418311" },
+  "I'm Glad That I Met You": { deezerTrackId: "2638204152" },
+  "Cornelia": { appleUrl: "https://music.apple.com/id/album/cornelia-street/1468058165?i=1468058184&uo=4", appleTrackId: "1468058184", appleAlbumId: "1468058165", deezerTrackId: "2649507862" },
+  "Hari Spesial": { deezerTrackId: "2935043831" },
+  "Dreamcatcher": { appleUrl: "https://music.apple.com/id/album/dreamcatcher-feat-rizuka-miku/1895775355?i=6764427060&uo=4", appleTrackId: "6764427060", appleAlbumId: "1895775355", deezerTrackId: "3991006961" },
+  "Aralie Setiap Hari": { deezerTrackId: "3007708041" },
+  "PEMILU": { deezerTrackId: "3157005661" },
+  "Only You": { deezerTrackId: "3489892031" },
+  "Matahariku": { deezerTrackId: "3500546341" },
+  "Astrella 2025": { deezerTrackId: "3536110871" },
+  "My Lave": { appleUrl: "https://music.apple.com/id/album/my-lave/1847160630?i=1847160633&uo=4", appleTrackId: "1847160633", appleAlbumId: "1847160630", deezerTrackId: "3609871502" },
+  "Titik Kedua": { deezerTrackId: "3856313731" },
+  "ManCyn": { appleUrl: "https://music.apple.com/id/album/mancyn/1867463464?i=1867463705&uo=4", appleTrackId: "1867463705", appleAlbumId: "1867463464", deezerTrackId: "3762601722" },
+};
+
+// Color gradients for placeholders
+const gradients = [
+  ['#0d1528','#1a3a6e'], ['#0f2044','#1e4a8a'], ['#0a1a3a','#1040aa'],
+  ['#071530','#163f72'], ['#0c1e3e','#0e3a6b'], ['#08142e','#1a3560'],
+  ['#0e1e40','#234080'], ['#06101e','#1a2e55'],
+];
+
+function getGradient(i) { return gradients[i % gradients.length]; }
+
+function makeInitials(title) {
+  return title.split(' ').slice(0,2).map(w => w[0]||'').join('').toUpperCase() || 'HL';
+}
+
+function getSpotifyOembedUrl(item) {
+  const id = item.spotifyTrackId || item.spotifyId;
+  if (!id) return null;
+  const type = item.spotifyTrackId ? 'track' : 'album';
+  return `https://open.spotify.com/oembed?url=https://open.spotify.com/${type}/${id}`;
+}
+
+async function resolveCoverFromSpotify(item) {
+  const oembedUrl = getSpotifyOembedUrl(item);
+  if (!oembedUrl) return null;
+  try {
+    const response = await fetch(oembedUrl);
+    if (!response.ok) return null;
+    const json = await response.json();
+    return json.thumbnail_url || null;
+  } catch (error) {
+    return null;
+  }
+}
+
+function buildCard(item, index, isProduced) {
+  const card = document.createElement('div');
+  card.className = 'disco-card';
+  const yearLabel = item.year || '—';
+  card.dataset.year = item.year || '';
+  card.dataset.title = (item.title + ' ' + (item.artist||'')).toLowerCase();
+
+  const [c1, c2] = getGradient(index);
+  const initials = makeInitials(item.title);
+  const typeClass = item.type === 'Kolaborasi' ? 'disco-type collab' : 'disco-type';
+  const typeLabel = item.type || 'Single';
+  const artistLine = item.artist ? `<br><span style="font-size:11px;color:var(--muted2);">${item.artist}</span>` : '';
+
+  card.innerHTML = `
+    <div class="disco-cover">
+      ${item.cover 
+        ? `<img src="${item.cover}" alt="${item.title}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\"disco-cover-placeholder\" style=\"background:linear-gradient(135deg,${c1},${c2})\">${initials}</div>'">`
+        : `<div class="disco-cover-placeholder" style="background:linear-gradient(135deg,${c1},${c2})">${initials}</div>`
+      }
+      <div class="disco-play-overlay">
+        <div class="play-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18"><polygon points="4,2 16,9 4,16"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="disco-info">
+      <div class="disco-title">${item.title}${artistLine}</div>
+      <div class="disco-meta">
+        <span class="disco-year">${yearLabel}</span>
+        <span class="${typeClass}">${typeLabel}</span>
+      </div>
+    </div>
+  `;
+
+  card.addEventListener('click', () => openModal(item, c1, c2, isProduced));
+
+  if (!item.cover && (item.spotifyTrackId || item.spotifyId)) {
+    resolveCoverFromSpotify(item).then(url => {
+      if (!url) return;
+      item.cover = url;
+      const placeholder = card.querySelector('.disco-cover-placeholder');
+      if (placeholder) {
+        placeholder.outerHTML = `<img class="disco-img" src="${url}" alt="${item.title}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=disco-cover-placeholder style=background:linear-gradient(135deg,${c1},${c2})>${initials}</div>'">`;
+      }
+    });
+  }
+
+  return card;
+}
+
+function openModal(item, c1, c2, isProduced) {
+  const overlay = document.getElementById('modal-overlay');
+  const initials = makeInitials(item.title);
+
+  // Cover
+  const coverContainer = document.getElementById('modal-cover-container');
+  if (item.cover) {
+    coverContainer.innerHTML = `<img class="modal-cover" src="${item.cover}" alt="${item.title}">`;
+  } else {
+    coverContainer.innerHTML = `<div class="modal-cover-placeholder" style="background:linear-gradient(135deg,${c1},${c2})">${initials}</div>`;
+    if (item.spotifyTrackId || item.spotifyId) {
+      resolveCoverFromSpotify(item).then(url => {
+        if (!url) return;
+        item.cover = url;
+        coverContainer.innerHTML = `<img class="modal-cover" src="${url}" alt="${item.title}">`;
+      });
+    }
+  }
+
+  document.getElementById('modal-title').textContent = item.title;
+  document.getElementById('modal-artist').textContent = item.artist ? `by ${item.artist}` : 'Hasbi LH';
+
+  const tags = document.getElementById('modal-tags');
+  const yearLabel = item.year || '—';
+  tags.innerHTML = `
+    <span class="modal-tag">${yearLabel}</span>
+    <span class="modal-tag">${isProduced ? 'Produksi' : item.type}</span>
+  `;
+
+  // Spotify embed
+  const embedDiv = document.getElementById('modal-embed');
+  const spotifyTrackId = item.spotifyTrackId;
+  const spotifyAlbumId = item.spotifyId;
+  const isSpotifyTrack = spotifyTrackId && /^[A-Za-z0-9]{22}$/.test(spotifyTrackId);
+  const isSpotifyAlbum = !spotifyTrackId && spotifyAlbumId && /^[A-Za-z0-9]{22}$/.test(spotifyAlbumId);
+  const searchArtist = item.artist || 'Hasbi LH';
+  const searchQuery = encodeURIComponent(`${item.title} ${searchArtist}`);
+
+  if (isSpotifyTrack) {
+    embedDiv.innerHTML = `<iframe style="border-radius:8px" 
+      src="https://open.spotify.com/embed/track/${spotifyTrackId}?utm_source=generator&theme=0" 
+      width="100%" height="152" frameBorder="0" 
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+      loading="lazy"></iframe>`;
+  } else if (isSpotifyAlbum) {
+    embedDiv.innerHTML = `<iframe style="border-radius:8px" 
+      src="https://open.spotify.com/embed/album/${spotifyAlbumId}?utm_source=generator&theme=0" 
+      width="100%" height="152" frameBorder="0" 
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+      loading="lazy"></iframe>`;
+  } else {
+    embedDiv.innerHTML = `<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px;">
+      <p>Spotify embed tidak tersedia untuk rilisan ini. Gunakan tautan pencarian.</p>
+    </div>`;
+  }
+
+  // Platform links
+  const platformMeta = PLATFORM_METADATA[item.title] || {};
+  const platforms = document.getElementById('modal-platforms');
+  const spotifyUrl = isSpotifyTrack
+    ? `https://open.spotify.com/track/${spotifyTrackId}`
+    : isSpotifyAlbum
+      ? `https://open.spotify.com/album/${spotifyAlbumId}`
+      : `https://open.spotify.com/search/${searchQuery}`;
+
+  const appleMusicUrl = platformMeta.appleUrl
+    || (platformMeta.appleTrackId && platformMeta.appleAlbumId
+      ? `https://music.apple.com/id/album/${platformMeta.appleAlbumId}?i=${platformMeta.appleTrackId}`
+      : item.appleTrackId && item.appleAlbumId
+        ? `https://music.apple.com/id/album/${item.appleAlbumId}?i=${item.appleTrackId}`
+        : item.appleId
+          ? `https://music.apple.com/id/album/${item.appleId}`
+          : `https://music.apple.com/id/search?term=${searchQuery}`);
+
+  const youtubeId = platformMeta.youtubeId || item.youtubeId;
+  const youtubeUrl = youtubeId
+    ? `https://www.youtube.com/watch?v=${youtubeId}`
+    : `https://www.youtube.com/results?search_query=${searchQuery}`;
+  const ytMusicUrl = youtubeId || item.youtubeMusicId
+    ? `https://music.youtube.com/watch?v=${youtubeId || item.youtubeMusicId}`
+    : `https://music.youtube.com/search?q=${searchQuery}`;
+  const deezerTrack = platformMeta.deezerTrackId || item.deezerTrackId;
+  const deezerUrl = deezerTrack
+    ? `https://www.deezer.com/en/track/${deezerTrack}`
+    : item.deezerId
+      ? `https://www.deezer.com/en/album/${item.deezerId}`
+      : `https://www.deezer.com/search/${searchQuery}`;
+  const tidalTrack = platformMeta.tidalTrackId || item.tidalTrackId;
+  const tidalAlbum = platformMeta.tidalAlbumId || item.tidalAlbumId;
+  const tidalUrl = tidalTrack
+    ? `https://tidal.com/browse/track/${tidalTrack}`
+    : tidalAlbum
+      ? `https://tidal.com/browse/album/${tidalAlbum}`
+      : `https://tidal.com/search/${searchQuery}`;
+
+  platforms.innerHTML = `
+    <a href="${spotifyUrl}" target="_blank" class="platform-link">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.6-.12-.421.18-.78.6-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.241 1.081zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.42-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.781-.18-.601.18-1.2.78-1.381 4.5-1.14 11.28-.86 15.72 1.621.479.3.599 1.02.28 1.5-.319.48-1.041.6-1.52.28z"/>
+      </svg>
+      Spotify
+    </a>
+    <a href="${appleMusicUrl}" target="_blank" class="platform-link">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+      </svg>
+      Apple Music
+    </a>
+    <a href="${youtubeUrl}" target="_blank" class="platform-link">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+      </svg>
+      YouTube
+    </a>
+    <a href="${ytMusicUrl}" target="_blank" class="platform-link">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+      </svg>
+      YT Music
+    </a>
+    <a href="https://soundcloud.com/search?q=${searchQuery}" target="_blank" class="platform-link">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M7 17.939h-.411c-.907.058-1.586.518-1.739 1.398-.355.167-.671.326-.671.326s1.916.114 4.129.114c2.213 0 4.129-.114 4.129-.114s-.316-.159-.671-.326c-.153-.88-.832-1.34-1.739-1.398H9v-5.969c0-.307.029-.614.089-.91.06-.296.153-.58.278-.841.125-.261.284-.489.472-.683.188-.194.406-.345.647-.45.241-.105.497-.158.765-.158.269 0 .525.053.766.158.241.105.459.256.647.45.188.194.347.422.472.683.125.261.218.545.278.841.06.296.089.603.089.91V17.939zM12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22.083c-5.994 0-10.861-4.867-10.861-10.861S6.006 1.361 12 1.361 22.861 6.228 22.861 12.222 17.994 22.083 12 22.083z"/>
+      </svg>
+      SoundCloud
+    </a>
+    <a href="${deezerUrl}" target="_blank" class="platform-link">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M18.81 4.16v3.03H24V4.16h-5.19zM6.27 8.38v3.03h5.19V8.38H6.27zM18.81 8.38v3.03H24V8.38h-5.19zM6.27 12.61v3.03h5.19v-3.03H6.27zM18.81 12.61v3.03H24v-3.03h-5.19zM6.27 16.83v3.03h5.19v-3.03H6.27zM12.54 16.83v3.03h5.19v-3.03h-5.19zM0 16.83v3.03h5.19v-3.03H0zM12.54 4.16v3.03h5.19V4.16h-5.19zM0 4.16v3.03h5.19V4.16H0zM0 8.38v3.03h5.19V8.38H0zM0 12.61v3.03h5.19v-3.03H0z"/>
+      </svg>
+      Deezer
+    </a>
+    <a href="${tidalUrl}" target="_blank" class="platform-link">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm.844 17.656c-1.961 0-3.552-1.59-3.552-3.552 0-1.962 1.59-3.552 3.552-3.552s3.552 1.59 3.552 3.552c0 1.962-1.59 3.552-3.552 3.552zm6.504-5.024c-.414 0-.75-.336-.75-.75s.336-.75.75-.75.75.336.75.75-.336.75-.75.75zm-13.008 0c-.414 0-.75-.336-.75-.75s.336-.75.75-.75.75.336.75.75-.336.75-.75.75z"/>
+      </svg>
+      Tidal
+    </a>
+  `;
+
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+document.getElementById('modal-close').addEventListener('click', closeModal);
+document.getElementById('modal-overlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+});
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(() => { document.getElementById('modal-embed').innerHTML = ''; }, 300);
+}
+
+const navToggle = document.getElementById('nav-toggle');
+const nav = document.querySelector('nav');
+if (navToggle && nav) {
+  navToggle.addEventListener('click', () => {
+    const isOpen = nav.classList.toggle('nav-open');
+    navToggle.setAttribute('aria-expanded', String(isOpen));
+  });
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      if (nav.classList.contains('nav-open')) {
+        nav.classList.remove('nav-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+}
+
+// ====== RENDER DISCOGRAPHY ======
+function renderDisco(filterYear, filterCategory, searchQuery, sortBy) {
+  const grid = document.getElementById('disco-grid');
+  grid.innerHTML = '';
+  let items = DISCOGRAPHY;
+
+  // Filter by year
+  if (filterYear !== 'all') items = items.filter(i => String(i.year) === filterYear);
+
+  // Filter by category
+  if (filterCategory && filterCategory !== 'all') items = items.filter(i => i.type === filterCategory);
+
+  // Search filter
+  if (searchQuery) items = items.filter(i => i.title.toLowerCase().includes(searchQuery) || (i.artist||'').toLowerCase().includes(searchQuery));
+
+  // Sort items
+  items.sort((a, b) => {
+    switch (sortBy) {
+      case 'date-desc':
+        return (b.year || 0) - (a.year || 0);
+      case 'date-asc':
+        return (a.year || 0) - (b.year || 0);
+      case 'artist-asc':
+        return (a.artist || '').localeCompare(b.artist || '');
+      case 'artist-desc':
+        return (b.artist || '').localeCompare(a.artist || '');
+      case 'title-asc':
+        return a.title.localeCompare(b.title);
+      case 'title-desc':
+        return b.title.localeCompare(a.title);
+      default:
+        return (b.year || 0) - (a.year || 0);
+    }
+  });
+
+  if (items.length === 0) {
+    grid.innerHTML = '<div class="no-results">Tidak ada rilisan yang cocok.</div>';
+    return;
+  }
+  items.forEach((item, idx) => {
+    grid.appendChild(buildCard(item, idx, false));
+  });
+}
+
+// Filter buttons
+let currentYear = 'all';
+let currentCategory = 'all';
+let currentSort = 'date-desc';
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.classList.contains('filter-category')) {
+      document.querySelectorAll('.filter-btn.filter-category').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const cat = btn.dataset.category;
+      currentCategory = (cat === undefined || cat === '') ? 'all' : cat;
+    } else {
+      document.querySelectorAll('.filter-btn:not(.filter-category)').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const yr = btn.dataset.year;
+      currentYear = (yr === undefined || yr === '') ? 'all' : yr;
+    }
+    renderDisco(currentYear, currentCategory, document.getElementById('search-input').value.toLowerCase().trim(), currentSort);
+  });
+});
+
+document.getElementById('sort-select').addEventListener('change', (e) => {
+  currentSort = e.target.value;
+  renderDisco(currentYear, currentCategory, document.getElementById('search-input').value.toLowerCase().trim(), currentSort);
+});
+
+document.getElementById('search-input').addEventListener('input', (e) => {
+  renderDisco(currentYear, currentCategory, e.target.value.toLowerCase().trim(), currentSort);
+});
+
+renderDisco('all', 'all', '', 'date-desc');
+
+
+
+// ====== YOUTUBE RSS FEED ======
+const CHANNEL_HANDLE = '@hasbilh_';
+const CHANNEL_URL = `https://www.youtube.com/${CHANNEL_HANDLE}`;
+const CHANNEL_ID = 'UC-64KIoELn2IxnTZdgwPDLg';
+const RSS_URL = 'https://www.youtube.com/feeds/videos.xml?channel_id=UC-64KIoELn2IxnTZdgwPDLg';
+const CORS_PROXY = `https://api.allorigins.win/get?url=${encodeURIComponent(RSS_URL)}`;
+
+const FALLBACK_VIDEOS = [
+    { id: 'AbYVobi62U4', title: 'Hasbi LH - Greesel Lutuna (Lyrics & Chord Video)', date: 'Jan 2024' },
+    { id: 'k3UeIsTCdzk', title: 'Hasbi LH - Oline in Love with You', date: '2024' },
+    { id: 'Dt4KzBmUKcs', title: 'Hasbi LH - Siapa yang Flora? (Lyrics Video)', date: '2022' },
+    { id: 'qbZPkjQQj8M', title: 'Hasbi LH - Chik (Lyrics Video)', date: '2023' },
+    { id: 'p8AgQ51tN3c', title: 'Hasbi LH - Greesel Lutuna (Original)', date: '2023' },
+];
+
+function renderVideos(videos) {
+  const grid = document.getElementById('videos-grid');
+  grid.innerHTML = '';
+  if (!videos || videos.length === 0) {
+    grid.innerHTML = `<div class="no-results">Tidak ada video ditemukan. <a href="${CHANNEL_URL}" target="_blank" style="color:var(--accent2)">Buka YouTube Channel →</a></div>`;
+    return;
+  }
+  videos.slice(0, 9).forEach(v => {
+    const card = document.createElement('div');
+    card.className = 'video-card';
+    card.style.cursor = 'pointer';
+    const thumb = `https://img.youtube.com/vi/${v.id}/mqdefault.jpg`;
+    card.innerHTML = `
+      <div class="video-thumb">
+        <img src="${thumb}" alt="${v.title}" loading="lazy" onerror="this.src='https://img.youtube.com/vi/${v.id}/default.jpg'">
+        <div class="video-play-btn">
+          <div class="yt-play">
+            <svg width="16" height="12" viewBox="0 0 16 12"><polygon points="0,0 16,6 0,12"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="video-info">
+        <div class="video-title">${v.title}</div>
+        <div class="video-date">${v.date}</div>
+      </div>
+    `;
+    card.addEventListener('click', () => openVideoModal(v));
+    grid.appendChild(card);
+  });
+}
+
+function openVideoModal(video) {
+  const overlay = document.getElementById('modal-overlay');
+  const coverContainer = document.getElementById('modal-cover-container');
+  coverContainer.innerHTML = `<div class="modal-cover-placeholder" style="background:linear-gradient(135deg,#0d1528,#163f72)">YT</div>`;
+  document.getElementById('modal-title').textContent = video.title;
+  document.getElementById('modal-artist').textContent = 'YouTube';
+  document.getElementById('modal-tags').innerHTML = `
+    <span class="modal-tag">${video.date}</span>
+    <span class="modal-tag">Video</span>
+  `;
+
+  const embedDiv = document.getElementById('modal-embed');
+  embedDiv.innerHTML = `
+    <div style="position:relative;padding-top:56.25%;">
+      <iframe
+        src="https://www.youtube.com/embed/${video.id}?rel=0"
+        title="${video.title.replace(/"/g, '&quot;')}"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
+      ></iframe>
+    </div>
+  `;
+
+  const platforms = document.getElementById('modal-platforms');
+  platforms.innerHTML = `
+    <a href="https://www.youtube.com/watch?v=${video.id}" target="_blank" class="platform-link">▶ Buka di YouTube</a>
+  `;
+
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+async function fetchYouTubeRSS() {
+  try {
+    const res = await fetch(CORS_PROXY);
+    if (!res.ok) throw new Error('Network error');
+    const data = await res.json();
+    const xml = new DOMParser().parseFromString(data.contents, 'text/xml');
+    const entries = xml.querySelectorAll('entry');
+    const videos = Array.from(entries).map(e => ({
+      id: e.querySelector('videoId')?.textContent || '',
+      title: e.querySelector('title')?.textContent || '',
+      date: new Date(e.querySelector('published')?.textContent||'').getFullYear() || '',
+    })).filter(v => v.id);
+    if (videos.length > 0) { renderVideos(videos); return; }
+  } catch(_) {}
+
+  // Fallback
+  try {
+    const res2 = await fetch(`https://corsproxy.io/?${encodeURIComponent(RSS_URL)}`);
+    if (!res2.ok) throw new Error();
+    const xml = new DOMParser().parseFromString(await res2.text(), 'text/xml');
+    const entries = xml.querySelectorAll('entry');
+    const videos = Array.from(entries).map(e => ({
+      id: e.querySelector('videoId')?.textContent || '',
+      title: e.querySelector('title')?.textContent || '',
+      date: new Date(e.querySelector('published')?.textContent||'').getFullYear() || '',
+    })).filter(v => v.id);
+    if (videos.length > 0) { renderVideos(videos); return; }
+  } catch(_) {}
+
+  // Static fallback
+  renderVideos(FALLBACK_VIDEOS);
+}
+
+fetchYouTubeRSS();
+
+// ====== KEYBOARD ESC ======
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
+
+
+

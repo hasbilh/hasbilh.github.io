@@ -3,8 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hasbi LH - Official Music Catalog</title>
+<title>Hasbi LH - Music Catalog</title>
 <link rel="icon" type="image/png" href="favicon.png">
+<!-- Open Graph Meta Tags -->
+<meta property="og:title" content="Hasbi LH - Music Catalog">
+<meta property="og:description" content="Music catalog of Hasbi LH featuring discography, collaborations, etc.">
+<meta property="og:image" content="thumbnail.jpg">
+<meta property="og:url" content="https://hasbilh.github.io">
+<meta property="og:type" content="website">
+<!-- Twitter Card Meta Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hasbi LH - Music Catalog">
+<meta name="twitter:description" content="Music catalog of Hasbi LH featuring discography, collaborations, etc.">
+<meta name="twitter:image" content="thumbnail.jpg">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -608,6 +619,7 @@
     border: 1px solid rgba(37,99,235,0.2);
   }
   .disco-type.collab { background: rgba(14,165,233,0.12); color: var(--cyan); border-color: rgba(14,165,233,0.2); }
+  .disco-type.group { background: rgba(139,92,246,0.12); color: #a78bfa; border-color: rgba(139,92,246,0.2); }
 
   /* MODAL */
   .modal-overlay {
@@ -1044,12 +1056,12 @@
   <div class="hero-glow"></div>
   <div id="particles"></div>
 
-  <p class="hero-label">Independent Musician since 2010</p>
+  <p class="hero-label">Bukan Music Promptducer</p>
   <h1 class="hero-title">
     <span class="line1">HASBI</span>
     <span class="line2">LH</span>
   </h1>
-  <p class="hero-tagline">Songwriter, composer & producer — blending pop, emo, melodic rock & R&B into stories that feel deeply personal.</p>
+  <p class="hero-tagline">Independent Musician, Songwriter, Composer & Producer.</p>
 
 
   <div class="hero-cta">
@@ -1085,27 +1097,19 @@
     <div class="about-content reveal reveal-delay-2">
       <div class="about-stats-grid">
         <div class="stat-card">
-          <div class="stat-card-num">2010</div>
-          <div class="stat-card-label">Mulai Bermusik</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-num">2019</div>
-          <div class="stat-card-label">Debut Solo Digital</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-num">Pop/Emo</div>
+          <div class="stat-card-num">Pop/Rock/Emo</div>
           <div class="stat-card-label">Genre Utama</div>
         </div>
             </div>
 
       <p class="about-bio">
-        <strong>Hasbi LH</strong> adalah musisi independen, penulis lagu, dan komposer asal <strong>Cilacap, Indonesia</strong> yang aktif bermusik sejak 2010. Dikenal dengan lirik yang terinspirasi dari kisah pribadi dan budaya internet.
+        <strong>Hasbi LH</strong> adalah musisi independen, penulis lagu, dan komposer asal <strong>Cilacap, Indonesia</strong>. Dikenal dengan lirik yang terinspirasi dari kisah pribadi dan budaya internet.
       </p>
       <p class="about-bio">
         Perjalanan solonya dimulai dengan perilisan lagu berjudul <strong>"Pulang."</strong> Ia kemudian dikenal luas di kalangan penggemar JKT48 melalui track <strong>"Greesel Lutuna"</strong>. Hasbi merupakan mantan anggota band pop punk <strong>Brave Party</strong> sebagai gitaris dan trio grup <strong>RGH Project</strong> sebagai gitaris/keyboardist/bassist/produser.
       </p>
       <p class="about-bio">
-        Kini ia memproduksi seluruh karya solonya secara mandiri — mulai dari rekaman hingga mastering. Memadukan pop, emo, melodic, rock, dan R&B, ia menciptakan lagu yang terasa personal dan beresonansi dengan audiens niche.
+        Kini ia memproduksi seluruh karya solonya secara mandiri, mulai dari rekaman hingga mastering. Memadukan pop, emo, melodic, rock, dan R&B, ia menciptakan lagu yang terasa personal dan beresonansi dengan audiens niche.
       </p>
 
       <div class="tags-row">
@@ -1115,7 +1119,7 @@
         <span class="tag">R&B</span>
         <span class="tag">Indie</span>
         <span class="tag">Songwriter</span>
-        <span class="tag">Producer</span>
+        <span class="tag">Music Producer</span>
       </div>
 
       <div class="spotify-embed-wrap">
@@ -1137,7 +1141,7 @@
     <p class="section-label">// 02 — Diskografi</p>
     <h2 class="section-title">DISCOGRAPHY</h2>
     <p style="color:var(--muted);font-size:14px;margin-top:-30px;margin-bottom:40px;">
-      Daftar lengkap rilisan Hasbi LH dan lagu-lagu yang diproduseri oleh Hasbi LH
+      Daftar lengkap rilisan mandiri Hasbi LH, lagu-lagu grup musik yang pernah dianggotai Hasbi LH, serta lagu-lagu dari artis lain yang musiknya diproduksi oleh Hasbi LH
     </p>
   </div>
 
@@ -1158,6 +1162,7 @@
         <button class="filter-btn" data-year="2019">2019</button>
         <button class="filter-btn" data-year="2018">2018</button>
         <button class="filter-btn" data-year="2017">2017</button>
+        <button class="filter-btn" data-year="2016">2016</button>
         <button class="filter-btn" data-year="2015">2015</button>
       </div>
       <p style="color:var(--muted);font-size:14px;margin-top:0;margin-bottom:4px;">
@@ -1167,6 +1172,7 @@
         <button class="filter-btn filter-category active" data-category="all">Semua</button>
         <button class="filter-btn filter-category" data-category="Solo">Solo</button>
         <button class="filter-btn filter-category" data-category="Kolaborasi">Kolaborasi</button>
+        <button class="filter-btn filter-category" data-category="Grup Musik Hasbi LH">Grup Musik Hasbi LH</button>
         <button class="filter-btn filter-category" data-category="Artis Lain">Artis Lain</button>
       </div>
     </div>
@@ -1438,9 +1444,9 @@ const DISCOGRAPHY = [
   // 2021
   { title: "Teman Baru Azizi", year: 2021, type: "Kolaborasi", spotifyId: null, spotifyTrackId: "5oFwhOmCY0w3YZbjfX44mO", cover: "https://i.scdn.co/image/ab67616d00001e021de515ca663ac6840b358c75", artist: "Hasbi LH, Hanafi" },
   // 2020
-  { title: "Sempurna", year: 2020, type: "Kolaborasi", spotifyId: "3SEERIOFR26bddMX3SLb2v", spotifyTrackId: "6uIxyc4NCfK3xdBQctQuaQ", cover: "https://i.scdn.co/image/ab67616d00001e024bbb040e3b60d996e5fb13e3", artist: "Pnkrs Project, Taya, Hanafi, Anisa Dwila, Hasbi LH, Arienovs, Agspry", appleId: "1847164169" },
-  { title: "Selamat Ulang Tahun, Jinan!", year: 2020, type: "Kolaborasi", spotifyId: "48ZwKbHUDQTSgZqEIgSFE6", spotifyTrackId: null, cover: null, artist: "Pnkrs Project, Taya, Hanafi, Anisa Dwila, Hasbi LH, Arienovs, Agspry", appleId: "1847160464" },
-  { title: "Syair Semesta", year: 2020, type: "Kolaborasi", spotifyId: "4SQet59bX9TRrqkl6u6Ret", spotifyTrackId: null, cover: null, artist: "Pnkrs Project, Taya, Hanafi, Anisa Dwila, Hasbi LH, Arienovs, Agspry", appleId: "1847164330" },
+  { title: "Sempurna", year: 2020, type: "Grup Musik Hasbi LH", spotifyId: "3SEERIOFR26bddMX3SLb2v", spotifyTrackId: "6uIxyc4NCfK3xdBQctQuaQ", cover: "https://i.scdn.co/image/ab67616d00001e024bbb040e3b60d996e5fb13e3", artist: "Pnkrs Project, Taya, Hanafi, Anisa Dwila, Hasbi LH, Arienovs, Agspry", appleId: "1847164169" },
+  { title: "Selamat Ulang Tahun, Jinan!", year: 2020, type: "Grup Musik Hasbi LH", spotifyId: "48ZwKbHUDQTSgZqEIgSFE6", spotifyTrackId: null, cover: null, artist: "Pnkrs Project, Taya, Hanafi, Anisa Dwila, Hasbi LH, Arienovs, Agspry", appleId: "1847160464" },
+  { title: "Syair Semesta", year: 2020, type: "Grup Musik Hasbi LH", spotifyId: "4SQet59bX9TRrqkl6u6Ret", spotifyTrackId: null, cover: null, artist: "Pnkrs Project, Taya, Hanafi, Anisa Dwila, Hasbi LH, Arienovs, Agspry", appleId: "1847164330" },
   { title: "Cuitan Viona", year: 2020, type: "Kolaborasi", spotifyId: null, spotifyTrackId: "4mzgKMqqOvu2SHIMK94GQp", cover: "https://i.scdn.co/image/ab67616d00001e0227f8af9db4e421c570755ed0", artist: "Anisa Dwila, Hasbi LH", appleId: "1546636267" },
   { title: "Viona Fadrin", year: 2020, type: "Kolaborasi", spotifyId: null, spotifyTrackId: "6u9730QseHGPgMVe7gjGFG", cover: "https://i.scdn.co/image/ab67616d00001e02cc1b96cd92a7cb5186f387da", artist: "Hasbi LH, Anisa Dwila" },
   // 2019
@@ -1448,21 +1454,33 @@ const DISCOGRAPHY = [
   { title: "Jarak", year: 2019, type: "Kolaborasi", spotifyId: "5n0Z9a3FEWPegjIZkDMRK1", spotifyTrackId: "4lXVNKWGJ7b7cPMMXWpGjU", cover: "https://i.scdn.co/image/ab67616d00001e02dcaceed59080887b013ab099", artist: "Hasbi LH, Rizky Alvian, Ica" },
   { title: "Berbeda: Musikalisasi Puisi - Live Performance", year: 2019, type: "Kolaborasi", spotifyId: null, spotifyTrackId: "7hMNQTMzk9oYROWINMWSP6", cover: "https://i.scdn.co/image/ab67616d00001e02f36c44be53bec32b667c1e3c", artist: "Hasbi LH, Ayuoctvn" },
   // 2018
-  { title: "Sejatinya Keluarga", year: 2018, type: "Kolaborasi", spotifyId: "0VXjIQxBvFGpGTpemxvMev", spotifyTrackId: "5XVwPhM8P7XULR16afERWk", cover: null, artist: "RGH Project, Gilang Rama, Hasbi LH, Riki Okta" },
+  { title: "Sejatinya Keluarga", year: 2018, type: "Grup Musik Hasbi LH", spotifyId: "0VXjIQxBvFGpGTpemxvMev", spotifyTrackId: "5XVwPhM8P7XULR16afERWk", cover: null, artist: "RGH Project, Gilang Rama, Hasbi LH, Riki Okta" },
   // 2015
   { title: "Happy Birthday, Shania Gracia!", year: 2015, type: "Kolaborasi", spotifyId: null, spotifyTrackId: "1eLEY3zV1bKySmu3K0m61q", cover: "https://i.scdn.co/image/ab67616d00001e02d21830dbdbead47800704c1a", artist: "Hasbi LH, Yanuar Prima, Ricky Abi Valentino" },
+
+  // ===========================
+  // ===== GRUP MUSIK HASBI LH =====
+  // ===========================
+
+  // 2022
+  { title: "Menyesal", year: 2022, type: "Grup Musik Hasbi LH", spotifyId: null, spotifyTrackId: "2jwxFYtnUdg1bFQbHSohcL", cover: null, artist: "RGH Project" },
+  // 2019
+  { title: "Jangan Pernah Menyerah (Ost. Melati)", year: 2019, type: "Grup Musik Hasbi LH", spotifyId: null, spotifyTrackId: "0yYYxSnqa8vff8CWVDvoA4", cover: null, artist: "RGH Project, Vidhu, Naila" },
+  // 2015
+  { title: "Calistha", year: 2015, type: "Grup Musik Hasbi LH", spotifyId: null, spotifyTrackId: "4VFCxckWT6hSj4f2okfQrr", cover: null, artist: "Brave Party" },
+  { title: "Bukan Yang Terakhir", year: 2015, type: "Grup Musik Hasbi LH", spotifyId: null, spotifyTrackId: "4VFCxckWT6hSj4f2okfQrr", cover: null, artist: "Brave Party" },
 
   // ===========================
   // ===== ARTIS LAIN (PRODUKSI) =====
   // ===========================
 
   { title: "Semua Tentangmu", year: 2020, type: "Artis Lain", spotifyId: null, spotifyTrackId: "0dJ5zH21AIKHAID1Dqi7DG", cover: "https://i.scdn.co/image/ab67616d00001e029548d5929dd9369e6d9c75de", artist: "Cello Pangemanan" },
-  { title: "Terus Berlari", year: 2023, type: "Artis Lain", spotifyId: null, spotifyTrackId: "3TjFMTqbcDQohOfqgscCeD", cover: "https://i.scdn.co/image/ab67616d00001e02523cff52238fe6fcea18ad82", artist: "Pnkrs Project" },
-  { title: "Selamat Berkepala Dua", year: 2023, type: "Artis Lain", spotifyId: null, spotifyTrackId: "3BNZBEkzVigf5b6mExW8TB", cover: "https://i.scdn.co/image/ab67616d00001e0271dcf428aa018a94ec46df6c", artist: "Pnkrs Project" },
-  { title: "Pengantar Mimpimu", year: 2023, type: "Artis Lain", spotifyId: null, spotifyTrackId: "2d07BATOoyJXeCYeZJ22j3", cover: "https://i.scdn.co/image/ab67616d00001e02dad73c0ba881373359280baa", artist: "Pnkrs Project" },
+  { title: "Terus Berlari", year: 2023, type: "Grup Musik Hasbi LH", spotifyId: null, spotifyTrackId: "3TjFMTqbcDQohOfqgscCeD", cover: "https://i.scdn.co/image/ab67616d00001e02523cff52238fe6fcea18ad82", artist: "Pnkrs Project" },
+  { title: "Selamat Berkepala Dua", year: 2023, type: "Grup Musik Hasbi LH", spotifyId: null, spotifyTrackId: "3BNZBEkzVigf5b6mExW8TB", cover: "https://i.scdn.co/image/ab67616d00001e0271dcf428aa018a94ec46df6c", artist: "Pnkrs Project" },
+  { title: "Pengantar Mimpimu", year: 2023, type: "Grup Musik Hasbi LH", spotifyId: null, spotifyTrackId: "2d07BATOoyJXeCYeZJ22j3", cover: "https://i.scdn.co/image/ab67616d00001e02dad73c0ba881373359280baa", artist: "Pnkrs Project" },
   { title: "Yessica, Satu-satunya", year: 2021, type: "Artis Lain", spotifyId: "4htTYjjtexg2hebz15jPWW", spotifyTrackId: null, cover: null, artist: "Tayateya" },
-  { title: "Si Kucing Kalem", year: 2023, type: "Artis Lain", spotifyId: null, spotifyTrackId: "6omeJxm7rFveEcR91hw9h2", cover: "https://i.scdn.co/image/ab67616d00001e02e3f0f3e258d38efaa19e1f69", artist: "Pnkrs Project" },
-  { title: "Sweet Victoria", year: 2023, type: "Artis Lain", spotifyId: null, spotifyTrackId: "4dr1qjcW5T9UO8VOQGmzL0", cover: "https://i.scdn.co/image/ab67616d00001e02982d6dd5b400dee7c2e86a9e", artist: "Pnkrs Project" },
+  { title: "Si Kucing Kalem", year: 2023, type: "Grup Musik Hasbi LH", spotifyId: null, spotifyTrackId: "6omeJxm7rFveEcR91hw9h2", cover: "https://i.scdn.co/image/ab67616d00001e02e3f0f3e258d38efaa19e1f69", artist: "Pnkrs Project" },
+  { title: "Sweet Victoria", year: 2023, type: "Grup Musik Hasbi LH", spotifyId: null, spotifyTrackId: "4dr1qjcW5T9UO8VOQGmzL0", cover: "https://i.scdn.co/image/ab67616d00001e02982d6dd5b400dee7c2e86a9e", artist: "Pnkrs Project" },
   { title: "Niel, Rindu, Niel!!", year: 2023, type: "Artis Lain", spotifyId: null, spotifyTrackId: "63BwzytfcXcVNOIB7SnNeU", cover: "https://i.scdn.co/image/ab67616d00001e02bd25a7a22a02eba50fdfc573", artist: "Linggar Jabo" },
   { title: "As Your Rainbow", year: 2023, type: "Artis Lain", spotifyId: null, spotifyTrackId: "0pYL8xTqpHb7pZXpuAjQjG", cover: "https://i.scdn.co/image/ab67616d00001e02e25a3b549302b1034966f237", artist: "Andre Ibrahim" },
   { title: "Victoria Milikku", year: 2024, type: "Artis Lain", spotifyId: null, spotifyTrackId: "6SsOoiBhAKEsSJEvwBm2HK", cover: "https://i.scdn.co/image/ab67616d00001e021e529d43d970aff7edb4c2d0", artist: "Arienovs, Tie Livia" },
@@ -1480,8 +1498,9 @@ const DISCOGRAPHY = [
   { title: "Matahariku", year: 2025, type: "Artis Lain", spotifyId: null, spotifyTrackId: "4o2BSpCTQuExpXunizvgIY", cover: "https://i.scdn.co/image/ab67616d00001e020fcd43498199925bba31fd12", artist: "Teman Aralie" },
   { title: "Astrella 2025", year: 2025, type: "Artis Lain", spotifyId: "0u8hona4hRFIp1OkwsQSiA", spotifyTrackId: null, cover: null, artist: "Nares Area, Broccoza" },
   { title: "My Lave", year: 2025, type: "Artis Lain", spotifyId: null, spotifyTrackId: "2wGYX0xuKjMaszW3e0ERCZ", cover: "https://i.scdn.co/image/ab67616d00001e021dc6a14ad838e03507ecd432", artist: "Fikgi Tanumihardja" },
-  { title: "Titik Kedua", year: 2025, type: "Artis Lain", spotifyId: null, spotifyTrackId: "7o0UNlcsFZdbjbSqcPsSRB", cover: "https://i.scdn.co/image/ab67616d00001e02860727a93956ab386b098043", artist: "Teman Aralie" },
+  { title: "Titik Kedua", year: 2026, type: "Artis Lain", spotifyId: null, spotifyTrackId: "7o0UNlcsFZdbjbSqcPsSRB", cover: "https://i.scdn.co/image/ab67616d00001e02860727a93956ab386b098043", artist: "Teman Aralie" },
   { title: "ManCyn", year: 2025, type: "Artis Lain", spotifyId: null, spotifyTrackId: "1wzJTKAiFxaCDU8VIaJpFX", cover: "https://i.scdn.co/image/ab67616d00001e02c1ad800ca783d822aa1ad49b", artist: "Ivan B0B" },
+  { title: "Kagum", year: 2020, type: "Artis Lain", spotifyId: null, spotifyTrackId: "3RV50o51gTIeFgvJstkGYj", cover: null, artist: "Arienovs" },
 ];
 
 const PLATFORM_METADATA = {
@@ -1607,14 +1626,14 @@ function buildCard(item, index, isProduced) {
 
   const [c1, c2] = getGradient(index);
   const initials = makeInitials(item.title);
-  const typeClass = item.type === 'Kolaborasi' ? 'disco-type collab' : 'disco-type';
+  const typeClass = item.type === 'Kolaborasi' ? 'disco-type collab' : item.type === 'Grup Musik Hasbi LH' ? 'disco-type group' : 'disco-type';
   const typeLabel = item.type || 'Single';
   const artistLine = item.artist ? `<br><span style="font-size:11px;color:var(--muted2);">${item.artist}</span>` : '';
 
   card.innerHTML = `
     <div class="disco-cover">
       ${item.cover 
-        ? `<img src="${item.cover}" alt="${item.title}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\"disco-cover-placeholder\" style=\"background:linear-gradient(135deg,${c1},${c2})\">${initials}</div>'">`
+        ? `<img src="${item.cover}" alt="${item.title}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\"disco-cover-placeholder\" style=\"background:linear-gradient(135deg,${c1},${c2})\">${initials}</div>`
         : `<div class="disco-cover-placeholder" style="background:linear-gradient(135deg,${c1},${c2})">${initials}</div>`
       }
       <div class="disco-play-overlay">

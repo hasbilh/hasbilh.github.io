@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hasbi LH - Music Catalog</title>
+<title>Hasbi LH | Bukan Music Promptducer</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <!-- Open Graph Meta Tags -->
-<meta property="og:title" content="Hasbi LH - Music Catalog">
-<meta property="og:description" content="Music catalog of Hasbi LH featuring discography, collaborations, etc.">
+<meta property="og:title" content="Hasbi LH - Bukan Music Promptducer">
+<meta property="og:description" content="Music gallery of Hasbi LH featuring discography, collaborations, etc.">
 <meta property="og:image" content="thumbnail.jpg">
 <meta property="og:url" content="https://hasbilh.github.io">
 <meta property="og:type" content="website">
 <!-- Twitter Card Meta Tags -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Hasbi LH - Music Catalog">
-<meta name="twitter:description" content="Music catalog of Hasbi LH featuring discography, collaborations, etc.">
+<meta name="twitter:title" content="Hasbi LH - Bukan Music Promptducer">
+<meta name="twitter:description" content="Music gallery of Hasbi LH featuring discography, collaborations, etc.">
 <meta name="twitter:image" content="thumbnail.jpg">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -128,6 +128,39 @@
     font-weight: 500;
   }
   .nav-links a:hover { color: var(--white); }
+
+  .lang-select {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 0;
+    margin-right: 6px;
+  }
+  .nav-links .nav-lang { margin-left: auto; display:flex; align-items:center; }
+  .nav-links .nav-lang .lang-select { display:block; }
+  .nav-links .nav-lang .lang-switch { margin:0; }
+  .lang-switch {
+    display: inline-flex;
+    gap: 6px;
+    background: transparent;
+    border-radius: 12px;
+    padding: 4px;
+    border: 1px solid var(--border);
+  }
+  .lang-switch .lang-btn {
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    padding: 6px 8px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .lang-switch .lang-btn.active {
+    background: #3b82f6;
+    color: #071426;
+  }
+  .lang-switch .lang-btn:focus { outline: none; box-shadow: 0 0 0 3px rgba(255,214,0,0.15); }
 
   /* HERO */
   #hero {
@@ -743,6 +776,73 @@
     gap: 24px;
   }
 
+  .filmography-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .film-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.25s;
+  }
+  .film-card:hover {
+    border-color: var(--border2);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  }
+  .film-card h3 {
+    margin: 0 0 10px;
+    font-size: 1.15rem;
+    letter-spacing: 0.02em;
+  }
+  .film-card .film-meta {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin-bottom: 18px;
+  }
+  .film-card .film-details {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 18px;
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.75;
+  }
+  .film-card .film-details strong {
+    color: var(--white);
+  }
+  .film-card .film-description {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    margin-bottom: 18px;
+  }
+  .film-card .film-roles {
+    color: var(--white);
+    font-size: 0.95rem;
+    margin-bottom: 22px;
+  }
+  .film-trailer-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 18px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--white);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .film-trailer-btn:hover {
+    border-color: var(--border2);
+    background: rgba(255,255,255,0.05);
+  }
+
   .video-card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -1015,6 +1115,9 @@
       color: var(--white);
       border-top: 1px solid rgba(255,255,255,0.06);
     }
+    .nav-links .nav-lang .lang-select { width:100%; padding: 12px 20px; }
+    .nav-links .nav-lang .lang-switch { width:100%; justify-content:flex-start; }
+    .nav-links .nav-lang .lang-switch .lang-btn { padding:8px 10px; margin-right:8px; }
     .nav-links a:hover { color: var(--accent2); }
     .nav-links li:first-child a { border-top: none; }
     section { padding: 60px 20px; }
@@ -1043,10 +1146,20 @@
     </svg>
   </button>
   <ul class="nav-links">
-    <li><a href="#about">Tentang</a></li>
-    <li><a href="#discography">Diskografi</a></li>
-    <li><a href="#videos">Video</a></li>
-    <li><a href="#platforms">Platform</a></li>
+    <li><a href="#about" data-i18n="nav.about">Tentang</a></li>
+    <li><a href="#discography" data-i18n="nav.discography">Diskografi</a></li>
+    <li><a href="#filmography" data-i18n="nav.filmography">Filmografi</a></li>
+    <li><a href="#videos" data-i18n="nav.videos">Video</a></li>
+    <li><a href="#platforms" data-i18n="nav.platforms">Platform</a></li>
+    <li class="nav-lang">
+      <div class="lang-select">
+        <div class="lang-switch" id="lang-select" role="tablist" aria-label="Language selector">
+          <button class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+          <button class="lang-btn" data-lang="id" aria-pressed="true">ID</button>
+          <button class="lang-btn" data-lang="ja" aria-pressed="false">JP</button>
+        </div>
+      </div>
+    </li>
   </ul>
 </nav>
 
@@ -1061,16 +1174,16 @@
     <span class="line1">HASBI</span>
     <span class="line2">LH</span>
   </h1>
-  <p class="hero-tagline">Independent Musician, Songwriter, Composer & Producer.</p>
+  <p class="hero-tagline" data-i18n="hero.tagline">Independent Musician, Songwriter, Composer & Producer.</p>
 
 
   <div class="hero-cta">
-    <a href="#discography" class="btn-primary">Lihat Diskografi</a>
-    <a href="#platforms" class="btn-outline">Dengarkan Sekarang</a>
+    <a href="#discography" class="btn-primary" data-i18n="cta.discography">Lihat Diskografi</a>
+    <a href="#platforms" class="btn-outline" data-i18n="cta.listen">Dengarkan Sekarang</a>
   </div>
 
   <div class="scroll-indicator">
-    <span>Scroll</span>
+    <span data-i18n="misc.scroll">Scroll</span>
     <div class="scroll-line"></div>
   </div>
 </div>
@@ -1080,8 +1193,8 @@
 <!-- ABOUT -->
 <section id="about">
   <div class="reveal">
-    <p class="section-label">// 01 — Tentang</p>
-    <h2 class="section-title">ABOUT THE<br>ARTIST</h2>
+    <p class="section-label" data-i18n="label.about">// 01 — Tentang</p>
+    <h2 class="section-title" data-i18n="title.about">ABOUT THE<br>ARTIST</h2>
   </div>
 
   <div class="about-grid">
@@ -1094,21 +1207,21 @@
       <div class="about-photo-tag">CILACAP, ID</div>
     </div>
 
-    <div class="about-content reveal reveal-delay-2">
+    <div class="disco-controls reveal reveal-delay-1">
       <div class="about-stats-grid">
         <div class="stat-card">
           <div class="stat-card-num">Pop/Rock/Emo</div>
-          <div class="stat-card-label">Genre Utama</div>
+          <div class="stat-card-label" data-i18n="stat.genre">Genre Utama</div>
         </div>
             </div>
 
-      <p class="about-bio">
-        <strong>Hasbi LH</strong> adalah musisi independen, penulis lagu, dan komposer asal <strong>Cilacap, Indonesia</strong>. Dikenal dengan lirik yang terinspirasi dari kisah pribadi dan budaya internet.
+      <p class="about-bio" data-i18n="about.bio.p1">
+        <strong>Hasbi LH</strong> adalah musisi independen, penulis lagu, komposer, dan produser musik asal <strong>Cilacap, Indonesia</strong>. Dikenal dengan lagu dan lirik yang terinspirasi dari kisah pribadi dan budaya internet.
       </p>
-      <p class="about-bio">
+      <p class="about-bio" data-i18n="about.bio.p2">
         Perjalanan solonya dimulai dengan perilisan lagu berjudul <strong>"Pulang."</strong> Ia kemudian dikenal luas di kalangan penggemar JKT48 melalui track <strong>"Greesel Lutuna"</strong>. Hasbi merupakan mantan anggota band pop punk <strong>Brave Party</strong> sebagai gitaris dan trio grup <strong>RGH Project</strong> sebagai gitaris/keyboardist/bassist/produser.
       </p>
-      <p class="about-bio">
+      <p class="about-bio" data-i18n="about.bio.p3">
         Kini ia memproduksi seluruh karya solonya secara mandiri, mulai dari rekaman hingga mastering. Memadukan pop, emo, melodic, rock, dan R&B, ia menciptakan lagu yang terasa personal dan beresonansi dengan audiens niche.
       </p>
 
@@ -1116,6 +1229,7 @@
         <span class="tag">Pop</span>
         <span class="tag">Emo</span>
         <span class="tag">Melodic Rock</span>
+        <span class="tag">Pop Punk</span>
         <span class="tag">R&B</span>
         <span class="tag">Indie</span>
         <span class="tag">Songwriter</span>
@@ -1138,20 +1252,20 @@
 <!-- DISCOGRAPHY -->
 <section id="discography">
   <div class="reveal">
-    <p class="section-label">// 02 — Diskografi</p>
-    <h2 class="section-title">DISCOGRAPHY</h2>
-    <p style="color:var(--muted);font-size:14px;margin-top:-30px;margin-bottom:40px;">
+    <p class="section-label" data-i18n="label.discography">// 02 — Lagu</p>
+    <h2 class="section-title" data-i18n="title.discography">DISKOGRAFI</h2>
+    <p style="color:var(--muted);font-size:14px;margin-top:-30px;margin-bottom:40px;" data-i18n="discography.intro">
       Daftar lengkap rilisan mandiri Hasbi LH, lagu-lagu grup musik yang pernah dianggotai Hasbi LH, serta lagu-lagu dari artis lain yang musiknya diproduksi oleh Hasbi LH
     </p>
   </div>
 
   <div class="disco-controls reveal reveal-delay-1">
     <div class="filter-group">
-      <p style="color:var(--muted);font-size:14px;margin-top:0;margin-bottom:4px;">
+      <p style="color:var(--muted);font-size:14px;margin-top:0;margin-bottom:4px;" data-i18n="label.year">
       Tahun Rilis
     </p>
       <div class="filter-buttons">
-        <button class="filter-btn active" data-year="all">Semua</button>
+        <button class="filter-btn active" data-year="all" data-i18n="filter.year.all">Semua</button>
         <button class="filter-btn" data-year="2026">2026</button>
         <button class="filter-btn" data-year="2025">2025</button>
         <button class="filter-btn" data-year="2024">2024</button>
@@ -1167,30 +1281,30 @@
         <button class="filter-btn" data-year="2014">2014</button>
         <button class="filter-btn" data-year="2013">2013</button>
       </div>
-      <p style="color:var(--muted);font-size:14px;margin-top:0;margin-bottom:4px;">
+      <p style="color:var(--muted);font-size:14px;margin-top:0;margin-bottom:4px;" data-i18n="label.category">
       Kategori
     </p>
       <div class="filter-buttons">
-        <button class="filter-btn filter-category active" data-category="all">Semua</button>
-        <button class="filter-btn filter-category" data-category="Solo">Solo</button>
-        <button class="filter-btn filter-category" data-category="Kolaborasi">Kolaborasi</button>
-        <button class="filter-btn filter-category" data-category="Grup Musik Hasbi LH">Grup Musik Hasbi LH</button>
-        <button class="filter-btn filter-category" data-category="Artis Lain">Artis Lain</button>
+        <button class="filter-btn filter-category active" data-category="all" data-i18n="filter.category.all">Semua</button>
+        <button class="filter-btn filter-category" data-category="Solo" data-i18n="filter.category.Solo">Solo</button>
+        <button class="filter-btn filter-category" data-category="Kolaborasi" data-i18n="filter.category.Kolaborasi">Kolaborasi</button>
+        <button class="filter-btn filter-category" data-category="Grup Musik Hasbi LH" data-i18n="filter.category.grup">Grup Musik Hasbi LH</button>
+        <button class="filter-btn filter-category" data-category="Artis Lain" data-i18n="filter.category.artis">Artis Lain</button>
       </div>
     </div>
     <div class="sort-controls">
       <select id="sort-select">
-        <option value="date-desc">Tahun Rilis ↓</option>
-        <option value="date-asc">Tahun Rilis ↑</option>
-        <option value="artist-asc">Artis A-Z</option>
-        <option value="artist-desc">Artis Z-A</option>
-        <option value="title-asc">Judul A-Z</option>
-        <option value="title-desc">Judul Z-A</option>
+        <option value="date-desc" data-i18n="sort.date.desc">Tahun Rilis ↓</option>
+        <option value="date-asc" data-i18n="sort.date.asc">Tahun Rilis ↑</option>
+        <option value="artist-asc" data-i18n="sort.artist.asc">Artis A-Z</option>
+        <option value="artist-desc" data-i18n="sort.artist.desc">Artis Z-A</option>
+        <option value="title-asc" data-i18n="sort.title.asc">Judul A-Z</option>
+        <option value="title-desc" data-i18n="sort.title.desc">Judul Z-A</option>
       </select>
     </div>
     <div class="search-bar">
       <span class="search-icon">🔍</span>
-      <input type="text" id="search-input" placeholder="Cari lagu...">
+      <input type="text" id="search-input" placeholder="Cari lagu/artis..." data-i18n="search.placeholder">
        </div>
   <div id="disco-pagination" class="disco-pagination reveal reveal-delay-3"></div>
 
@@ -1200,6 +1314,48 @@
   <div id="disco-grid" class="disco-grid reveal reveal-delay-2">
     <!-- populated by JS -->
  
+</section>
+
+<section id="filmography">
+  <div class="reveal">
+    <p class="section-label" data-i18n="label.filmography">// 03 — Film</p>
+    <h2 class="section-title" data-i18n="title.filmography">FILMOGRAFI</h2>
+    <p style="color:var(--muted);font-size:14px;margin-top:-30px;margin-bottom:40px;" data-i18n="film.intro">
+      Daftar film yang melibatkan Hasbi LH.
+    </p>
+  </div>
+
+  <div class="filmography-grid reveal reveal-delay-1">
+    <article class="film-card">
+      <h3>Melati</h3>
+      <div class="film-meta"><span class="film-year">2019</span> • <span class="film-type" data-i18n="film.type.feature">Film Panjang</span></div>
+      <ul class="film-details">
+        <li><strong data-i18n="film.details.producer">Produser:</strong> Rival Prabowo</li>
+        <li><strong data-i18n="film.details.director">Sutradara:</strong> Mamock Ngudi Utomo</li>
+        <li><strong data-i18n="film.details.production">Production House:</strong> Rajawali Putra Serayu</li>
+      </ul>
+      <p class="film-description" data-i18n="film.description.melati">Film dengan tema pendidikan karakter yang bekerja sama dengan Pemerintahan Kabupaten Banyumas dan Dinas Pendidikan setempat.</p>
+      <p class="film-roles"><strong><span data-i18n="film.roles_label">Peran</span> Hasbi LH:</strong> <span data-i18n="film.roles.list.melati">Komposer, Soundtrack, Penata Suara, Asisten Editor</span></p>
+      <button type="button" class="film-trailer-btn" data-i18n="film.trailer" onclick="openVideoModal({id:'x-HdRDaCPjg', title:'Melati — Trailer', date:'2019'}); return false;">Tonton Trailer</button>
+    </article>
+
+    <article class="film-card">
+      <h3>Nostalgi</h3>
+      <div class="film-meta"><span class="film-year">2020</span> • <span class="film-type" data-i18n="film.type.short">Film Pendek</span></div>
+      <ul class="film-details">
+        <li><strong data-i18n="film.details.producer">Produser:</strong> Juan Aldisya</li>
+        <li><strong data-i18n="film.details.director">Sutradara:</strong> Ahtaka Zen Oklando</li>
+        <li><strong data-i18n="film.details.production">Production House:</strong> The Kons</li>
+      </ul>
+      <p class="film-description" data-i18n="film.description.nostalgi">Film pendek dengan genre Sci-Fi yang bercerita tentang perjuangan untuk bisa hidup sementara beberapa tahun setelah ancaman virus yang menyebabkan populasi manusia hampir musnah. Film ini mendapatkan beberapa penghargaan, di antaranya: HECare Film Festival (Human-Environment Care Film Festival HECFF)/ Ontario, Canada; 	The Lift-Off Sessions / Pinewood Studios First-Time Filmmaker Sessions / United Kingdom; Indiskop Film Festival 2020 / Jakarta, Indonesia; Class of 2020 Kolektif Film / Jakarta, Indonesia. <a href="https://afy.ac.id/prestasi-mahasiswa/" target="_blank" style="color:inherit">(Sumber)</a></p>
+      <p class="film-roles"><strong><span data-i18n="film.roles_label">Peran</span> Hasbi LH:</strong> <span data-i18n="film.roles.list.nostalgi">Komposer, Soundtrack</span></p>
+      <button type="button" class="film-trailer-btn" data-i18n="film.trailer" onclick="openVideoModal({id:'7VUYkJ2Tf-w', title:'Nostalgi — Trailer', date:'2020'}); return false;">Tonton Trailer</button>
+    </article>
+  </div>
+
+  <div style="text-align:center;margin-top:32px;" class="reveal">
+    <a href="https://www.imdb.com/name/nm14633507/" target="_blank" class="btn-outline" data-i18n="film.visit_imdb">Kunjungi IMDb Hasbi LH →</a>
+  </div>
 </section>
 
 <!-- MODAL -->
@@ -1228,8 +1384,8 @@
 <!-- VIDEOS -->
 <section id="videos">
   <div class="reveal">
-    <p class="section-label">// 04 — Video</p>
-    <h2 class="section-title">YOUTUBE</h2>
+    <p class="section-label" data-i18n="label.video">// 04 — Video</p>
+    <h2 class="section-title" data-i18n="title.videos">YOUTUBE</h2>
     <p style="color:var(--muted);font-size:14px;margin-top:-30px;margin-bottom:40px;">
       YouTube RSS feed
     </p>
@@ -1240,7 +1396,7 @@
   </div>
 
   <div style="text-align:center;margin-top:32px;" class="reveal">
-    <a href="https://www.youtube.com/@hasbilh_" target="_blank" class="btn-outline">Lihat Semua Video di YouTube →</a>
+    <a href="https://www.youtube.com/@hasbilh_" target="_blank" class="btn-outline" data-i18n="videos.view_all">Lihat Semua Video di YouTube →</a>
   </div>
 </section>
 
@@ -1248,8 +1404,8 @@
 
 <!-- PLATFORMS -->
 <div id="platforms">
-  <p class="section-label" style="text-align:center;margin-bottom:12px;">// 05 — Streaming & Media Sosial</p>
-  <h2 style="font-family:var(--font-title);font-size:clamp(32px,5vw,56px);letter-spacing:3px;text-align:center;margin-bottom:40px;">TEMUKAN SAYA DI</h2>
+  <p class="section-label" style="text-align:center;margin-bottom:12px;" data-i18n="label.platforms">// 05 — Platform</p>
+  <h2 style="font-family:var(--font-title);font-size:clamp(32px,5vw,56px);letter-spacing:3px;text-align:center;margin-bottom:40px;" data-i18n="title.platforms">TEMUKAN SAYA DI</h2>
 
   <div class="platforms-grid">
     <a href="https://open.spotify.com/artist/0368tIB0tl0hcEp1ugjBiY" target="_blank" class="platform-card">
@@ -1310,7 +1466,7 @@
     </a>
   </div>
 
-  <h2 style="font-family:var(--font-title);font-size:clamp(28px,4vw,44px);letter-spacing:3px;text-align:center;margin:56px 0 24px;">MEDIA SOSIAL</h2>
+  <h2 style="font-family:var(--font-title);font-size:clamp(28px,4vw,44px);letter-spacing:3px;text-align:center;margin:56px 0 24px;" data-i18n="title.platforms">MEDIA SOSIAL</h2>
   <div class="social-row">
     <a href="https://www.instagram.com/hasbilh_" target="_blank" class="social-btn">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -1336,7 +1492,7 @@
 <!-- FOOTER -->
 <footer>
   <p>© 2026 Hasbi LH / Hasubi Eruha</p>
-  <p>Catalog by <a href="https://hasbilh.github.io/biolink" target="_blank">Hasbi LH</a> | Data via Spotify & YouTube RSS</p>
+  <p>Gallery by <a href="https://hasbilh.github.io/biolink" target="_blank">Hasbi LH</a> | Data via Spotify & YouTube RSS</p>
 </footer>
 
 <script>
@@ -1370,6 +1526,252 @@ const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.08 });
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// ====== SIMPLE TRANSLATIONS ======
+const TRANSLATIONS = {
+  id: {
+    'nav.about': 'Tentang',
+    'nav.discography': 'Diskografi',
+    'nav.filmography': 'Filmografi',
+    'nav.videos': 'Video',
+    'nav.platforms': 'Platform',
+    'hero.tagline': 'Musisi independen, penulis lagu, komposer & produser.',
+    'cta.discography': 'Lihat Diskografi',
+    'cta.listen': 'Dengarkan Sekarang',
+    'misc.scroll': 'Gulir',
+    'label.about': '// 01 — Tentang',
+    'title.about': 'TENTANG HASBI LH',
+    'label.discography': '// 02 — Lagu',
+    'title.discography': 'DISKOGRAFI',
+    'stat.genre': 'Genre Utama',
+    'label.filmography': '// 03 — Film',
+    'title.filmography': 'FILMOGRAFI',
+    'label.video': '// 04 — Video',
+    'title.videos': 'YOUTUBE',
+    'videos.view_all': 'Lihat Semua Video di YouTube →',
+    'film.trailer': 'Tonton Trailer',
+    'no_results.discography': 'Tidak ada rilisan yang cocok.',
+    'pagination.range': '{start}–{end} dari {total}',
+    'film.visit_imdb': 'Kunjungi IMDb Hasbi LH →',
+    'label.platforms': '// 05 — Platform',
+    'title.platforms': 'TEMUKAN SAYA DI',
+    'modal.tag_video': 'Video',
+    'modal.open_youtube': '▶ Buka di YouTube',
+    'about.bio.p1': '<strong>Hasbi LH</strong> adalah musisi independen, penulis lagu, komposer, dan produser musik asal <strong>Cilacap, Indonesia</strong>. Dikenal dengan lagu dan lirik yang terinspirasi dari kisah pribadi dan budaya internet.',
+    'about.bio.p2': 'Perjalanan solonya dimulai dengan perilisan lagu berjudul <strong>"Pulang."</strong> Ia kemudian dikenal luas di kalangan penggemar JKT48 melalui track <strong>"Greesel Lutuna"</strong>. Hasbi merupakan mantan anggota band pop punk <strong>Brave Party</strong> sebagai gitaris dan trio grup <strong>RGH Project</strong> sebagai gitaris/keyboardist/bassist/produser.',
+    'about.bio.p3': 'Kini ia memproduksi seluruh karya solonya secara mandiri, mulai dari rekaman hingga mastering. Memadukan pop, emo, melodic, rock, dan R&B, ia menciptakan lagu yang terasa personal dan beresonansi dengan audiens niche.',
+    'discography.intro': 'Daftar lengkap rilisan mandiri Hasbi LH, lagu-lagu grup musik yang pernah dianggotai Hasbi LH, serta lagu-lagu dari artis lain yang musiknya diproduksi oleh Hasbi LH',
+    'label.year': 'Tahun Rilis',
+    'label.category': 'Kategori',
+    'sort.date.desc': 'Tahun Rilis ↓',
+    'sort.date.asc': 'Tahun Rilis ↑',
+    'sort.artist.asc': 'Artis A-Z',
+    'sort.artist.desc': 'Artis Z-A',
+    'sort.title.asc': 'Judul A-Z',
+    'sort.title.desc': 'Judul Z-A',
+    'filter.year.all': 'Semua',
+    'filter.category.all': 'Semua',
+    'filter.category.Solo': 'Solo',
+    'filter.category.Kolaborasi': 'Kolaborasi',
+    'filter.category.grup': 'Grup Musik Hasbi LH',
+    'filter.category.artis': 'Artis Lain',
+    'film.intro': 'Daftar film yang melibatkan Hasbi LH.',
+    'film.type.feature': 'Film Panjang',
+    'film.type.short': 'Film Pendek',
+    'film.details.producer': 'Produser:',
+    'film.details.director': 'Sutradara:',
+    'film.details.production': 'Rumah Produksi:',
+    'film.produced': 'Produksi',
+    'film.tag_soundtrack': 'Soundtrack',
+    'film.description.melati': 'Film dengan tema pendidikan karakter yang bekerja sama dengan Pemerintahan Kabupaten Banyumas dan Dinas Pendidikan setempat.',
+    'film.description.nostalgi': 'Film pendek dengan genre Sci-Fi yang bercerita tentang perjuangan untuk bisa hidup sementara beberapa tahun setelah ancaman virus yang menyebabkan populasi manusia hampir musnah. Film ini mendapatkan beberapa penghargaan, di antaranya: HECare Film Festival (Human-Environment Care Film Festival HECFF)/ Ontario, Canada; The Lift-Off Sessions / Pinewood Studios First-Time Filmmaker Sessions / United Kingdom; Indiskop Film Festival 2020 / Jakarta, Indonesia; Class of 2020 Kolektif Film / Jakarta, Indonesia.',
+    'film.roles_label': 'Peran',
+    'film.roles.list.melati': 'Komposer, Soundtrack, Penata Suara, Asisten Editor',
+    'film.roles.list.nostalgi': 'Komposer, Soundtrack',
+    'search.placeholder': 'Cari lagu/artis...'
+  },
+  en: {
+    'nav.about': 'About',
+    'nav.discography': 'Discography',
+    'nav.filmography': 'Filmography',
+    'nav.videos': 'Videos',
+    'nav.platforms': 'Platforms',
+    'hero.tagline': 'Independent Musician, Songwriter, Composer & Producer.',
+    'cta.discography': 'View Discography',
+    'cta.listen': 'Listen Now',
+    'misc.scroll': 'Scroll',
+    'label.about': '// 01 — About',
+    'title.about': 'ABOUT THE ARTIST',
+    'label.discography': '// 02 — Songs',
+    'title.discography': 'DISCOGRAPHY',
+    'stat.genre': 'Main Genre',
+    'label.filmography': '// 03 — Filmography',
+    'title.filmography': 'FILMOGRAPHY',
+    'label.video': '// 04 — Video',
+    'title.videos': 'YOUTUBE',
+    'videos.view_all': 'View all videos on YouTube →',
+    'film.trailer': 'Watch Trailer',
+    'no_results.discography': 'No releases found.',
+    'pagination.range': '{start}–{end} of {total}',
+    'film.visit_imdb': 'Visit Hasbi LH on IMDb →',
+    'no_results.videos': 'No videos found.',
+    'videos.open_channel': 'Open YouTube Channel →',
+    'label.platforms': '// 05 — Platforms',
+    'title.platforms': 'FIND ME ON',
+    'modal.tag_video': 'Video',
+    'modal.open_youtube': '▶ Open on YouTube',
+    'about.bio.p1': '<strong>Hasbi LH</strong> is an independent musician, songwriter, composer, and music producer from <strong>Cilacap, Indonesia</strong>. Known for songs and lyrics inspired by personal stories and internet culture.',
+    'about.bio.p2': 'His solo journey began with the release titled <strong>"Pulang."</strong> He later gained recognition among JKT48 fans through the track <strong>"Greesel Lutuna"</strong>. Hasbi was previously a member of the pop punk band <strong>Brave Party</strong> (guitar) and the trio <strong>RGH Project</strong> (guitar/keyboard/bass/producer).',
+    'about.bio.p3': 'He now independently produces all his solo work, from recording to mastering. Blending pop, emo, melodic rock, and R&B, he creates songs that feel personal and resonate with niche audiences.',
+    'discography.intro': 'Complete list of Hasbi LH\'s solo releases, songs from bands he was part of, and tracks by other artists produced by Hasbi LH',
+    'label.year': 'Release Year',
+    'label.category': 'Category',
+    'sort.date.desc': 'Release Year ↓',
+    'sort.date.asc': 'Release Year ↑',
+    'sort.artist.asc': 'Artist A-Z',
+    'sort.artist.desc': 'Artist Z-A',
+    'sort.title.asc': 'Title A-Z',
+    'sort.title.desc': 'Title Z-A',
+    'filter.year.all': 'All',
+    'filter.category.all': 'All',
+    'filter.category.Solo': 'Solo',
+    'filter.category.Kolaborasi': 'Collaboration',
+    'filter.category.grup': 'Group/Band',
+    'filter.category.artis': 'Other Artists',
+    'film.intro': 'List of films involving Hasbi LH.',
+    'film.type.feature': 'Feature Film',
+    'film.type.short': 'Short Film',
+    'film.details.producer': 'Producer:',
+    'film.details.director': 'Director:',
+    'film.details.production': 'Production House:',
+    'film.produced': 'Produced',
+    'film.tag_soundtrack': 'Soundtrack',
+    'film.description.melati': 'A feature film focused on character education produced in collaboration with the Government of Banyumas Regency and the local Department of Education.',
+    'film.description.nostalgi': 'A short sci‑fi film about the struggle to survive some years after a virus devastated much of humanity. The film received several awards, including selections at HECare Film Festival (Ontario, Canada), The Lift‑Off Sessions (Pinewood Studios First‑Time Filmmaker Sessions, UK), Indiskop Film Festival 2020 (Jakarta, Indonesia), and Class of 2020 Kolektif Film (Jakarta, Indonesia).',
+    'film.roles_label': 'Role',
+    'film.roles.list.melati': 'Composer, Soundtrack, Sound Designer, Assistant Editor',
+    'film.roles.list.nostalgi': 'Composer, Soundtrack',
+    'search.placeholder': 'Search song/artist...'
+  },
+  ja: {
+    'nav.about': '概要',
+    'nav.discography': 'ディスコグラフィー',
+    'nav.filmography': 'フィルモグラフィー',
+    'nav.videos': 'ビデオ',
+    'nav.platforms': 'プラットフォーム',
+    'hero.tagline': 'インディペンデントミュージシャン、ソングライター、作曲家、プロデューサー。',
+    'cta.discography': 'ディスコグラフィーを見る',
+    'cta.listen': '今すぐ聴く',
+    'misc.scroll': 'スクロール',
+    'label.about': '// 01 — 概要',
+    'title.about': 'アーティストについて',
+    'label.discography': '// 02 — 曲',
+    'title.discography': 'ディスコグラフィー',
+    'stat.genre': '主要ジャンル',
+    'label.filmography': '// 03 — フィルモグラフィー',
+    'title.filmography': 'フィルモグラフィー',
+    'label.video': '// 04 — ビデオ',
+    'title.videos': 'YOUTUBE',
+    'videos.view_all': 'YouTube のすべての動画を見る →',
+    'film.trailer': '予告を見る',
+    'no_results.discography': '該当するリリースはありません。',
+    'pagination.range': '{start}–{end} / {total}',
+    'film.visit_imdb': 'IMDb で Hasbi LH を見る →',
+    'no_results.videos': '動画が見つかりません。',
+    'videos.open_channel': 'YouTube チャンネルを開く →',
+    'label.platforms': '// 05 — プラットフォーム',
+    'title.platforms': '見つける',
+    'modal.tag_video': 'ビデオ',
+    'modal.open_youtube': '▶ YouTube で開く',
+    'about.bio.p1': '<strong>Hasbi LH</strong> はインディペンデントのミュージシャン、ソングライター、作曲家、プロデューサーで、<strong>Cilacap, Indonesia</strong> 出身です。個人的な物語やインターネット文化に触発された楽曲と歌詞で知られています。',
+    'about.bio.p2': 'ソロ活動はシングル <strong>"Pulang."</strong> のリリースから始まりました。その後、トラック <strong>"Greesel Lutuna"</strong> により JKT48 ファンの間で注目を集めました。Hasbi は以前、ポップパンクバンド <strong>Brave Party</strong> のギタリスト、トリオ <strong>RGH Project</strong> のギタリスト／キーボード／ベース／プロデューサーとして活動していました。',
+    'about.bio.p3': '現在は録音からマスタリングまで、ソロ作品を自身で制作しています。ポップ、エモ、メロディックロック、R&B を融合させ、パーソナルでニッチなリスナーに響く楽曲を作っています。',
+    'discography.intro': 'Hasbi LH のソロ作品、所属していたバンドの楽曲、および Hasbi LH がプロデュースした他アーティストの楽曲の一覧です。',
+    'label.year': 'リリース年',
+    'label.category': 'カテゴリ',
+    'sort.date.desc': 'リリース年 ↓',
+    'sort.date.asc': 'リリース年 ↑',
+    'sort.artist.asc': 'アーティスト A-Z',
+    'sort.artist.desc': 'アーティスト Z-A',
+    'sort.title.asc': 'タイトル A-Z',
+    'sort.title.desc': 'タイトル Z-A',
+    'filter.year.all': 'すべて',
+    'filter.category.all': 'すべて',
+    'filter.category.Solo': '独演',
+    'filter.category.Kolaborasi': 'コラボレーション',
+    'filter.category.grup': 'グループ/バンド',
+    'filter.category.artis': '他のアーティスト',
+    'film.intro': 'Hasbi LH が関わった映画の一覧。',
+    'film.type.feature': '長編映画',
+    'film.type.short': '短編映画',
+    'film.details.producer': 'プロデューサー:',
+    'film.details.director': '監督:',
+    'film.details.production': '生産ハウス:',
+    'film.produced': '制作',
+    'film.tag_soundtrack': 'サウンドトラック',
+    'film.description.melati': '地域の教育委員会と協力して制作された、キャラクター教育をテーマにした長編映画です。',
+    'film.description.nostalgi': 'ウイルスによって人口がほぼ壊滅した数年後の生存を描くSF短編。HECare Film Festival（カナダ、オンタリオ）やThe Lift‑Off Sessions（英国）、Indiskop Film Festival 2020（インドネシア、ジャカルタ）などで上映され、受賞歴があります。',
+    'film.roles_label': '役割',
+    'film.roles.list.melati': '作曲, サウンドトラック, サウンドデザイナー, アシスタント編集',
+    'film.roles.list.nostalgi': '作曲, サウンドトラック',
+    'search.placeholder': '曲／アーティストを検索...'
+  }
+};
+
+function getText(key) {
+  const lang = localStorage.getItem('site_lang') || 'id';
+  return (TRANSLATIONS[lang] && TRANSLATIONS[lang][key]) || TRANSLATIONS['id'][key] || key;
+}
+
+function applyTranslations(lang) {
+  const dict = TRANSLATIONS[lang] || TRANSLATIONS['id'];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (dict[key]) {
+      const tag = el.tagName && el.tagName.toLowerCase();
+      if (tag === 'input') {
+        el.placeholder = dict[key];
+      } else {
+        el.innerHTML = dict[key];
+      }
+    }
+  });
+}
+
+const langSelectEl = document.getElementById('lang-select');
+function setActiveLangButton(container, lang) {
+  container.querySelectorAll('.lang-btn').forEach(btn => {
+    const is = btn.getAttribute('data-lang') === lang;
+    btn.classList.toggle('active', is);
+    btn.setAttribute('aria-pressed', is ? 'true' : 'false');
+  });
+}
+
+if (langSelectEl) {
+  const saved = localStorage.getItem('site_lang') || 'id';
+  // if it's a native select element (legacy), handle value
+  if (langSelectEl.tagName && langSelectEl.tagName.toLowerCase() === 'select') {
+    langSelectEl.value = saved;
+    applyTranslations(saved);
+    langSelectEl.addEventListener('change', (e) => {
+      const v = e.target.value;
+      localStorage.setItem('site_lang', v);
+      applyTranslations(v);
+    });
+  } else {
+    // assume button group
+    setActiveLangButton(langSelectEl, saved);
+    applyTranslations(saved);
+    langSelectEl.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const v = btn.getAttribute('data-lang');
+        localStorage.setItem('site_lang', v);
+        setActiveLangButton(langSelectEl, v);
+        applyTranslations(v);
+      });
+    });
+  }
+}
 
 // ====== DISCOGRAPHY DATA ======
 const DISCOGRAPHY = [
@@ -1473,14 +1875,18 @@ const DISCOGRAPHY = [
   { title: "Sejatinya Keluarga", year: 2019, releaseDate: "2019-12-14", type: "Grup Musik Hasbi LH", spotifyId: "0VXjIQxBvFGpGTpemxvMev", spotifyTrackId: "5XVwPhM8P7XULR16afERWk", cover: null, artist: "RGH Project, Gilang Rama, Hasbi LH, Riki Okta" },
   { title: "Jangan Pernah Menyerah (Ost. Melati)", year: 2020, releaseDate: "2020-05-12", type: "Grup Musik Hasbi LH", spotifyId: null, spotifyTrackId: "0yYYxSnqa8vff8CWVDvoA4", cover: null, artist: "RGH Project, Vidhu, Naila" },
   // 2015
-  { title: "Calistha", year: 2013, releaseDate: "2013-11-04", type: "Grup Musik Hasbi LH", spotifyId: null, spotifyTrackId: "4VFCxckWT6hSj4f2okfQrr", cover: null, artist: "Brave Party" },
+  { title: "Calistha", year: 2013, releaseDate: "2013-11-04", type: "Grup Musik Hasbi LH", spotifyId: null, spotifyTrackId: "6zKDOlLgftXokxuAUiYbVy", cover: null, artist: "Brave Party" },
+  
   { title: "Bukan Yang Terakhir", year: 2015, releaseDate: "2015-04-29", type: "Grup Musik Hasbi LH", spotifyId: null, spotifyTrackId: "4VFCxckWT6hSj4f2okfQrr", cover: null, artist: "Brave Party" },
 
   // ===========================
   // ===== ARTIS LAIN =====
   // ===========================
 
-  { title: "Semua Tentangmu", year: 2020, releaseDate: "2020-11-27", type: "Artis Lain", spotifyId: null, spotifyTrackId: "0dJ5zH21AIKHAID1Dqi7DG", cover: "https://i.scdn.co/image/ab67616d00001e029548d5929dd9369e6d9c75de", artist: "Cello Pangemanan" },
+    { title: "Bebas", year: 2026, releaseDate: "2026-05-16", type: "Artis Lain", spotifyId: null, spotifyTrackId: "3Vy7BIvjkzciQdKm9PgsBs", cover: null, artist: "Nandemo-san" },
+    { title: "Bebas (Instrumental)", year: 2026, releaseDate: "2026-05-16", type: "Artis Lain", spotifyId: null, spotifyTrackId: "4MENQv7tbkU3mRbeTc9Dss", cover: null, artist: "Nandemo-san" },
+
+    { title: "Semua Tentangmu", year: 2020, releaseDate: "2020-11-27", type: "Artis Lain", spotifyId: null, spotifyTrackId: "0dJ5zH21AIKHAID1Dqi7DG", cover: "https://i.scdn.co/image/ab67616d00001e029548d5929dd9369e6d9c75de", artist: "Cello Pangemanan" },
   { title: "Yessica, Satu-satunya", year: 2021, releaseDate: "2021-01-22", type: "Artis Lain", spotifyId: "4htTYjjtexg2hebz15jPWW", spotifyTrackId: null, cover: null, artist: "Tayateya" },
   { title: "Niel, Rindu, Niel!!", year: 2023, releaseDate: "2023-08-03", type: "Artis Lain", spotifyId: null, spotifyTrackId: "63BwzytfcXcVNOIB7SnNeU", cover: "https://i.scdn.co/image/ab67616d00001e02bd25a7a22a02eba50fdfc573", artist: "Linggar Jabo" },
   { title: "As Your Rainbow", year: 2023, releaseDate: "2023-11-06", type: "Artis Lain", spotifyId: null, spotifyTrackId: "0pYL8xTqpHb7pZXpuAjQjG", cover: "https://i.scdn.co/image/ab67616d00001e02e25a3b549302b1034966f237", artist: "Andre Ibrahim" },
@@ -1493,12 +1899,14 @@ const DISCOGRAPHY = [
   { title: "Viva la Victoria", year: 2024, releaseDate: "2024-06-11", type: "Artis Lain", spotifyId: null, spotifyTrackId: "1yejCBqHGQVDWDW4EJKgc7", cover: "https://i.scdn.co/image/ab67616d00001e02cf673b4d6bab929f4e376fe0", artist: "Arienovs, Tie Livia" },
   { title: "Hari Spesial", year: 2024, releaseDate: "2024-08-07", type: "Artis Lain", spotifyId: null, spotifyTrackId: "0DGiTLZcnD3icb239cYekY", cover: "https://i.scdn.co/image/ab67616d00001e02e7d7524b7e92d837cdea4ccc", artist: "Ihza Mamta" },
   { title: "Dreamcatcher", year: 2024, releaseDate: "2024-08-17", type: "Artis Lain", spotifyId: null, spotifyTrackId: "5sLC8CCooLupnGMF3lh3mH", cover: "https://i.scdn.co/image/ab67616d00001e029e93e24f1f65ceaead3cc546", artist: "Wargavi, Rizuka Miku" },
+  { title: "Dreamcatcher (Instrumental)", year: 2024, releaseDate: "2024-08-17", type: "Artis Lain", spotifyId: null, spotifyTrackId: "1oYJ8x4eOYqyuXExOCx2QF", cover: null, artist: "Wargavi, Rizuka Miku" },
   { title: "Aralie Setiap Hari", year: 2024, releaseDate: "2024-09-26", type: "Artis Lain", spotifyId: null, spotifyTrackId: "1gIJ8sxPWfikDzHkm7GLUo", cover: "https://i.scdn.co/image/ab67616d00001e02fadfa96b13ba52803658dc7c", artist: "Arienovs" },
   { title: "PEMILU", year: 2024, releaseDate: "2024-12-28", type: "Artis Lain", spotifyId: null, spotifyTrackId: "0xfBRTJXieTWJaSbCdaq0Y", cover: "https://i.scdn.co/image/ab67616d00001e025d4dff7bbe43ae96e2919e64", artist: "Erlangga Danantara, Farhan Pamungkas" },
   { title: "Only You", year: 2025, releaseDate: "2025-07-28", type: "Artis Lain", spotifyId: null, spotifyTrackId: "1LOMdlVBeksN79FLsv2dhA", cover: "https://i.scdn.co/image/ab67616d00001e0292f1c459b41bc77a38aa7cda", artist: "Ihza Mamta" },
   { title: "Matahariku", year: 2025, releaseDate: "2025-08-05", type: "Artis Lain", spotifyId: null, spotifyTrackId: "4o2BSpCTQuExpXunizvgIY", cover: "https://i.scdn.co/image/ab67616d00001e020fcd43498199925bba31fd12", artist: "Teman Aralie" },
   { title: "Astrella 2025", year: 2025, releaseDate: "2025-09-06", type: "Artis Lain", spotifyId: "0u8hona4hRFIp1OkwsQSiA", spotifyTrackId: null, cover: null, artist: "Nares Area, Broccoza" },
   { title: "My Lave", year: 2025, releaseDate: "2025-10-25", type: "Artis Lain", spotifyId: null, spotifyTrackId: "2wGYX0xuKjMaszW3e0ERCZ", cover: "https://i.scdn.co/image/ab67616d00001e021dc6a14ad838e03507ecd432", artist: "Fikgi Tanumihardja" },
+  { title: "Langkah", year: 2025, releaseDate: "2025-10-25", type: "Artis Lain", spotifyId: null, spotifyTrackId: "7Jq0I4wcFxXjii8iZ2PDV7", cover: null, artist: "Hillaryours" },
   { title: "Titik Kedua", year: 2026, releaseDate: "2026-01-31", type: "Artis Lain", spotifyId: null, spotifyTrackId: "7o0UNlcsFZdbjbSqcPsSRB", cover: "https://i.scdn.co/image/ab67616d00001e02860727a93956ab386b098043", artist: "Teman Aralie" },
   { title: "ManCyn", year: 2025, releaseDate: "2025-09-02", type: "Artis Lain", spotifyId: null, spotifyTrackId: "1wzJTKAiFxaCDU8VIaJpFX", cover: "https://i.scdn.co/image/ab67616d00001e02c1ad800ca783d822aa1ad49b", artist: "Ivan B0B" },
   { title: "Kagum", year: 2020, releaseDate: "2020-08-21", type: "Artis Lain", spotifyId: null, spotifyTrackId: "3RV50o51gTIeFgvJstkGYj", cover: null, artist: "Arienovs" },
@@ -1627,8 +2035,15 @@ function buildCard(item, index, isProduced) {
 
   const [c1, c2] = getGradient(index);
   const initials = makeInitials(item.title);
-  const typeClass = item.type === 'Kolaborasi' ? 'disco-type collab' : item.type === 'Grup Musik Hasbi LH' ? 'disco-type group' : 'disco-type';
-  const typeLabel = item.type || 'Single';
+  const normalizedType = (item.type || '').toString().trim().toLowerCase();
+  const typeClass = normalizedType === 'kolaborasi' ? 'disco-type collab' : normalizedType === 'grup musik hasbi lh' ? 'disco-type group' : 'disco-type';
+  const typeKeyMap = {
+    'solo': 'filter.category.Solo',
+    'kolaborasi': 'filter.category.Kolaborasi',
+    'grup musik hasbi lh': 'filter.category.grup',
+    'artis lain': 'filter.category.artis'
+  };
+  const typeLabel = (typeKeyMap[normalizedType] ? getText(typeKeyMap[normalizedType]) : (item.type || 'Single'));
   const artistLine = item.artist ? `<br><span style="font-size:11px;color:var(--muted2);">${item.artist}</span>` : '';
 
   card.innerHTML = `
@@ -1646,9 +2061,9 @@ function buildCard(item, index, isProduced) {
     <div class="disco-info">
       <div class="disco-title">${item.title}${artistLine}</div>
       <div class="disco-meta">
-        <span class="disco-year">${yearLabel}</span>
-        <span class="${typeClass}">${typeLabel}</span>
-      </div>
+          <span class="disco-year">${yearLabel}</span>
+          <span class="${typeClass}">${typeLabel}</span>
+        </div>
     </div>
   `;
 
@@ -1692,9 +2107,17 @@ function openModal(item, c1, c2, isProduced) {
 
   const tags = document.getElementById('modal-tags');
   const yearLabel = item.year || '—';
+  const normalizedType = (item.type || '').toString().trim().toLowerCase();
+  const typeKeyMap = {
+    'solo': 'filter.category.Solo',
+    'kolaborasi': 'filter.category.Kolaborasi',
+    'grup musik hasbi lh': 'filter.category.grup',
+    'artis lain': 'filter.category.artis'
+  };
+  const typeLabelTranslated = typeKeyMap[normalizedType] ? getText(typeKeyMap[normalizedType]) : item.type;
   tags.innerHTML = `
     <span class="modal-tag">${yearLabel}</span>
-    <span class="modal-tag">${isProduced ? 'Produksi' : item.type}</span>
+    <span class="modal-tag">${isProduced ? getText('film.produced') : typeLabelTranslated}</span>
   `;
 
   // Spotify embed
@@ -1884,7 +2307,7 @@ function renderDisco(filterYear, filterCategory, searchQuery, sortBy, page) {
   filteredItems = items;
 
   if (items.length === 0) {
-    grid.innerHTML = '<div class="no-results">Tidak ada rilisan yang cocok.</div>';
+    grid.innerHTML = `<div class="no-results">${getText('no_results.discography')}</div>`;
     renderPagination(0, 1);
     return;
   }
@@ -1912,7 +2335,8 @@ function renderPagination(totalItems, totalPages) {
   info.className = 'page-info';
   const startNum = (currentPage - 1) * ITEMS_PER_PAGE + 1;
   const endNum = Math.min(currentPage * ITEMS_PER_PAGE, totalItems);
-  info.textContent = `${startNum}–${endNum} dari ${totalItems}`;
+  const rangeTpl = getText('pagination.range');
+  info.textContent = rangeTpl.replace('{start}', startNum).replace('{end}', endNum).replace('{total}', totalItems);
 
   // Prev button
   const prevBtn = document.createElement('button');
@@ -2040,7 +2464,7 @@ function renderVideos(videos) {
   const grid = document.getElementById('videos-grid');
   grid.innerHTML = '';
   if (!videos || videos.length === 0) {
-    grid.innerHTML = `<div class="no-results">Tidak ada video ditemukan. <a href="${CHANNEL_URL}" target="_blank" style="color:var(--accent2)">Buka YouTube Channel →</a></div>`;
+    grid.innerHTML = `<div class="no-results">${getText('no_results.videos')} <a href="${CHANNEL_URL}" target="_blank" style="color:var(--accent2)">${getText('videos.open_channel')}</a></div>`;
     return;
   }
   videos.slice(0, 9).forEach(v => {
@@ -2075,7 +2499,7 @@ function openVideoModal(video) {
   document.getElementById('modal-artist').textContent = 'YouTube';
   document.getElementById('modal-tags').innerHTML = `
     <span class="modal-tag">${video.date}</span>
-    <span class="modal-tag">Video</span>
+    <span class="modal-tag">${getText('modal.tag_video')}</span>
   `;
 
   const embedDiv = document.getElementById('modal-embed');
@@ -2094,7 +2518,7 @@ function openVideoModal(video) {
 
   const platforms = document.getElementById('modal-platforms');
   platforms.innerHTML = `
-    <a href="https://www.youtube.com/watch?v=${video.id}" target="_blank" class="platform-link">▶ Buka di YouTube</a>
+    <a href="https://www.youtube.com/watch?v=${video.id}" target="_blank" class="platform-link">${getText('modal.open_youtube')}</a>
   `;
 
   overlay.classList.add('open');

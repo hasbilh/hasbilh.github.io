@@ -158,13 +158,13 @@
     <a href="../">Buka situs</a>
   </header>
 
-  <section class="panel admin-only" hidden>
+  <section class="panel">
     <h2>Login Admin</h2>
     <p class="note">Login memakai GitHub OAuth lewat backend Cloudflare Worker. GitHub token dan OAuth secret disimpan di Worker, bukan di browser.</p>
     <div class="actions">
       <button id="loginBtn" type="button">Login with GitHub</button>
-      <button id="loadBtn" class="secondary" type="button">Load Database</button>
-      <button id="logoutBtn" class="secondary" type="button">Logout</button>
+      <button id="loadBtn" class="secondary" type="button" hidden>Load Database</button>
+      <button id="logoutBtn" class="secondary" type="button" hidden>Logout</button>
     </div>
     <div id="connectionStatus" class="status">Belum login.</div>
   </section>
@@ -225,7 +225,7 @@
     <div id="saveStatus" class="status">Isi form lalu commit ke database.</div>
   </section>
 
-  <section class="panel">
+  <section class="panel admin-only" hidden>
     <h2>Semua Diskografi</h2>
     <div id="summary" class="status">Database belum dimuat.</div>
     <div class="toolbar">
@@ -282,6 +282,12 @@ function setAdminPanelsVisible(visible) {
   document.querySelectorAll('.admin-only').forEach(panel => {
     panel.hidden = !visible;
   });
+}
+
+function setLoginControls(loggedIn) {
+  els.loginBtn.hidden = loggedIn;
+  els.loadBtn.hidden = !loggedIn;
+  els.logoutBtn.hidden = !loggedIn;
 }
 
 function ensureConfigured() {
@@ -459,6 +465,7 @@ async function saveDatabase(message) {
 async function checkSession() {
   if (!sessionToken) {
     setAdminPanelsVisible(false);
+    setLoginControls(false);
     setStatus(els.connectionStatus, 'Belum login.');
     return;
   }
@@ -469,11 +476,13 @@ async function checkSession() {
     });
     const expiry = me.expiresAt ? new Date(me.expiresAt * 1000).toLocaleString('id-ID') : 'tidak diketahui';
     setAdminPanelsVisible(true);
+    setLoginControls(true);
     setStatus(els.connectionStatus, `Login sebagai ${me.login}. Session berlaku sampai ${expiry}.`, 'ok');
   } catch (error) {
     sessionToken = '';
     sessionStorage.removeItem('discography_admin_session');
     setAdminPanelsVisible(false);
+    setLoginControls(false);
     setStatus(els.connectionStatus, error.message, 'error');
   }
 }
@@ -506,6 +515,7 @@ els.logoutBtn.addEventListener('click', () => {
   sessionStorage.removeItem('discography_admin_session');
   els.discographyRows.innerHTML = '';
   setAdminPanelsVisible(false);
+  setLoginControls(false);
   setStatus(els.connectionStatus, 'Logout berhasil.');
   setStatus(els.summary, 'Database belum dimuat.');
 });

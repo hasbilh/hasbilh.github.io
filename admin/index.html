@@ -134,6 +134,15 @@
     margin: 14px 0;
   }
   .toolbar input { max-width: 380px; }
+  .date-field {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+  }
+  .date-field button {
+    padding-inline: 12px;
+    white-space: nowrap;
+  }
   .editing-badge {
     display: none;
     color: var(--ok);
@@ -181,14 +190,17 @@
         </label>
         <label>Kategori
           <select id="type">
-            <option>Solo</option>
-            <option selected>Kolaborasi</option>
+            <option selected>Solo</option>
+            <option>Kolaborasi</option>
             <option>Grup Musik Hasbi LH</option>
             <option>Artis Lain</option>
           </select>
         </label>
         <label>Tanggal rilis
-          <input id="releaseDate" type="date" required>
+          <span class="date-field">
+            <input id="releaseDate" type="date" required>
+            <button id="releaseDateBtn" class="secondary" type="button">Date</button>
+          </span>
         </label>
         <label>Spotify Track ID atau URL
           <input id="spotifyTrack" placeholder="https://open.spotify.com/track/...">
@@ -264,6 +276,7 @@ const els = {
   tableSearch: document.getElementById('tableSearch'),
   refreshTableBtn: document.getElementById('refreshTableBtn'),
   cancelEditBtn: document.getElementById('cancelEditBtn'),
+  releaseDateBtn: document.getElementById('releaseDateBtn'),
   editingBadge: document.getElementById('editingBadge'),
 };
 
@@ -583,6 +596,15 @@ els.logoutBtn.addEventListener('click', () => {
   setLoginControls(false);
   setStatus(els.connectionStatus, 'Logout berhasil.');
   setStatus(els.summary, 'Database belum dimuat.');
+});
+
+els.releaseDateBtn.addEventListener('click', () => {
+  const input = document.getElementById('releaseDate');
+  if (typeof input.showPicker === 'function') {
+    input.showPicker();
+  } else {
+    input.focus();
+  }
 });
 
 els.tableSearch.addEventListener('input', () => {

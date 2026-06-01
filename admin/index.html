@@ -153,14 +153,14 @@
   <header>
     <div>
       <h1>Discography Admin</h1>
-      <p>Tambah rilisan baru ke database JSON GitHub Pages tanpa edit file manual.</p>
+      <p>Anjay.</p>
     </div>
     <a href="../">Buka situs</a>
   </header>
 
   <section class="panel">
     <h2>Login Admin</h2>
-    <p class="note">Login memakai GitHub OAuth lewat backend Cloudflare Worker. GitHub token dan OAuth secret disimpan di Worker, bukan di browser.</p>
+    <p class="note">Login memakai GitHub OAuth.</p>
     <div class="actions">
       <button id="loginBtn" type="button">Login with GitHub</button>
       <button id="loadBtn" class="secondary" type="button" hidden>Load Database</button>
@@ -174,10 +174,10 @@
     <form id="releaseForm">
       <div class="grid">
         <label>Judul
-          <input id="title" required placeholder="Contoh: MnG">
+          <input id="title" required placeholder="Contoh: Greesel Lutuna">
         </label>
         <label>Artists
-          <input id="artist" required placeholder="Hasbi LH, Gads">
+          <input id="artist" required placeholder="Hasbi LH">
         </label>
         <label>Kategori
           <select id="type">
@@ -196,23 +196,29 @@
         <label>Spotify Album/Release ID atau URL
           <input id="spotifyAlbum" placeholder="https://open.spotify.com/album/...">
         </label>
-        <label>Cover URL
-          <input id="cover" placeholder="Opsional">
-        </label>
-        <label>Apple Album ID
-          <input id="appleId" placeholder="Opsional">
-        </label>
-        <label>YouTube ID
-          <input id="youtubeId" placeholder="Opsional">
-        </label>
-        <label>YouTube Music ID
-          <input id="youtubeMusicId" placeholder="Opsional">
-        </label>
         <label>Apple Music URL
-          <input id="appleUrl" placeholder="Opsional">
+          <input id="appleUrl" placeholder="https://music.apple.com/...">
         </label>
-        <label>Deezer Track ID
-          <input id="deezerTrackId" placeholder="Opsional">
+        <label>Apple Album ID atau URL
+          <input id="appleId" placeholder="https://music.apple.com/id/album/...">
+        </label>
+        <label>YouTube ID atau URL
+          <input id="youtubeId" placeholder="https://www.youtube.com/watch?v=...">
+        </label>
+        <label>YouTube Music ID atau URL
+          <input id="youtubeMusicId" placeholder="https://music.youtube.com/watch?v=...">
+        </label>
+        <label>Deezer Track ID atau URL
+          <input id="deezerTrackId" placeholder="https://www.deezer.com/track/...">
+        </label>
+        <label>Tidal Track ID atau URL
+          <input id="tidalUrl" placeholder="https://tidal.com/...">
+        </label>
+        <label>SoundCloud URL
+          <input id="soundcloudUrl" placeholder="https://soundcloud.com/...">
+        </label>
+        <label>Cover URL
+          <input id="cover" placeholder="https://...jpg/png">
         </label>
       </div>
       <div class="actions">
@@ -374,6 +380,48 @@ function extractSpotifyId(value, expectedType) {
   return match ? (match[1] || match[2]) : text;
 }
 
+function isUrl(value) {
+  return /^https?:\/\//i.test(value.trim());
+}
+
+function extractYouTubeId(value) {
+  const text = value.trim();
+  if (!text) return null;
+  if (!isUrl(text)) return text;
+  try {
+    const url = new URL(text);
+    if (url.searchParams.get('v')) return url.searchParams.get('v');
+    const parts = url.pathname.split('/').filter(Boolean);
+    return parts.pop() || text;
+  } catch (_) {
+    return text;
+  }
+}
+
+function extractDeezerTrackId(value) {
+  const text = value.trim();
+  if (!text) return null;
+  const match = text.match(/\/track\/(\d+)/i);
+  return match ? match[1] : text;
+}
+
+function extractTidalTrackId(value) {
+  const text = value.trim();
+  if (!text) return null;
+  const match = text.match(/\/track\/(\d+)/i);
+  return match ? match[1] : text;
+}
+
+function extractAppleAlbumId(value) {
+  const text = value.trim();
+  if (!text) return null;
+  const albumMatch = text.match(/\/album\/[^/]+\/(\d+)/i);
+  if (albumMatch) return albumMatch[1];
+  const idMatch = text.match(/\/album\/(\d+)/i);
+  if (idMatch) return idMatch[1];
+  return text;
+}
+
 function cleanValue(value) {
   const text = value.trim();
   return text || null;
@@ -404,12 +452,14 @@ function fillFormForEdit(index) {
   setInputValue('releaseDate', item.releaseDate);
   setInputValue('spotifyTrack', item.spotifyTrackId);
   setInputValue('spotifyAlbum', item.spotifyId);
-  setInputValue('cover', item.cover);
+  setInputValue('appleUrl', platformMeta.appleUrl || item.appleUrl);
+  setInputValue('tidalUrl', platformMeta.tidalUrl || item.tidalUrl || platformMeta.tidalTrackId || item.tidalTrackId);
+  setInputValue('soundcloudUrl', platformMeta.soundcloudUrl || item.soundcloudUrl);
   setInputValue('appleId', item.appleId);
   setInputValue('youtubeId', item.youtubeId || platformMeta.youtubeId);
   setInputValue('youtubeMusicId', item.youtubeMusicId || platformMeta.youtubeMusicId);
-  setInputValue('appleUrl', platformMeta.appleUrl);
-  setInputValue('deezerTrackId', item.deezerTrackId || platformMeta.deezerTrackId);
+  setInputValue('deezerTrackId', platformMeta.deezerUrl || item.deezerUrl || item.deezerTrackId || platformMeta.deezerTrackId);
+  setInputValue('cover', item.cover);
 
   document.getElementById('saveBtn').textContent = 'Simpan Edit & Commit';
   els.cancelEditBtn.hidden = false;
@@ -438,14 +488,29 @@ function buildReleaseFromForm() {
     artist: document.getElementById('artist').value.trim(),
   };
 
-  const appleId = cleanValue(document.getElementById('appleId').value);
+  const appleId = extractAppleAlbumId(document.getElementById('appleId').value);
   if (appleId) item.appleId = appleId;
 
   const platformMeta = {};
-  ['youtubeId', 'youtubeMusicId', 'appleUrl', 'deezerTrackId'].forEach(id => {
-    const value = cleanValue(document.getElementById(id).value);
-    if (value) platformMeta[id] = value;
-  });
+  const youtubeValue = cleanValue(document.getElementById('youtubeId').value);
+  const youtubeMusicValue = cleanValue(document.getElementById('youtubeMusicId').value);
+  const appleUrl = cleanValue(document.getElementById('appleUrl').value);
+  const deezerValue = cleanValue(document.getElementById('deezerTrackId').value);
+  const tidalValue = cleanValue(document.getElementById('tidalUrl').value);
+  const soundcloudUrl = cleanValue(document.getElementById('soundcloudUrl').value);
+
+  if (youtubeValue) platformMeta.youtubeId = extractYouTubeId(youtubeValue);
+  if (youtubeMusicValue) platformMeta.youtubeMusicId = extractYouTubeId(youtubeMusicValue);
+  if (appleUrl) platformMeta.appleUrl = appleUrl;
+  if (deezerValue) {
+    if (isUrl(deezerValue)) platformMeta.deezerUrl = deezerValue;
+    platformMeta.deezerTrackId = extractDeezerTrackId(deezerValue);
+  }
+  if (tidalValue) {
+    if (isUrl(tidalValue)) platformMeta.tidalUrl = tidalValue;
+    else platformMeta.tidalTrackId = extractTidalTrackId(tidalValue);
+  }
+  if (soundcloudUrl) platformMeta.soundcloudUrl = soundcloudUrl;
 
   return { item, platformMeta };
 }

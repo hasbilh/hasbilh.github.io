@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Discography Admin | Hasbi LH</title>
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
 <style>
   :root {
     --bg: #0a0f1e;
@@ -201,6 +202,18 @@
             <input id="releaseDate" type="date" required>
             <button id="releaseDateBtn" class="secondary" type="button">Date</button>
           </span>
+        </label>
+        <label>Album
+          <input id="album" placeholder="Nama album / single">
+        </label>
+        <label>Author / Songwriters
+          <input id="songwriters" placeholder="Hasbi LH">
+        </label>
+        <label>Composer
+          <input id="composer" placeholder="Hasbi LH">
+        </label>
+        <label>Producer
+          <input id="producer" placeholder="Hasbi LH">
         </label>
         <label>Spotify Track ID atau URL
           <input id="spotifyTrack" placeholder="https://open.spotify.com/track/...">
@@ -473,6 +486,10 @@ function fillFormForEdit(index) {
   setInputValue('youtubeMusicId', item.youtubeMusicId || platformMeta.youtubeMusicId);
   setInputValue('deezerTrackId', platformMeta.deezerUrl || item.deezerUrl || item.deezerTrackId || platformMeta.deezerTrackId);
   setInputValue('cover', item.cover);
+  setInputValue('album', item.album);
+  setInputValue('songwriters', item.songwriters);
+  setInputValue('composer', item.composer);
+  setInputValue('producer', item.producer);
 
   document.getElementById('saveBtn').textContent = 'Simpan Edit & Commit';
   els.cancelEditBtn.hidden = false;
@@ -500,6 +517,18 @@ function buildReleaseFromForm() {
     cover: cleanValue(document.getElementById('cover').value),
     artist: document.getElementById('artist').value.trim(),
   };
+
+  const album = cleanValue(document.getElementById('album').value);
+  if (album) item.album = album;
+
+  const songwriters = cleanValue(document.getElementById('songwriters').value);
+  if (songwriters) item.songwriters = songwriters;
+
+  const composer = cleanValue(document.getElementById('composer').value);
+  if (composer) item.composer = composer;
+
+  const producer = cleanValue(document.getElementById('producer').value);
+  if (producer) item.producer = producer;
 
   const appleId = extractAppleAlbumId(document.getElementById('appleId').value);
   if (appleId) item.appleId = appleId;

@@ -114,6 +114,16 @@ function createCoverPlaceholder(initials, c1, c2) {
   return placeholder;
 }
 
+function escapeHtml(value) {
+  return String(value || '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;',
+  }[char]));
+}
+
 function getSpotifyOembedUrl(item) {
   const id = item.spotifyTrackId || item.spotifyId;
   if (!id) return null;
@@ -266,6 +276,24 @@ function openModal(item, c1, c2, isProduced) {
     </div>`;
   }
 
+  const creditRows = [
+    ['Album', item.album],
+    ['Author / Songwriters', item.songwriters],
+    ['Composer', item.composer],
+    ['Producer', item.producer],
+  ].filter(([, value]) => value);
+  const creditsHtml = creditRows.length
+    ? `<div id="modal-extra-details" class="modal-credits">
+        ${creditRows.map(([label, value]) => `
+          <div class="modal-credit-row">
+            <div class="modal-detail-label">${label}</div>
+            <div class="modal-detail-text">${escapeHtml(value)}</div>
+          </div>
+        `).join('')}
+      </div>`
+    : '';
+  embedDiv.insertAdjacentHTML('beforebegin', creditsHtml);
+
   // Platform links
   const platformMeta = platformMetadata[item.title] || {};
   const platforms = document.getElementById('modal-platforms');
@@ -295,18 +323,21 @@ function openModal(item, c1, c2, isProduced) {
       ? `https://music.youtube.com/watch?v=${youtubeMusicId}`
       : `https://music.youtube.com/search?q=${searchQuery}`);
   const deezerTrack = platformMeta.deezerTrackId || item.deezerTrackId;
-  const deezerUrl = deezerTrack
-    ? `https://www.deezer.com/en/track/${deezerTrack}`
-    : item.deezerId
-      ? `https://www.deezer.com/en/album/${item.deezerId}`
-      : `https://www.deezer.com/search/${searchQuery}`;
+  const deezerUrl = platformMeta.deezerUrl || item.deezerUrl
+    || (deezerTrack
+      ? `https://www.deezer.com/en/track/${deezerTrack}`
+      : item.deezerId
+        ? `https://www.deezer.com/en/album/${item.deezerId}`
+        : `https://www.deezer.com/search/${searchQuery}`);
   const tidalTrack = platformMeta.tidalTrackId || item.tidalTrackId;
   const tidalAlbum = platformMeta.tidalAlbumId || item.tidalAlbumId;
-  const tidalUrl = tidalTrack
-    ? `https://tidal.com/browse/track/${tidalTrack}`
-    : tidalAlbum
-      ? `https://tidal.com/browse/album/${tidalAlbum}`
-      : `https://tidal.com/search/${searchQuery}`;
+  const tidalUrl = platformMeta.tidalUrl || item.tidalUrl
+    || (tidalTrack
+      ? `https://tidal.com/browse/track/${tidalTrack}`
+      : tidalAlbum
+        ? `https://tidal.com/browse/album/${tidalAlbum}`
+        : `https://tidal.com/search/${searchQuery}`);
+  const soundcloudUrl = platformMeta.soundcloudUrl || item.soundcloudUrl || `https://soundcloud.com/search?q=${searchQuery}`;
 
   platforms.innerHTML = `
     <a href="${spotifyUrl}" target="_blank" rel="noopener noreferrer" class="platform-link">
@@ -333,7 +364,7 @@ function openModal(item, c1, c2, isProduced) {
       </svg>
       YT Music
     </a>
-    <a href="https://soundcloud.com/search?q=${searchQuery}" target="_blank" rel="noopener noreferrer" class="platform-link">
+    <a href="${soundcloudUrl}" target="_blank" rel="noopener noreferrer" class="platform-link">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
         <path d="M7 17.939h-.411c-.907.058-1.586.518-1.739 1.398-.355.167-.671.326-.671.326s1.916.114 4.129.114c2.213 0 4.129-.114 4.129-.114s-.316-.159-.671-.326c-.153-.88-.832-1.34-1.739-1.398H9v-5.969c0-.307.029-.614.089-.91.06-.296.153-.58.278-.841.125-.261.284-.489.472-.683.188-.194.406-.345.647-.45.241-.105.497-.158.765-.158.269 0 .525.053.766.158.241.105.459.256.647.45.188.194.347.422.472.683.125.261.218.545.278.841.06.296.089.603.089.91V17.939zM12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22.083c-5.994 0-10.861-4.867-10.861-10.861S6.006 1.361 12 1.361 22.861 6.228 22.861 12.222 17.994 22.083 12 22.083z"/>
       </svg>
@@ -364,7 +395,10 @@ document.getElementById('modal-overlay').addEventListener('click', (e) => {
 function closeModal() {
   document.getElementById('modal-overlay').classList.remove('open');
   document.body.style.overflow = '';
-  setTimeout(() => { document.getElementById('modal-embed').innerHTML = ''; }, 300);
+  setTimeout(() => {
+    document.getElementById('modal-embed').innerHTML = '';
+    document.getElementById('modal-extra-details')?.remove();
+  }, 300);
 }
 
 const navToggle = document.getElementById('nav-toggle');
@@ -633,6 +667,7 @@ function renderVideos(videos) {
 
 function openVideoModal(video) {
   const overlay = document.getElementById('modal-overlay');
+  document.getElementById('modal-extra-details')?.remove();
   const coverContainer = document.getElementById('modal-cover-container');
   coverContainer.innerHTML = `<div class="modal-cover-placeholder" style="background:linear-gradient(135deg,#0d1528,#163f72)">YT</div>`;
   document.getElementById('modal-title').textContent = video.title;

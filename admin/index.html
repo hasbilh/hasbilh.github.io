@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discography Admin | Hasbi LH</title>
+<style>
+  :root {
+    --bg: #0a0f1e;
+    --panel: #111c35;
+    --panel2: #162040;
+    --text: #f0f4ff;
+    --muted: #8899bb;
+    --border: rgba(59,130,246,0.24);
+    --accent: #3b82f6;
+    --danger: #ef4444;
+    --ok: #22c55e;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+  main {
+    width: min(1040px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 32px 0 48px;
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  h1, h2 { margin: 0; line-height: 1.1; }
+  h1 { font-size: clamp(28px, 4vw, 44px); }
+  h2 { font-size: 18px; margin-bottom: 16px; }
+  p { color: var(--muted); line-height: 1.6; }
+  a { color: var(--accent); }
+  .panel {
+    border: 1px solid var(--border);
+    background: var(--panel);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 18px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+  label {
+    display: grid;
+    gap: 7px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  input, select, textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: #0d1528;
+    color: var(--text);
+    padding: 11px 12px;
+    font: inherit;
+  }
+  textarea { min-height: 92px; resize: vertical; }
+  button {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--accent);
+    color: white;
+    padding: 11px 14px;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  button.secondary { background: var(--panel2); }
+  button.danger { background: var(--danger); border-color: rgba(239,68,68,0.55); }
+  button.small {
+    padding: 7px 9px;
+    font-size: 12px;
+  }
+  button:disabled { opacity: 0.55; cursor: not-allowed; }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .status {
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 6px;
+    background: #0d1528;
+    color: var(--muted);
+    white-space: pre-wrap;
+  }
+  .status.ok { color: var(--ok); }
+  .status.error { color: var(--danger); }
+  .span-2 { grid-column: span 2; }
+  .preview {
+    overflow: auto;
+    max-height: 560px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  th, td {
+    padding: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    text-align: left;
+    vertical-align: top;
+  }
+  th { color: var(--muted); background: #0d1528; position: sticky; top: 0; }
+  .table-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .toolbar {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin: 14px 0;
+  }
+  .toolbar input { max-width: 380px; }
+  .editing-badge {
+    display: none;
+    color: var(--ok);
+    font-weight: 700;
+  }
+  .editing-badge.active { display: inline; }
+  .note { font-size: 13px; margin: 8px 0 0; }
+  @media (max-width: 760px) {
+    header { align-items: flex-start; flex-direction: column; }
+    .grid { grid-template-columns: 1fr; }
+    .span-2 { grid-column: auto; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <h1>Discography Admin</h1>
+      <p>Tambah rilisan baru ke database JSON GitHub Pages tanpa edit file manual.</p>
+    </div>
+    <a href="../">Buka situs</a>
+  </header>
+
+  <section class="panel">
+    <h2>Koneksi GitHub</h2>
+    <div class="grid">
+      <label>GitHub token
+        <input id="token" type="password" autocomplete="off" placeholder="Fine-grained token dengan Contents: Read and write">
+      </label>
+      <label>Branch
+        <input id="branch" value="main">
+      </label>
+      <label>Owner
+        <input id="owner" value="hasbilh">
+      </label>
+      <label>Repository
+        <input id="repo" value="hasbilh.github.io">
+      </label>
+      <label class="span-2">Path database
+        <input id="path" value="data/discography.json">
+      </label>
+    </div>
+    <p class="note">Token tidak ditanam di kode dan hanya disimpan di sesi browser. Buat token di GitHub dengan akses repository ini dan permission <strong>Contents: Read and write</strong>.</p>
+    <div class="actions">
+      <button id="loadBtn" type="button">Load Database</button>
+      <button id="clearTokenBtn" class="secondary" type="button">Hapus Token Sesi</button>
+    </div>
+    <div id="connectionStatus" class="status">Belum terhubung.</div>
+  </section>
+
+  <section class="panel">
+    <h2>Input / Edit Rilisan</h2>
+    <form id="releaseForm">
+      <div class="grid">
+        <label>Judul
+          <input id="title" required placeholder="Contoh: MnG">
+        </label>
+        <label>Artists
+          <input id="artist" required placeholder="Hasbi LH, Gads">
+        </label>
+        <label>Kategori
+          <select id="type">
+            <option>Solo</option>
+            <option selected>Kolaborasi</option>
+            <option>Grup Musik Hasbi LH</option>
+            <option>Artis Lain</option>
+          </select>
+        </label>
+        <label>Tanggal rilis
+          <input id="releaseDate" type="date" required>
+        </label>
+        <label>Spotify Track ID atau URL
+          <input id="spotifyTrack" placeholder="https://open.spotify.com/track/...">
+        </label>
+        <label>Spotify Album/Release ID atau URL
+          <input id="spotifyAlbum" placeholder="https://open.spotify.com/album/...">
+        </label>
+        <label>Cover URL
+          <input id="cover" placeholder="Opsional">
+        </label>
+        <label>Apple Album ID
+          <input id="appleId" placeholder="Opsional">
+        </label>
+        <label>YouTube ID
+          <input id="youtubeId" placeholder="Opsional">
+        </label>
+        <label>YouTube Music ID
+          <input id="youtubeMusicId" placeholder="Opsional">
+        </label>
+        <label>Apple Music URL
+          <input id="appleUrl" placeholder="Opsional">
+        </label>
+        <label>Deezer Track ID
+          <input id="deezerTrackId" placeholder="Opsional">
+        </label>
+      </div>
+      <div class="actions">
+        <button id="saveBtn" type="submit">Tambah & Commit</button>
+        <button id="resetBtn" class="secondary" type="reset">Reset Form</button>
+        <button id="cancelEditBtn" class="secondary" type="button" hidden>Batal Edit</button>
+        <span id="editingBadge" class="editing-badge">Mode edit aktif</span>
+      </div>
+    </form>
+    <div id="saveStatus" class="status">Isi form lalu commit ke database.</div>
+  </section>
+
+  <section class="panel">
+    <h2>Semua Diskografi</h2>
+    <div id="summary" class="status">Database belum dimuat.</div>
+    <div class="toolbar">
+      <input id="tableSearch" placeholder="Cari judul, artist, kategori, tahun...">
+      <button id="refreshTableBtn" class="secondary" type="button">Refresh</button>
+    </div>
+    <div class="preview">
+      <table>
+        <thead>
+          <tr><th>Judul</th><th>Artists</th><th>Kategori</th><th>Rilis</th><th>Aksi</th></tr>
+        </thead>
+        <tbody id="discographyRows"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<script>
+const els = {
+  token: document.getElementById('token'),
+  owner: document.getElementById('owner'),
+  repo: document.getElementById('repo'),
+  branch: document.getElementById('branch'),
+  path: document.getElementById('path'),
+  loadBtn: document.getElementById('loadBtn'),
+  clearTokenBtn: document.getElementById('clearTokenBtn'),
+  connectionStatus: document.getElementById('connectionStatus'),
+  form: document.getElementById('releaseForm'),
+  saveStatus: document.getElementById('saveStatus'),
+  summary: document.getElementById('summary'),
+  discographyRows: document.getElementById('discographyRows'),
+  tableSearch: document.getElementById('tableSearch'),
+  refreshTableBtn: document.getElementById('refreshTableBtn'),
+  cancelEditBtn: document.getElementById('cancelEditBtn'),
+  editingBadge: document.getElementById('editingBadge'),
+};
+
+let database = null;
+let databaseSha = null;
+let editingIndex = null;
+let editingOriginalTitle = null;
+
+const savedConfig = JSON.parse(sessionStorage.getItem('discography_admin_config') || '{}');
+['owner', 'repo', 'branch', 'path'].forEach(key => {
+  if (savedConfig[key]) els[key].value = savedConfig[key];
+});
+els.token.value = sessionStorage.getItem('discography_admin_token') || '';
+
+function setStatus(el, message, kind) {
+  el.textContent = message;
+  el.className = 'status' + (kind ? ` ${kind}` : '');
+}
+
+function getConfig() {
+  const config = {
+    token: els.token.value.trim(),
+    owner: els.owner.value.trim(),
+    repo: els.repo.value.trim(),
+    branch: els.branch.value.trim(),
+    path: els.path.value.trim(),
+  };
+  sessionStorage.setItem('discography_admin_token', config.token);
+  sessionStorage.setItem('discography_admin_config', JSON.stringify({
+    owner: config.owner,
+    repo: config.repo,
+    branch: config.branch,
+    path: config.path,
+  }));
+  return config;
+}
+
+function githubApiUrl(config) {
+  return `https://api.github.com/repos/${encodeURIComponent(config.owner)}/${encodeURIComponent(config.repo)}/contents/${config.path.split('/').map(encodeURIComponent).join('/')}?ref=${encodeURIComponent(config.branch)}`;
+}
+
+function decodeBase64Utf8(value) {
+  const binary = atob(value.replace(/\s/g, ''));
+  const bytes = Uint8Array.from(binary, char => char.charCodeAt(0));
+  return new TextDecoder().decode(bytes);
+}
+
+function encodeBase64Utf8(value) {
+  const bytes = new TextEncoder().encode(value);
+  let binary = '';
+  bytes.forEach(byte => binary += String.fromCharCode(byte));
+  return btoa(binary);
+}
+
+async function githubRequest(url, options, token) {
+  const response = await fetch(url, {
+    ...options,
+    headers: {
+      Accept: 'application/vnd.github+json',
+      Authorization: `Bearer ${token}`,
+      'X-GitHub-Api-Version': '2022-11-28',
+      ...(options && options.headers ? options.headers : {}),
+    },
+  });
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(body.message || `GitHub API error ${response.status}`);
+  }
+  return body;
+}
+
+async function loadDatabase() {
+  const config = getConfig();
+  if (!config.token) throw new Error('GitHub token wajib diisi untuk membaca dan menyimpan database.');
+
+  const body = await githubRequest(githubApiUrl(config), { method: 'GET' }, config.token);
+  databaseSha = body.sha;
+  database = JSON.parse(decodeBase64Utf8(body.content));
+  if (!Array.isArray(database.discography)) database.discography = [];
+  if (!database.platformMetadata || typeof database.platformMetadata !== 'object') database.platformMetadata = {};
+  renderSummary();
+  return database;
+}
+
+function renderSummary() {
+  const items = (database?.discography || [])
+    .map((item, index) => ({ item, index }))
+    .sort((a, b) => (b.item.releaseDate || '').localeCompare(a.item.releaseDate || ''));
+  const query = els.tableSearch.value.trim().toLowerCase();
+  const visibleItems = query
+    ? items.filter(({ item }) => [item.title, item.artist, item.type, item.year, item.releaseDate].join(' ').toLowerCase().includes(query))
+    : items;
+
+  setStatus(els.summary, `${items.length} rilisan dimuat dari ${els.path.value}.`, 'ok');
+  els.discographyRows.innerHTML = visibleItems.map(({ item, index }) => `
+    <tr>
+      <td>${escapeHtml(item.title || '')}</td>
+      <td>${escapeHtml(item.artist || '')}</td>
+      <td>${escapeHtml(item.type || '')}</td>
+      <td>${escapeHtml(item.releaseDate || '')}</td>
+      <td>
+        <div class="table-actions">
+          <button class="small secondary" type="button" data-action="edit" data-index="${index}">Edit</button>
+          <button class="small danger" type="button" data-action="delete" data-index="${index}">Hapus</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;',
+  }[char]));
+}
+
+function extractSpotifyId(value, expectedType) {
+  const text = value.trim();
+  if (!text) return null;
+  const match = text.match(new RegExp(`/intl-[a-z]+/${expectedType}/([A-Za-z0-9]+)|/${expectedType}/([A-Za-z0-9]+)`));
+  return match ? (match[1] || match[2]) : text;
+}
+
+function cleanValue(value) {
+  const text = value.trim();
+  return text || null;
+}
+
+function setInputValue(id, value) {
+  document.getElementById(id).value = value || '';
+}
+
+function clearEditMode() {
+  editingIndex = null;
+  editingOriginalTitle = null;
+  document.getElementById('saveBtn').textContent = 'Tambah & Commit';
+  els.cancelEditBtn.hidden = true;
+  els.editingBadge.classList.remove('active');
+}
+
+function fillFormForEdit(index) {
+  if (!database || !database.discography[index]) return;
+  const item = database.discography[index];
+  const platformMeta = database.platformMetadata[item.title] || {};
+
+  editingIndex = index;
+  editingOriginalTitle = item.title;
+  setInputValue('title', item.title);
+  setInputValue('artist', item.artist);
+  document.getElementById('type').value = item.type || 'Kolaborasi';
+  setInputValue('releaseDate', item.releaseDate);
+  setInputValue('spotifyTrack', item.spotifyTrackId);
+  setInputValue('spotifyAlbum', item.spotifyId);
+  setInputValue('cover', item.cover);
+  setInputValue('appleId', item.appleId);
+  setInputValue('youtubeId', item.youtubeId || platformMeta.youtubeId);
+  setInputValue('youtubeMusicId', item.youtubeMusicId || platformMeta.youtubeMusicId);
+  setInputValue('appleUrl', platformMeta.appleUrl);
+  setInputValue('deezerTrackId', item.deezerTrackId || platformMeta.deezerTrackId);
+
+  document.getElementById('saveBtn').textContent = 'Simpan Edit & Commit';
+  els.cancelEditBtn.hidden = false;
+  els.editingBadge.classList.add('active');
+  setStatus(els.saveStatus, `Mengedit "${item.title}".`);
+  window.scrollTo({ top: document.getElementById('releaseForm').offsetTop - 24, behavior: 'smooth' });
+}
+
+function buildReleaseFromForm() {
+  const releaseDate = document.getElementById('releaseDate').value;
+  const title = document.getElementById('title').value.trim();
+  const spotifyTrackId = extractSpotifyId(document.getElementById('spotifyTrack').value, 'track');
+  const spotifyId = extractSpotifyId(document.getElementById('spotifyAlbum').value, 'album');
+
+  if (!title) throw new Error('Judul wajib diisi.');
+  if (!releaseDate) throw new Error('Tanggal rilis wajib diisi.');
+
+  const item = {
+    title,
+    year: Number(releaseDate.slice(0, 4)),
+    releaseDate,
+    type: document.getElementById('type').value,
+    spotifyId,
+    spotifyTrackId,
+    cover: cleanValue(document.getElementById('cover').value),
+    artist: document.getElementById('artist').value.trim(),
+  };
+
+  const appleId = cleanValue(document.getElementById('appleId').value);
+  if (appleId) item.appleId = appleId;
+
+  const platformMeta = {};
+  ['youtubeId', 'youtubeMusicId', 'appleUrl', 'deezerTrackId'].forEach(id => {
+    const value = cleanValue(document.getElementById(id).value);
+    if (value) platformMeta[id] = value;
+  });
+
+  return { item, platformMeta };
+}
+
+async function saveDatabase(message) {
+  const config = getConfig();
+  if (!databaseSha) throw new Error('Database belum dimuat dari GitHub.');
+
+  const content = JSON.stringify(database, null, 2) + '\n';
+  const result = await githubRequest(githubApiUrl(config).replace(/\?ref=.*/, ''), {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      message,
+      content: encodeBase64Utf8(content),
+      sha: databaseSha,
+      branch: config.branch,
+    }),
+  }, config.token);
+  databaseSha = result.content?.sha || databaseSha;
+}
+
+els.loadBtn.addEventListener('click', async () => {
+  els.loadBtn.disabled = true;
+  setStatus(els.connectionStatus, 'Memuat database dari GitHub...');
+  try {
+    await loadDatabase();
+    setStatus(els.connectionStatus, 'Database berhasil dimuat.', 'ok');
+  } catch (error) {
+    setStatus(els.connectionStatus, error.message, 'error');
+  } finally {
+    els.loadBtn.disabled = false;
+  }
+});
+
+els.clearTokenBtn.addEventListener('click', () => {
+  sessionStorage.removeItem('discography_admin_token');
+  els.token.value = '';
+  setStatus(els.connectionStatus, 'Token sesi dihapus.');
+});
+
+els.tableSearch.addEventListener('input', () => {
+  if (database) renderSummary();
+});
+
+els.refreshTableBtn.addEventListener('click', async () => {
+  els.refreshTableBtn.disabled = true;
+  setStatus(els.summary, 'Memuat ulang database...');
+  try {
+    await loadDatabase();
+  } catch (error) {
+    setStatus(els.summary, error.message, 'error');
+  } finally {
+    els.refreshTableBtn.disabled = false;
+  }
+});
+
+els.discographyRows.addEventListener('click', async (event) => {
+  const button = event.target.closest('button[data-action]');
+  if (!button) return;
+  const index = Number(button.dataset.index);
+  const item = database?.discography[index];
+  if (!item) return;
+
+  if (button.dataset.action === 'edit') {
+    fillFormForEdit(index);
+    return;
+  }
+
+  if (button.dataset.action === 'delete') {
+    const ok = confirm(`Hapus "${item.title}" dari database dan commit perubahan?`);
+    if (!ok) return;
+
+    button.disabled = true;
+    try {
+      const removed = database.discography.splice(index, 1)[0];
+      if (removed?.title && database.platformMetadata[removed.title]) {
+        delete database.platformMetadata[removed.title];
+      }
+      await saveDatabase(`Remove discography release: ${removed.title}`);
+      if (editingIndex === index) {
+        els.form.reset();
+        clearEditMode();
+      }
+      renderSummary();
+      setStatus(els.saveStatus, `Rilisan "${removed.title}" berhasil dihapus dan dicommit.`, 'ok');
+    } catch (error) {
+      setStatus(els.saveStatus, error.message, 'error');
+      await loadDatabase().catch(() => {});
+    }
+  }
+});
+
+els.cancelEditBtn.addEventListener('click', () => {
+  els.form.reset();
+  document.getElementById('type').value = 'Kolaborasi';
+  clearEditMode();
+  setStatus(els.saveStatus, 'Mode edit dibatalkan.');
+});
+
+els.form.addEventListener('reset', () => {
+  setTimeout(() => {
+    document.getElementById('type').value = 'Kolaborasi';
+    clearEditMode();
+  }, 0);
+});
+
+els.form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const saveBtn = document.getElementById('saveBtn');
+  saveBtn.disabled = true;
+  setStatus(els.saveStatus, 'Menyiapkan data...');
+  try {
+    if (!database) await loadDatabase();
+    const { item, platformMeta } = buildReleaseFromForm();
+    const duplicate = database.discography.find((existing, index) => index !== editingIndex && existing.title === item.title && existing.artist === item.artist);
+    if (duplicate && !confirm('Judul dan artist yang sama sudah ada. Tetap tambahkan?')) return;
+
+    if (editingIndex === null) {
+      database.discography.unshift(item);
+    } else {
+      database.discography[editingIndex] = item;
+      if (editingOriginalTitle && editingOriginalTitle !== item.title && database.platformMetadata[editingOriginalTitle]) {
+        delete database.platformMetadata[editingOriginalTitle];
+      }
+    }
+
+    if (Object.keys(platformMeta).length > 0) {
+      database.platformMetadata[item.title] = {
+        ...(database.platformMetadata[item.title] || {}),
+        ...platformMeta,
+      };
+    } else if (editingIndex !== null && database.platformMetadata[item.title]) {
+      delete database.platformMetadata[item.title];
+    }
+
+    const action = editingIndex === null ? 'Add' : 'Update';
+    await saveDatabase(`${action} discography release: ${item.title}`);
+    setStatus(els.saveStatus, `Rilisan "${item.title}" berhasil ${editingIndex === null ? 'ditambahkan' : 'diperbarui'} dan dicommit.`, 'ok');
+    await loadDatabase();
+    els.form.reset();
+    document.getElementById('type').value = 'Kolaborasi';
+    clearEditMode();
+  } catch (error) {
+    setStatus(els.saveStatus, error.message, 'error');
+  } finally {
+    saveBtn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>

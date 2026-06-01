@@ -159,30 +159,14 @@
   </header>
 
   <section class="panel">
-    <h2>Koneksi GitHub</h2>
-    <div class="grid">
-      <label>GitHub token
-        <input id="token" type="password" autocomplete="off" placeholder="Fine-grained token dengan Contents: Read and write">
-      </label>
-      <label>Branch
-        <input id="branch" value="main">
-      </label>
-      <label>Owner
-        <input id="owner" value="hasbilh">
-      </label>
-      <label>Repository
-        <input id="repo" value="hasbilh.github.io">
-      </label>
-      <label class="span-2">Path database
-        <input id="path" value="data/discography.json">
-      </label>
-    </div>
-    <p class="note">Token tidak ditanam di kode dan hanya disimpan di sesi browser. Buat token di GitHub dengan akses repository ini dan permission <strong>Contents: Read and write</strong>.</p>
+    <h2>Login Admin</h2>
+    <p class="note">Login memakai GitHub OAuth lewat backend Cloudflare Worker. GitHub token dan OAuth secret disimpan di Worker, bukan di browser.</p>
     <div class="actions">
-      <button id="loadBtn" type="button">Load Database</button>
-      <button id="clearTokenBtn" class="secondary" type="button">Hapus Token Sesi</button>
+      <button id="loginBtn" type="button">Login with GitHub</button>
+      <button id="loadBtn" class="secondary" type="button">Load Database</button>
+      <button id="logoutBtn" class="secondary" type="button">Logout</button>
     </div>
-    <div id="connectionStatus" class="status">Belum terhubung.</div>
+    <div id="connectionStatus" class="status">Belum login.</div>
   </section>
 
   <section class="panel">
@@ -260,14 +244,12 @@
 </main>
 
 <script>
+const API_BASE = 'https://hasbi-discography-api.21stvengenz.workers.dev/';
+
 const els = {
-  token: document.getElementById('token'),
-  owner: document.getElementById('owner'),
-  repo: document.getElementById('repo'),
-  branch: document.getElementById('branch'),
-  path: document.getElementById('path'),
+  loginBtn: document.getElementById('loginBtn'),
   loadBtn: document.getElementById('loadBtn'),
-  clearTokenBtn: document.getElementById('clearTokenBtn'),
+  logoutBtn: document.getElementById('logoutBtn'),
   connectionStatus: document.getElementById('connectionStatus'),
   form: document.getElementById('releaseForm'),
   saveStatus: document.getElementById('saveStatus'),
@@ -280,80 +262,56 @@ const els = {
 };
 
 let database = null;
-let databaseSha = null;
 let editingIndex = null;
 let editingOriginalTitle = null;
+let sessionToken = sessionStorage.getItem('discography_admin_session') || '';
 
-const savedConfig = JSON.parse(sessionStorage.getItem('discography_admin_config') || '{}');
-['owner', 'repo', 'branch', 'path'].forEach(key => {
-  if (savedConfig[key]) els[key].value = savedConfig[key];
-});
-els.token.value = sessionStorage.getItem('discography_admin_token') || '';
+const callbackSession = new URLSearchParams(window.location.search).get('session');
+if (callbackSession) {
+  sessionToken = callbackSession;
+  sessionStorage.setItem('discography_admin_session', sessionToken);
+  window.history.replaceState({}, document.title, window.location.pathname);
+}
 
 function setStatus(el, message, kind) {
   el.textContent = message;
   el.className = 'status' + (kind ? ` ${kind}` : '');
 }
 
-function getConfig() {
-  const config = {
-    token: els.token.value.trim(),
-    owner: els.owner.value.trim(),
-    repo: els.repo.value.trim(),
-    branch: els.branch.value.trim(),
-    path: els.path.value.trim(),
+function ensureConfigured() {
+  if (API_BASE.includes('NAMA-AKUN')) {
+    throw new Error('API_BASE belum diisi. Edit admin/index.html dan ganti URL Worker terlebih dahulu.');
+  }
+}
+
+function authHeaders(extra = {}) {
+  if (!sessionToken) throw new Error('Login GitHub diperlukan.');
+  return {
+    Authorization: `Bearer ${sessionToken}`,
+    ...extra,
   };
-  sessionStorage.setItem('discography_admin_token', config.token);
-  sessionStorage.setItem('discography_admin_config', JSON.stringify({
-    owner: config.owner,
-    repo: config.repo,
-    branch: config.branch,
-    path: config.path,
-  }));
-  return config;
 }
 
-function githubApiUrl(config) {
-  return `https://api.github.com/repos/${encodeURIComponent(config.owner)}/${encodeURIComponent(config.repo)}/contents/${config.path.split('/').map(encodeURIComponent).join('/')}?ref=${encodeURIComponent(config.branch)}`;
-}
-
-function decodeBase64Utf8(value) {
-  const binary = atob(value.replace(/\s/g, ''));
-  const bytes = Uint8Array.from(binary, char => char.charCodeAt(0));
-  return new TextDecoder().decode(bytes);
-}
-
-function encodeBase64Utf8(value) {
-  const bytes = new TextEncoder().encode(value);
-  let binary = '';
-  bytes.forEach(byte => binary += String.fromCharCode(byte));
-  return btoa(binary);
-}
-
-async function githubRequest(url, options, token) {
-  const response = await fetch(url, {
+async function apiRequest(path, options = {}) {
+  ensureConfigured();
+  const response = await fetch(`${API_BASE}${path}`, {
     ...options,
     headers: {
-      Accept: 'application/vnd.github+json',
-      Authorization: `Bearer ${token}`,
-      'X-GitHub-Api-Version': '2022-11-28',
-      ...(options && options.headers ? options.headers : {}),
+      ...(options.headers || {}),
     },
   });
   const body = await response.json().catch(() => ({}));
   if (!response.ok) {
-    throw new Error(body.message || `GitHub API error ${response.status}`);
+    throw new Error(body.error || `API error ${response.status}`);
   }
   return body;
 }
 
 async function loadDatabase() {
-  const config = getConfig();
-  if (!config.token) throw new Error('GitHub token wajib diisi untuk membaca dan menyimpan database.');
-
-  const body = await githubRequest(githubApiUrl(config), { method: 'GET' }, config.token);
-  databaseSha = body.sha;
-  database = JSON.parse(decodeBase64Utf8(body.content));
+  database = await apiRequest('/discography', {
+    method: 'GET',
+    headers: authHeaders(),
+  });
   if (!Array.isArray(database.discography)) database.discography = [];
   if (!database.platformMetadata || typeof database.platformMetadata !== 'object') database.platformMetadata = {};
   renderSummary();
@@ -369,7 +327,7 @@ function renderSummary() {
     ? items.filter(({ item }) => [item.title, item.artist, item.type, item.year, item.releaseDate].join(' ').toLowerCase().includes(query))
     : items;
 
-  setStatus(els.summary, `${items.length} rilisan dimuat dari ${els.path.value}.`, 'ok');
+  setStatus(els.summary, `${items.length} rilisan dimuat dari data/discography.json.`, 'ok');
   els.discographyRows.innerHTML = visibleItems.map(({ item, index }) => `
     <tr>
       <td>${escapeHtml(item.title || '')}</td>
@@ -480,26 +438,48 @@ function buildReleaseFromForm() {
 }
 
 async function saveDatabase(message) {
-  const config = getConfig();
-  if (!databaseSha) throw new Error('Database belum dimuat dari GitHub.');
-
-  const content = JSON.stringify(database, null, 2) + '\n';
-  const result = await githubRequest(githubApiUrl(config).replace(/\?ref=.*/, ''), {
+  if (!database) throw new Error('Database belum dimuat.');
+  await apiRequest('/discography', {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: authHeaders({ 'Content-Type': 'application/json' }),
     body: JSON.stringify({
-      message,
-      content: encodeBase64Utf8(content),
-      sha: databaseSha,
-      branch: config.branch,
+      ...database,
+      commitMessage: message,
     }),
-  }, config.token);
-  databaseSha = result.content?.sha || databaseSha;
+  });
 }
+
+async function checkSession() {
+  if (!sessionToken) {
+    setStatus(els.connectionStatus, 'Belum login.');
+    return;
+  }
+  try {
+    const me = await apiRequest('/me', {
+      method: 'GET',
+      headers: authHeaders(),
+    });
+    const expiry = me.expiresAt ? new Date(me.expiresAt * 1000).toLocaleString('id-ID') : 'tidak diketahui';
+    setStatus(els.connectionStatus, `Login sebagai ${me.login}. Session berlaku sampai ${expiry}.`, 'ok');
+  } catch (error) {
+    sessionToken = '';
+    sessionStorage.removeItem('discography_admin_session');
+    setStatus(els.connectionStatus, error.message, 'error');
+  }
+}
+
+els.loginBtn.addEventListener('click', () => {
+  try {
+    ensureConfigured();
+    window.location.href = `${API_BASE}/auth/github/start`;
+  } catch (error) {
+    setStatus(els.connectionStatus, error.message, 'error');
+  }
+});
 
 els.loadBtn.addEventListener('click', async () => {
   els.loadBtn.disabled = true;
-  setStatus(els.connectionStatus, 'Memuat database dari GitHub...');
+  setStatus(els.connectionStatus, 'Memuat database...');
   try {
     await loadDatabase();
     setStatus(els.connectionStatus, 'Database berhasil dimuat.', 'ok');
@@ -510,10 +490,13 @@ els.loadBtn.addEventListener('click', async () => {
   }
 });
 
-els.clearTokenBtn.addEventListener('click', () => {
-  sessionStorage.removeItem('discography_admin_token');
-  els.token.value = '';
-  setStatus(els.connectionStatus, 'Token sesi dihapus.');
+els.logoutBtn.addEventListener('click', () => {
+  sessionToken = '';
+  database = null;
+  sessionStorage.removeItem('discography_admin_session');
+  els.discographyRows.innerHTML = '';
+  setStatus(els.connectionStatus, 'Logout berhasil.');
+  setStatus(els.summary, 'Database belum dimuat.');
 });
 
 els.tableSearch.addEventListener('input', () => {
@@ -624,6 +607,8 @@ els.form.addEventListener('submit', async (event) => {
     saveBtn.disabled = false;
   }
 });
+
+checkSession();
 </script>
 </body>
 </html>

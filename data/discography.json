@@ -1165,17 +1165,17 @@
       "year": 2026,
       "releaseDate": "2026-05-16",
       "type": "Artis Lain",
-      "spotifyId": null,
+      "spotifyId": "0bOjeiPIRDz7ugErTAL0Cd",
       "spotifyTrackId": "3Vy7BIvjkzciQdKm9PgsBs",
       "cover": null,
       "artist": "Nandemo-san",
+      "album": "Single",
       "songwriters": "Hasbi Labib Herfitta, Ilma Hanifah",
       "composer": "Hasbi Labib Herfitta",
       "producer": "Hasbi LH",
-      "creditsSourceUrl": "https://www.shazam.com/song/6766594427/bebas",
-      "album": "Single",
       "mixing": "Hasbi LH",
-      "mastering": "Hasbi LH"
+      "mastering": "Hasbi LH",
+      "studioLabel": "Eruharecords"
     },
     {
       "title": "Bebas (Instrumental)",
@@ -2144,7 +2144,8 @@
       "appleUrl": "https://music.apple.com/id/album/bebas/6766594426?i=6766594427&uo=4",
       "appleTrackId": "6766594427",
       "appleAlbumId": "6766594426",
-      "deezerTrackId": "4003366001"
+      "deezerTrackId": "4003366001",
+      "youtubeId": "xjZfIKHs7RA"
     },
     "Bebas (Instrumental)": {
       "youtubeMusicId": "jnLZQvlfquQ",

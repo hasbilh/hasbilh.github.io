@@ -1,4 +1,4 @@
-﻿{
+{
     "discography":  [
                         {
                             "title":  "Cathy! Cathy! Cathy!",
@@ -11,7 +11,11 @@
                             "artist":  "Hasbi LH",
                             "songwriters":  "Hasbi Labib Herfitta",
                             "composer":  "Hasbi Labib Herfitta",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1818993668/cathy-cathy-cathy"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1818993668/cathy-cathy-cathy",
+                            "album":  "Single",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Cathy! Cathy! Cathy! - Instrumental",
@@ -24,7 +28,11 @@
                             "artist":  "Hasbi LH",
                             "songwriters":  "Hasbi Labib Herfitta",
                             "composer":  "Hasbi Labib Herfitta",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1818993669/cathy-cathy-cathy-instrumental"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1818993669/cathy-cathy-cathy-instrumental",
+                            "album":  "Single",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Greesel Lutuna - Radio Edit",
@@ -38,7 +46,10 @@
                             "songwriters":  "Hasbi Labib Herfitta",
                             "composer":  "Hasbi Labib Herfitta",
                             "producer":  "Hasbi LH",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1877756554/greesel-lutuna-radio-edit"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1877756554/greesel-lutuna-radio-edit",
+                            "album":  "UG",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Greesel Lutuna Part 2: Angan Terindah",
@@ -52,7 +63,10 @@
                             "songwriters":  "Hasbi Labib Herfitta",
                             "composer":  "Hasbi Labib Herfitta",
                             "producer":  "Hasbi LH",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1877756551/greesel-lutuna-part-2-angan-terindah"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1877756551/greesel-lutuna-part-2-angan-terindah",
+                            "album":  "UG",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Keberanian - Instrumental",
@@ -62,7 +76,13 @@
                             "spotifyId":  "3b2kFlzCB8ksjtXoUmO70o",
                             "spotifyTrackId":  "0ggD0QzXWOeRDKMERV3aVm",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e02a855fe1fbeb7cbd0882bd1bc",
-                            "artist":  "Hasbi LH"
+                            "artist":  "Hasbi LH",
+                            "album":  "UG",
+                            "songwriters":  "Hasbi Labib Herfitta",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Teruslah Melangkah",
@@ -72,7 +92,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "3hq9lO6bpsIIKkvQpGOcJJ",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e022ddf071e8930da638111c695",
-                            "artist":  "Hasbi LH"
+                            "artist":  "Hasbi LH",
+                            "album":  "Single",
+                            "songwriters":  "Hasbi Labib Herfitta",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Oline in Love with You",
@@ -82,7 +108,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "2lMDD3u2QxIVJQzOWY3oAc",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e02a83db673825313aed77ec1f3",
-                            "artist":  "Hasbi LH"
+                            "artist":  "Hasbi LH",
+                            "album":  "Single",
+                            "songwriters":  "Hasbi Labib Herfitta, Brawas Handoko",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Terkunang-kunang",
@@ -93,10 +125,13 @@
                             "spotifyTrackId":  "6SXWhnGWFFrEp1C51Y7F0c",
                             "cover":  null,
                             "artist":  "Hasbi LH",
-                            "songwriters":  "Hasbi Labib Herfitta, Leonarie Pangemanan",
+                            "songwriters":  "Hasbi Labib Herfitta",
                             "composer":  "Hasbi Labib Herfitta, Leonarie Pangemanan",
                             "producer":  "Hasbi LH",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1771112233/terkunang-kunang"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1771112233/terkunang-kunang",
+                            "album":  "Single, UG",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Greesel Lutuna - Acoustic",
@@ -110,7 +145,10 @@
                             "songwriters":  "Hasbi Labib Herfitta",
                             "composer":  "Hasbi Labib Herfitta",
                             "producer":  "Hasbi LH",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1877756550/greesel-lutuna-acoustic"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1877756550/greesel-lutuna-acoustic",
+                            "album":  "Single, UG",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Greesel Lutuna",
@@ -124,7 +162,10 @@
                             "songwriters":  "Hasbi Labib Herfitta",
                             "composer":  "Hasbi Labib Herfitta",
                             "producer":  "Hasbi LH",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1745706713/greesel-lutuna"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1745706713/greesel-lutuna",
+                            "album":  "Single, UG",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Chik",
@@ -135,10 +176,13 @@
                             "spotifyTrackId":  "68XLPtCIhBMPHa0XVdjwQU",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e02470df6147c8f7104a670bd03",
                             "artist":  "Hasbi LH",
-                            "songwriters":  "Hasbi Labib Herfitta",
+                            "songwriters":  "Hasbi Labib Herfitta, Wahyu Arie Prasetyo",
                             "composer":  "Hasbi Labib Herfitta",
                             "producer":  "Hasbi LH",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1705189426/chik"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1705189426/chik",
+                            "album":  "Single",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Siapa yang Flora",
@@ -148,7 +192,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "0vip5iTDjaYDLwdx0y4jmM",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e029b004b13cf78e1f186b724b5",
-                            "artist":  "Hasbi LH"
+                            "artist":  "Hasbi LH",
+                            "album":  "Single",
+                            "songwriters":  "Hasbi Labib Herfitta",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Wake Me Up From The Night",
@@ -161,8 +211,11 @@
                             "artist":  "Hasbi LH",
                             "songwriters":  "Hasbi Labib Herfitta",
                             "composer":  "Hasbi Labib Herfitta",
-                            "producer":  "THE KONS",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1588385329/wake-me-up-from-the-night"
+                            "producer":  "Hasbi LH",
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1588385329/wake-me-up-from-the-night",
+                            "album":  "Ost. Nostalgi",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Kiamat Kubro",
@@ -175,8 +228,11 @@
                             "artist":  "Hasbi LH",
                             "songwriters":  "Hasbi Labib Herfitta",
                             "composer":  "Hasbi Labib Herfitta",
-                            "producer":  "THE KONS",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1588385331/kiamat-kubro"
+                            "producer":  "Hasbi LH",
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1588385331/kiamat-kubro",
+                            "album":  "Ost. Nostalgi",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Dying Experience",
@@ -189,8 +245,11 @@
                             "artist":  "Hasbi LH",
                             "songwriters":  "Hasbi Labib Herfitta",
                             "composer":  "Hasbi Labib Herfitta",
-                            "producer":  "THE KONS",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1588385332/dying-experience"
+                            "producer":  "Hasbi LH",
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1588385332/dying-experience",
+                            "album":  "Ost. Nostalgi",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Lebih Dari Ini",
@@ -200,7 +259,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "1uhH5UYxJ2UPn4lZ5piYbM",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e0237e15800b9f065480ff6d93f",
-                            "artist":  "Hasbi LH"
+                            "artist":  "Hasbi LH",
+                            "album":  "Single",
+                            "songwriters":  "Hasbi Labib Herfitta",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Sunrise",
@@ -213,7 +278,11 @@
                             "artist":  "Hasbi LH",
                             "songwriters":  "Hasbi Labib Herfitta",
                             "composer":  "Hasbi Labib Herfitta",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1694663396/sunrise"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1694663396/sunrise",
+                            "album":  "Single",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Pelan-pelan",
@@ -226,7 +295,11 @@
                             "artist":  "Hasbi LH",
                             "songwriters":  "Hasbi Labib Herfitta",
                             "composer":  "Hasbi Labib Herfitta",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1707019417/pelan-pelan"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1707019417/pelan-pelan",
+                            "album":  "Single",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Jemima Idola Semua",
@@ -240,7 +313,10 @@
                             "songwriters":  "Hasbi Labib Herfitta, Linggar Jabo Al-Hakeem",
                             "composer":  "Hasbi Labib Herfitta, Linggar Jabo Al-Hakeem",
                             "producer":  "Hasbi LH",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1880160338/jemima-idola-semua"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1880160338/jemima-idola-semua",
+                            "album":  "Single",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Kanvas Hariku",
@@ -252,9 +328,12 @@
                             "cover":  "https://i.scdn.co/image/ab67616d00001e021ccfd0203af66a4b017fdb25",
                             "artist":  "Hasbi LH, Degrees",
                             "songwriters":  "Hasbi Labib Herfitta, Brillian Galang Prayoga, Mohammad Ryansa, Ali Syariati Hasyim, Luthfi Haidar Rusli, Linggar Jabo Al-Hakeem, Sekar Putri Khalisha",
-                            "composer":  "Hasbi Labib Herfitta, Brillian Galang Prayoga, Mohammad Ryansa, Ali Syariati Hasyim, Luthfi Haidar Rusli, Linggar Jabo Al-Hakeem, Sekar Putri Khalisha",
+                            "composer":  "Hasbi Labib Herfitta",
                             "producer":  "Hasbi LH",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1866679055/kanvas-hariku"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1866679055/kanvas-hariku",
+                            "album":  "Single",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Freya",
@@ -266,9 +345,12 @@
                             "cover":  "https://i.scdn.co/image/ab67616d00001e020e5b16843d0eff500448ce88",
                             "artist":  "Nares Area, Hasbi LH",
                             "songwriters":  "Hasbi Labib Herfitta, Linggar Jabo Al-Hakeem, Raden Nareswara Buana Pradipta Yuwono",
-                            "composer":  "Hasbi Labib Herfitta, Linggar Jabo Al-Hakeem, Raden Nareswara Buana Pradipta Yuwono",
+                            "composer":  "Hasbi Labib Herfitta",
                             "producer":  "Hasbi LH",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1875324492/freya"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1875324492/freya",
+                            "album":  "Single",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Selamat Malam Intan",
@@ -279,10 +361,13 @@
                             "spotifyTrackId":  "7rSGiEaYiamrLNMrGPnaDP",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e02dd70398558d16661953dfc32",
                             "artist":  "Tayateya, Hasbi LH",
-                            "songwriters":  "Hasbi Labib Herfitta, Zahra Annisa Hamid",
-                            "composer":  "Hasbi Labib Herfitta, Zahra Annisa Hamid",
+                            "songwriters":  "Hasbi Labib Herfitta, A. Zahra Annisa Hamid",
+                            "composer":  "Hasbi Labib Herfitta, A. Zahra Annisa Hamid",
                             "producer":  "Hasbi LH",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1876291162/selamat-malam-intan"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1876291162/selamat-malam-intan",
+                            "album":  "Single",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Kenalan",
@@ -293,7 +378,13 @@
                             "spotifyTrackId":  null,
                             "cover":  null,
                             "artist":  "Fikgi Tanumihardja, Hasbi LH",
-                            "appleId":  "1888276026"
+                            "appleId":  "1888276026",
+                            "album":  "Single",
+                            "songwriters":  "Hasbi Labib Herfitta, Fikgi Perdana Putra, Linggar Jabo Al Hakeem",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "MnG",
@@ -307,7 +398,10 @@
                             "songwriters":  "Hasbi Labib Herfitta, Gading Pangukir",
                             "composer":  "Hasbi Labib Herfitta, Gading Pangukir",
                             "producer":  "Hasbi LH",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/6773400644/mng"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/6773400644/mng",
+                            "album":  "Single",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Greesel Lutuna Part 3: Icel Only",
@@ -321,7 +415,10 @@
                             "songwriters":  "Hasbi Labib Herfitta",
                             "composer":  "Hasbi Labib Herfitta",
                             "producer":  "Hasbi LH",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1877756795/greesel-lutuna-part-3-icel-only"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1877756795/greesel-lutuna-part-3-icel-only",
+                            "album":  "UG",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Keberanian",
@@ -331,7 +428,13 @@
                             "spotifyId":  "3b2kFlzCB8ksjtXoUmO70o",
                             "spotifyTrackId":  "6Il2zRE2Dh3bnuETD9GywR",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e02a855fe1fbeb7cbd0882bd1bc",
-                            "artist":  "Hasbi LH, Arienovs"
+                            "artist":  "Hasbi LH, Arienovs",
+                            "album":  "UG",
+                            "songwriters":  "Hasbi Labib Herfitta",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Terkunang-kunang - Remix",
@@ -342,10 +445,13 @@
                             "spotifyTrackId":  "35mZ2vF88gbCr7W324FNfR",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e02a855fe1fbeb7cbd0882bd1bc",
                             "artist":  "Hasbi LH, Leonarie",
-                            "songwriters":  "Hasbi Labib Herfitta",
+                            "songwriters":  "Hasbi Labib Herfitta, Leonarie Pangemanan",
                             "composer":  "Hasbi Labib Herfitta",
                             "producer":  "Hasbi LH",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1877756552/terkunang-kunang-remix"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1877756552/terkunang-kunang-remix",
+                            "album":  "UG",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Berkelana Lagi",
@@ -359,7 +465,10 @@
                             "songwriters":  "Hasbi Labib Herfitta, Linggar Jabo Al-Hakeem",
                             "composer":  "Hasbi Labib Herfitta, Linggar Jabo Al-Hakeem",
                             "producer":  "Hasbi LH",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1837076271/berkelana-lagi"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1837076271/berkelana-lagi",
+                            "album":  "Single",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Lagu Kedua Untuk Delynn",
@@ -370,10 +479,13 @@
                             "spotifyTrackId":  "1YpYuOAiI7npeIQPhUHQUk",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e023660247ab67bca39bf686aad",
                             "artist":  "Hasbi LH, Linggar Jabo",
-                            "songwriters":  "Linggar Jabo, Hasbi Labib Herfitta",
+                            "songwriters":  "Linggar Jabo Al-Hakeem, Hasbi Labib Herfitta",
                             "composer":  "Linggar Jabo, Hasbi Labib Herfitta",
                             "producer":  "Hasbi LH",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1867463669/lagu-kedua-untuk-delynn"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1867463669/lagu-kedua-untuk-delynn",
+                            "album":  "Single",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Ekin",
@@ -383,7 +495,13 @@
                             "spotifyId":  "0CE5lDgxV3DExFRAb00wyy",
                             "spotifyTrackId":  "5n7wXEKhaAGR88sAEJiuJ1",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e02da670ff3274bd0f57b5d0bc6",
-                            "artist":  "Hasbi LH, Linggar Jabo"
+                            "artist":  "Hasbi LH, Linggar Jabo",
+                            "album":  "Single",
+                            "songwriters":  "Hasbi Labib Herfitta, Linggar Jabo Al-Hakeem",
+                            "composer":  "Hasbi Labib Herfitta, Linggar Jabo Al-Hakeem",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Kutemukan Cahaya (Nur Intan)",
@@ -393,7 +511,13 @@
                             "spotifyId":  "7Lp3FNAisPiUtSsCjR6r9U",
                             "spotifyTrackId":  "6hl6cY5mfC8ungpnZ6oX1f",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e0279c9cd766bb691391c77b4fb",
-                            "artist":  "Hasbi LH, Linggar Jabo, Ihza Mamta"
+                            "artist":  "Hasbi LH, Linggar Jabo, Ihza Mamta",
+                            "album":  "Single",
+                            "songwriters":  "Hasbi Labib Herfitta, Linggar Jabo Al-Hakeem, Ihza Mamta Mushaffa",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Serigala Tangguh",
@@ -406,7 +530,11 @@
                             "artist":  "AuLavana, Hasbi LH, Linggar Jabo",
                             "songwriters":  "Hasbi Labib Herfitta",
                             "composer":  "Hasbi Labib Herfitta",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1827656421/serigala-tangguh"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1827656421/serigala-tangguh",
+                            "album":  "Single",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Seperti Teka Teki (STT)",
@@ -416,7 +544,13 @@
                             "spotifyId":  "3BRoNkvBfb5ErNvcP5ECfB",
                             "spotifyTrackId":  "6izihi34i6IK4bhuBBFXf4",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e02e20a3f347397d3a283bf9f58",
-                            "artist":  "Linggar Jabo, Hasbi LH"
+                            "artist":  "Linggar Jabo, Hasbi LH",
+                            "album":  "Single",
+                            "songwriters":  "Linggar Jabo Al-Hakeem, Hasbi Labib Herfitta",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Oline Deeper",
@@ -428,9 +562,12 @@
                             "cover":  "https://i.scdn.co/image/ab67616d00001e0213e7ad078cd6a38340c602f7",
                             "artist":  "vxeds, Hasbi LH",
                             "songwriters":  "Hasbi Labib Herfitta, Muhammad Abdullah Rizqi",
-                            "composer":  "Hasbi Labib Herfitta, Muhammad Abdullah Rizqi",
+                            "composer":  "Hasbi Labib Herfitta",
                             "producer":  "Hasbi LH",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1850961007/oline-deeper"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1850961007/oline-deeper",
+                            "album":  "Single",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Temani Perjalanan",
@@ -442,9 +579,12 @@
                             "cover":  "https://i.scdn.co/image/ab67616d00001e023508451773f52eb3af02100b",
                             "artist":  "Hillaryours, Hasbi LH, Linggar Jabo, thisiskowalski, Asa",
                             "songwriters":  "Hasbi Labib Herfitta, Linggar Jabo Al-Hakeem, Gading Pangukir, Afifah Indah Syafitri, Prastyo Andi",
-                            "composer":  "Hasbi Labib Herfitta, Linggar Jabo Al-Hakeem, Gading Pangukir, Afifah Indah Syafitri, Prastyo Andi",
+                            "composer":  "Hasbi Labib Herfitta, Linggar Jabo Al-Hakeem",
                             "producer":  "Hasbi LH",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1847162101/temani-perjalanan"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1847162101/temani-perjalanan",
+                            "album":  "Temani Perjalanan",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Bintang Panggungnya",
@@ -457,9 +597,12 @@
                             "artist":  "Nauu, Hasbi LH",
                             "appleId":  "1851830081",
                             "songwriters":  "Hasbi Labib Herfitta, Naufal Rajwa Dwiyana Athallah",
-                            "composer":  "Hasbi Labib Herfitta, Naufal Rajwa Dwiyana Athallah",
+                            "composer":  "Hasbi Labib Herfitta",
                             "producer":  "Hasbi LH",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1851830083/bintang-panggungnya"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1851830083/bintang-panggungnya",
+                            "album":  "Single",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "hiatus",
@@ -469,7 +612,13 @@
                             "spotifyId":  "7LrrYd2f2bY39dUPwrJ62D",
                             "spotifyTrackId":  "3kohUEcFeNTzma6T7L9RbF",
                             "cover":  null,
-                            "artist":  "Hasbi LH, Andre Ibrahim, Ihza Mamta, Linggar Jabo, Brawas Handoko, Farhan Pamungkas"
+                            "artist":  "Hasbi LH, Andre Ibrahim, Ihza Mamta, Linggar Jabo, Brawas Handoko, Farhan Pamungkas",
+                            "album":  "Single, UG",
+                            "songwriters":  "Hasbi Labib Herfitta, Andre Rizal Ibrahim",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Makin Cornelia",
@@ -479,7 +628,13 @@
                             "spotifyId":  "6CdEUnaXyYhf1GZb0lnsuZ",
                             "spotifyTrackId":  "1abzS8Jxmre7xpWD2PESo6",
                             "cover":  null,
-                            "artist":  "Linggar Jabo, Hasbi LH, Pinandito Prajamukti"
+                            "artist":  "Linggar Jabo, Hasbi LH, Pinandito Prajamukti",
+                            "album":  "Single",
+                            "songwriters":  "Linggar Jabo Al-Hakeem, Hasbi Labib Herfitta",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Aralie",
@@ -489,7 +644,13 @@
                             "spotifyId":  "2mhkph14ACNHHsjxRGBnvr",
                             "spotifyTrackId":  "1SAXsimX1JtUXNh5iEdNAG",
                             "cover":  null,
-                            "artist":  "Hasbi LH, Ihza Mamta"
+                            "artist":  "Hasbi LH, Ihza Mamta",
+                            "album":  "Single",
+                            "songwriters":  "Hasbi Labib Herfitta, Ihza Mamta Mushaffa",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Catherina",
@@ -499,7 +660,13 @@
                             "spotifyId":  "2h2rxquKF0hFAFJoi3ahBS",
                             "spotifyTrackId":  "548M3VG876qJEFQHcA3zfZ",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e02a83db673825313aed77ec1f3",
-                            "artist":  "vxeds, Hasbi LH"
+                            "artist":  "vxeds, Hasbi LH",
+                            "album":  "Single",
+                            "songwriters":  "Hasbi Labib Herfitta, Muhammad Abdullah Rizqi",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Delynn",
@@ -509,7 +676,13 @@
                             "spotifyId":  "1kQpH2tvls9uunYpH9BAH8",
                             "spotifyTrackId":  "2PS7dcSCzON9niv6soIc1k",
                             "cover":  null,
-                            "artist":  "Hasbi LH, Linggar Jabo, Ihza Mamta, Andre Ibrahim"
+                            "artist":  "Hasbi LH, Linggar Jabo, Ihza Mamta, Andre Ibrahim",
+                            "album":  "Single",
+                            "songwriters":  "Hasbi Labib Herfitta, Linggar Jabo Al-Hakeem, Ihza Mamta Mushaffa",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Berkelana",
@@ -523,7 +696,10 @@
                             "songwriters":  "Hasbi Labib Herfitta, Linggar Jabo Al-Hakeem",
                             "composer":  "Hasbi Labib Herfitta, Linggar Jabo Al-Hakeem",
                             "producer":  "Hasbi LH",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1837076271/berkelana"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1837076271/berkelana",
+                            "album":  "Single",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Lilyttle girl",
@@ -534,9 +710,13 @@
                             "spotifyTrackId":  "5au87HPplH4zjx1ZMG4E13",
                             "cover":  null,
                             "artist":  "Hasbi LH, Linggar Jabo, Ihza Mamta",
-                            "songwriters":  "Hasbi Labib Herfitta",
+                            "songwriters":  "Hasbi Labib Herfitta, Linggar Jabo Al-Hakeem",
                             "composer":  "Hasbi Labib Herfitta",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1777387353/lilyttle-girl"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1777387353/lilyttle-girl",
+                            "album":  "Single",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Kimmy no Koto ga",
@@ -546,7 +726,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "0Zbs58WlGWGdHL4q5EuaN7",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e022d76bd063ae0fc699595c562",
-                            "artist":  "Anisa Dwila, Hasbi LH, Arienovs"
+                            "artist":  "Anisa Dwila, Hasbi LH, Arienovs",
+                            "album":  "Single",
+                            "songwriters":  "Hasbi Labib Herfitta, Wahyu Arie Prasetyo, Anisa Dwila Nursari",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Chalista",
@@ -557,7 +743,13 @@
                             "spotifyTrackId":  null,
                             "cover":  null,
                             "artist":  "ChalistaR, Hasbi LH",
-                            "appleId":  "1751070144"
+                            "appleId":  "1751070144",
+                            "album":  "Single",
+                            "songwriters":  "Hasbi Labib Herfitta",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "merindu",
@@ -567,7 +759,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "1i09HCzfVPI7GwX28reJt5",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e0227fb94105b9adf9eeb3655ec",
-                            "artist":  "Brawas Handoko, Hasbi LH"
+                            "artist":  "Brawas Handoko, Hasbi LH",
+                            "album":  "Single",
+                            "songwriters":  "Brawas Handoko Surenglaga, Linggar Jabo Al-Hakeem",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "kue tahun lalu",
@@ -577,7 +775,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "5IihvHUEAmNBwlhWpjxFBx",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e027fccd1015e4857b14e60ac78",
-                            "artist":  "Andre Ibrahim, Hasbi LH"
+                            "artist":  "Andre Ibrahim, Hasbi LH",
+                            "album":  "Single",
+                            "songwriters":  "Andre Rizal Ibrahim",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Manda, Bolehkah?",
@@ -589,8 +793,12 @@
                             "cover":  "https://i.scdn.co/image/ab67616d00001e02218dfaa18f6449ec7cd2816e",
                             "artist":  "Hasbi LH, Leonarie",
                             "songwriters":  "Hasbi Labib Herfitta, Leonarie Pangemanan",
-                            "composer":  "Hasbi Labib Herfitta, Leonarie Pangemanan",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1710262949/manda-bolehkah"
+                            "composer":  "Hasbi Labib Herfitta",
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1710262949/manda-bolehkah",
+                            "album":  "Single",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Jyessica",
@@ -600,7 +808,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "625u8NXkD4xQ7a1YuX1o7X",
                             "cover":  null,
-                            "artist":  "Hasbi LH, Leonarie"
+                            "artist":  "Hasbi LH, Leonarie",
+                            "album":  "Single",
+                            "songwriters":  "Hasbi Labib Herfitta, Leonarie Pangemanan",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Kenalyn",
@@ -611,7 +825,13 @@
                             "spotifyTrackId":  "2qraEFQtvZoxHDtNk8mZTI",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e027870cc12d25798f7989c0e29",
                             "artist":  "Pinandito Prajamukti, Hasbi LH",
-                            "appleId":  "1721120352"
+                            "appleId":  "1721120352",
+                            "album":  "Single",
+                            "songwriters":  "Pinandito Prajamukti, Linggar Jabo Al-Hakeem",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Teman Baru Azizi",
@@ -621,7 +841,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "5oFwhOmCY0w3YZbjfX44mO",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e021de515ca663ac6840b358c75",
-                            "artist":  "Hasbi LH, Hanafi"
+                            "artist":  "Hasbi LH, Hanafi",
+                            "album":  "Single",
+                            "songwriters":  "Hasbi Labib Herfitta",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Cuitan Viona",
@@ -632,7 +858,13 @@
                             "spotifyTrackId":  "4mzgKMqqOvu2SHIMK94GQp",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e0227f8af9db4e421c570755ed0",
                             "artist":  "Anisa Dwila, Hasbi LH",
-                            "appleId":  "1546636267"
+                            "appleId":  "1546636267",
+                            "album":  "Single",
+                            "songwriters":  "Hasbi Labib Herfitta, Anisa Dwila Nursari",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Viona Fadrin",
@@ -642,7 +874,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "6u9730QseHGPgMVe7gjGFG",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e02cc1b96cd92a7cb5186f387da",
-                            "artist":  "Hasbi LH, Anisa Dwila"
+                            "artist":  "Hasbi LH, Anisa Dwila",
+                            "album":  "Single",
+                            "songwriters":  "Hasbi Labib Herfitta, Anisa Dwila Nursari",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Berbeda: Musikalisasi Puisi - Live Performance",
@@ -652,7 +890,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "7hMNQTMzk9oYROWINMWSP6",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e02f36c44be53bec32b667c1e3c",
-                            "artist":  "Hasbi LH, Ayuoctvn"
+                            "artist":  "Hasbi LH, Ayuoctvn",
+                            "album":  "Single",
+                            "songwriters":  "Hasbi Labib Herfitta, Ayu Octaviana",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Pulang",
@@ -662,7 +906,13 @@
                             "spotifyId":  "657NubdKutLmIfMxPirmvP",
                             "spotifyTrackId":  "0dkKignGdGGBSuwh6JVT5B",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e0246b829636e0635baa28e152d",
-                            "artist":  "Hasbi LH, Rizky Alvian"
+                            "artist":  "Hasbi LH, Rizky Alvian",
+                            "album":  "Single",
+                            "songwriters":  "Hasbi Labib Herfitta, Rizky Alvian",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Jarak",
@@ -672,7 +922,13 @@
                             "spotifyId":  "5n0Z9a3FEWPegjIZkDMRK1",
                             "spotifyTrackId":  "4lXVNKWGJ7b7cPMMXWpGjU",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e02dcaceed59080887b013ab099",
-                            "artist":  "Hasbi LH, Rizky Alvian, Ica"
+                            "artist":  "Hasbi LH, Rizky Alvian, Ica",
+                            "album":  "Single",
+                            "songwriters":  "Hasbi Labib Herfitta, Rizky Alvian",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Happy Birthday, Shania Gracia!",
@@ -682,7 +938,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "1eLEY3zV1bKySmu3K0m61q",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e02d21830dbdbead47800704c1a",
-                            "artist":  "Hasbi LH, Yanuar Prima, Ricky Abi Valentino"
+                            "artist":  "Hasbi LH, Yanuar Prima, Ricky Abi Valentino",
+                            "album":  "Single",
+                            "songwriters":  "Yanuar Primandanu",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Menyesal",
@@ -692,7 +954,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "2jwxFYtnUdg1bFQbHSohcL",
                             "cover":  null,
-                            "artist":  "RGH Project"
+                            "artist":  "RGH Project",
+                            "album":  "Single",
+                            "songwriters":  "Gilang Rama Hendrawan",
+                            "composer":  "Hasbi Labib Herfitta, Gilang Rama Hendrawan, Riki Okta Pradana",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Gilang Rama Hendrawan",
+                            "mastering":  "Gilang Rama Hendrawan"
                         },
                         {
                             "title":  "Terus Berlari",
@@ -703,9 +971,13 @@
                             "spotifyTrackId":  "3TjFMTqbcDQohOfqgscCeD",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e02523cff52238fe6fcea18ad82",
                             "artist":  "Pnkrs Project",
-                            "songwriters":  "Neno Warisman, Younky Soewarno",
-                            "composer":  "Neno Warisman, Younky Soewarno",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1482644125/terus-berlari"
+                            "songwriters":  "Wahyu Arie Prasetyo",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1482644125/terus-berlari",
+                            "album":  "Single",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Selamat Berkepala Dua",
@@ -715,7 +987,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "3BNZBEkzVigf5b6mExW8TB",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e0271dcf428aa018a94ec46df6c",
-                            "artist":  "Pnkrs Project"
+                            "artist":  "Pnkrs Project",
+                            "album":  "Single",
+                            "songwriters":  "Wahyu Arie Prasetyo",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Pengantar Mimpimu",
@@ -725,7 +1003,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "2d07BATOoyJXeCYeZJ22j3",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e02dad73c0ba881373359280baa",
-                            "artist":  "Pnkrs Project"
+                            "artist":  "Pnkrs Project",
+                            "album":  "Single",
+                            "songwriters":  "Wahyu Arie Prasetyo",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Si Kucing Kalem",
@@ -737,9 +1021,12 @@
                             "cover":  "https://i.scdn.co/image/ab67616d00001e02e3f0f3e258d38efaa19e1f69",
                             "artist":  "Pnkrs Project",
                             "songwriters":  "Wahyu Arie Prasetyo",
-                            "composer":  "Wahyu Arie Prasetyo",
+                            "composer":  "Hasbi Labib Herfitta",
                             "producer":  "Hasbi LH",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1705033572/si-kucing-kalem"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1705033572/si-kucing-kalem",
+                            "album":  "Single",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Sweet Victoria",
@@ -749,7 +1036,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "4dr1qjcW5T9UO8VOQGmzL0",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e02982d6dd5b400dee7c2e86a9e",
-                            "artist":  "Pnkrs Project"
+                            "artist":  "Pnkrs Project",
+                            "album":  "Single",
+                            "songwriters":  "Wahyu Arie Prasetyo",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Syair Semesta",
@@ -760,7 +1053,13 @@
                             "spotifyTrackId":  null,
                             "cover":  null,
                             "artist":  "Pnkrs Project, Taya, Hanafi, Anisa Dwila, Hasbi LH, Arienovs, Agspry",
-                            "appleId":  "1847164330"
+                            "appleId":  "1847164330",
+                            "album":  "Single",
+                            "songwriters":  "Hasbi Labib Herfitta, Wahyu Arie Prasetyo",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Sempurna",
@@ -771,7 +1070,13 @@
                             "spotifyTrackId":  "6uIxyc4NCfK3xdBQctQuaQ",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e024bbb040e3b60d996e5fb13e3",
                             "artist":  "Pnkrs Project, Taya, Hanafi, Anisa Dwila, Hasbi LH, Arienovs, Agspry",
-                            "appleId":  "1847164169"
+                            "appleId":  "1847164169",
+                            "album":  "Single",
+                            "songwriters":  "Hasbi Labib Herfitta, Wahyu Arie Prasetyo",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Selamat Ulang Tahun, Jinan!",
@@ -782,7 +1087,13 @@
                             "spotifyTrackId":  null,
                             "cover":  null,
                             "artist":  "Pnkrs Project, Taya, Hanafi, Anisa Dwila, Hasbi LH, Arienovs, Agspry",
-                            "appleId":  "1847160464"
+                            "appleId":  "1847160464",
+                            "album":  "Single",
+                            "songwriters":  "Hasbi Labib Herfitta, Wahyu Arie Prasetyo",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Sejatinya Keluarga",
@@ -792,7 +1103,13 @@
                             "spotifyId":  "0VXjIQxBvFGpGTpemxvMev",
                             "spotifyTrackId":  "5XVwPhM8P7XULR16afERWk",
                             "cover":  null,
-                            "artist":  "RGH Project, Gilang Rama, Hasbi LH, Riki Okta"
+                            "artist":  "RGH Project, Gilang Rama, Hasbi LH, Riki Okta",
+                            "album":  "Single",
+                            "songwriters":  "Hasbi Labib Herfitta",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Jangan Pernah Menyerah (Ost. Melati)",
@@ -804,9 +1121,12 @@
                             "cover":  null,
                             "artist":  "RGH Project, Vidhu, Naila",
                             "songwriters":  "Gunawan Wibisono",
-                            "composer":  "Gunawan Wibisono",
-                            "producer":  "RGH Entertain Studios",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1643591105/jangan-pernah-menyerah-ost-melati"
+                            "composer":  "Gunawan Wibisono, Hasbi Labib Herfitta, Gilang Rama Hendrawan, Riki Okta Pradana",
+                            "producer":  "Hasbi LH, Gilang Rama Hendrawan, Riki Okta Pradana",
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1643591105/jangan-pernah-menyerah-ost-melati",
+                            "album":  "Ost. Melati",
+                            "mixing":  "Hasbi LH, Gilang Rama Hendrawan",
+                            "mastering":  "Hasbi LH, Gilang Rama Hendrawan"
                         },
                         {
                             "title":  "Calistha",
@@ -816,7 +1136,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "6zKDOlLgftXokxuAUiYbVy",
                             "cover":  null,
-                            "artist":  "Brave Party"
+                            "artist":  "Brave Party",
+                            "album":  "Single",
+                            "songwriters":  "Muhammad Faishal Rafi",
+                            "composer":  "Hasbi Labib Herfitta, Muhammad Faishal Rafi",
+                            "producer":  "Anggih Permata Putra",
+                            "mixing":  "Anggih Permata Putra",
+                            "mastering":  "Anggih Permata Putra"
                         },
                         {
                             "title":  "Bukan Yang Terakhir",
@@ -826,7 +1152,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "4VFCxckWT6hSj4f2okfQrr",
                             "cover":  null,
-                            "artist":  "Brave Party"
+                            "artist":  "Brave Party",
+                            "album":  "Single",
+                            "songwriters":  "Hasbi Labib Herfitta",
+                            "composer":  "Hasbi Labib Herfitta, Muhammad Faishal Rafi",
+                            "producer":  "Anggih Permata Putra",
+                            "mixing":  "Anggih Permata Putra",
+                            "mastering":  "Anggih Permata Putra"
                         },
                         {
                             "title":  "Bebas",
@@ -838,9 +1170,12 @@
                             "cover":  null,
                             "artist":  "Nandemo-san",
                             "songwriters":  "Hasbi Labib Herfitta, Ilma Hanifah",
-                            "composer":  "Hasbi Labib Herfitta, Ilma Hanifah",
+                            "composer":  "Hasbi Labib Herfitta",
                             "producer":  "Hasbi LH",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/6766594427/bebas"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/6766594427/bebas",
+                            "album":  "Single",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Bebas (Instrumental)",
@@ -852,9 +1187,12 @@
                             "cover":  null,
                             "artist":  "Nandemo-san",
                             "songwriters":  "Hasbi Labib Herfitta, Ilma Hanifah",
-                            "composer":  "Hasbi Labib Herfitta, Ilma Hanifah",
+                            "composer":  "Hasbi Labib Herfitta",
                             "producer":  "Hasbi LH",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/6766594429/bebas-instrumental"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/6766594429/bebas-instrumental",
+                            "album":  "Single",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Semua Tentangmu",
@@ -865,10 +1203,13 @@
                             "spotifyTrackId":  "0dJ5zH21AIKHAID1Dqi7DG",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e029548d5929dd9369e6d9c75de",
                             "artist":  "Cello Pangemanan",
-                            "songwriters":  "Raka Cyril",
-                            "composer":  "Raka Cyril",
-                            "producer":  "Vierra, Noey, Capung",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1753916540/semua-tentangmu"
+                            "songwriters":  "Cello Pangemanan",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1753916540/semua-tentangmu",
+                            "album":  "Single",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Yessica, Satu-satunya",
@@ -881,7 +1222,11 @@
                             "artist":  "Tayateya",
                             "songwriters":  "Hasbi Labib Herfitta, A. Zahra Annisa Hamid",
                             "composer":  "Hasbi Labib Herfitta, A. Zahra Annisa Hamid",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1548497003/yessica-satu-satunya"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1548497003/yessica-satu-satunya",
+                            "album":  "Single",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Niel, Rindu, Niel!!",
@@ -891,7 +1236,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "63BwzytfcXcVNOIB7SnNeU",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e02bd25a7a22a02eba50fdfc573",
-                            "artist":  "Linggar Jabo"
+                            "artist":  "Linggar Jabo",
+                            "album":  "Single",
+                            "songwriters":  "Linggar Jabo Al-Hakeem",
+                            "composer":  "Hasbi Labib Herfitta, Linggar Jabo Al-Hakeem",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "As Your Rainbow",
@@ -901,7 +1252,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "0pYL8xTqpHb7pZXpuAjQjG",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e02e25a3b549302b1034966f237",
-                            "artist":  "Andre Ibrahim"
+                            "artist":  "Andre Ibrahim",
+                            "album":  "Single",
+                            "songwriters":  "Andre Rizal Ibrahim",
+                            "composer":  "Hasbi Labib Herfitta, Ihza Mamta Mushaffa",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Victoria Milikku",
@@ -911,7 +1268,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "6SsOoiBhAKEsSJEvwBm2HK",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e021e529d43d970aff7edb4c2d0",
-                            "artist":  "Arienovs, Tie Livia"
+                            "artist":  "Arienovs, Tie Livia",
+                            "album":  "Single",
+                            "songwriters":  "Wahyu Arie Prasetyo",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Pilihanku, Jessica",
@@ -922,9 +1285,13 @@
                             "spotifyTrackId":  "3QrjsDTJH7VdCzk5fIXzw8",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e024101a08a334ad7d1acdff1b8",
                             "artist":  "Brawas Handoko",
-                            "songwriters":  "Brawas Handoko",
-                            "composer":  "Brawas Handoko",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1869422828/pilihanku-jessica"
+                            "songwriters":  "Brawas Handoko Surenglaga, Linggar Jabo Al-Hakeem",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1869422828/pilihanku-jessica",
+                            "album":  "Single",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "I. L. Y. A.",
@@ -934,7 +1301,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "1MwWl3OzDFD3q1GRBB5C2P",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e024b1a994196a4f83e56e7ad58",
-                            "artist":  "Andre Ibrahim"
+                            "artist":  "Andre Ibrahim",
+                            "album":  "Single",
+                            "songwriters":  "Andre Rizal Ibrahim, Linggar Jabo Al-Hakeem",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Gabriela Abigail",
@@ -944,7 +1317,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "6OWUFU7S0zOWKLQreBWdaF",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e0241fd184449010082c1ecd645",
-                            "artist":  "Ihza Mamta"
+                            "artist":  "Ihza Mamta",
+                            "album":  "All About Gabriela Abigail",
+                            "songwriters":  "Ihza Mamta Mushaffa",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "I\u0027m Glad That I Met You",
@@ -954,7 +1333,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "5gasAM18CZVuUTWJj5fnSF",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e021b88eb672489207464c8578a",
-                            "artist":  "Farhan Pamungkas"
+                            "artist":  "Farhan Pamungkas",
+                            "album":  "Single",
+                            "songwriters":  "Farhan Pamungkas",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Cornelia",
@@ -965,10 +1350,13 @@
                             "spotifyTrackId":  "2ngDc0TrhOwmQrKXrg8Wvt",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e0299295f9125246238033acae3",
                             "artist":  "Linggar Jabo",
-                            "songwriters":  "Taylor Swift",
-                            "composer":  "Taylor Swift",
-                            "producer":  "Taylor Swift, Jack Antonoff",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1468058184/cornelia"
+                            "songwriters":  "Linggar Jabo Al-Hakeem",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1468058184/cornelia",
+                            "album":  "Single",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Viva la Victoria",
@@ -978,7 +1366,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "1yejCBqHGQVDWDW4EJKgc7",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e02cf673b4d6bab929f4e376fe0",
-                            "artist":  "Arienovs, Tie Livia"
+                            "artist":  "Arienovs, Tie Livia",
+                            "album":  "Single",
+                            "songwriters":  "Wahyu Arie Prasetyo",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Hari Spesial",
@@ -988,7 +1382,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "0DGiTLZcnD3icb239cYekY",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e02e7d7524b7e92d837cdea4ccc",
-                            "artist":  "Ihza Mamta"
+                            "artist":  "Ihza Mamta",
+                            "album":  "Single",
+                            "songwriters":  "Ihza Mamta Mushaffa",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Dreamcatcher",
@@ -998,7 +1398,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "5sLC8CCooLupnGMF3lh3mH",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e029e93e24f1f65ceaead3cc546",
-                            "artist":  "Wargavi, Rizuka Miku"
+                            "artist":  "Wargavi, Rizuka Miku",
+                            "album":  "Ost. WGV: Dreamcatcher",
+                            "songwriters":  "Hasbi Labib Herfitta",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Shiiyato",
+                            "mastering":  "Shiiyato"
                         },
                         {
                             "title":  "Dreamcatcher (Instrumental)",
@@ -1012,7 +1418,10 @@
                             "songwriters":  "Hasbi Labib Herfitta",
                             "composer":  "Hasbi Labib Herfitta",
                             "producer":  "Hasbi LH",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/6764427063/dreamcatcher-instrumental"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/6764427063/dreamcatcher-instrumental",
+                            "album":  "Ost. WGV: Dreamcatcher",
+                            "mixing":  "Shiiyato",
+                            "mastering":  "Shiiyato"
                         },
                         {
                             "title":  "Aralie Setiap Hari",
@@ -1022,7 +1431,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "1gIJ8sxPWfikDzHkm7GLUo",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e02fadfa96b13ba52803658dc7c",
-                            "artist":  "Arienovs"
+                            "artist":  "Arienovs",
+                            "album":  "Single",
+                            "songwriters":  "Wahyu Arie Prasetyo",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "PEMILU",
@@ -1032,7 +1447,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "0xfBRTJXieTWJaSbCdaq0Y",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e025d4dff7bbe43ae96e2919e64",
-                            "artist":  "Erlangga Danantara, Farhan Pamungkas"
+                            "artist":  "Erlangga Danantara, Farhan Pamungkas",
+                            "album":  "Single",
+                            "songwriters":  "Erlangga Danantara, Brawas Handoko Surenglaga, Hasbi Labib Herfitta",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Only You",
@@ -1042,7 +1463,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "1LOMdlVBeksN79FLsv2dhA",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e0292f1c459b41bc77a38aa7cda",
-                            "artist":  "Ihza Mamta"
+                            "artist":  "Ihza Mamta",
+                            "album":  "Single",
+                            "songwriters":  "Ihza Mamta Mushaffa, Hasbi Labib Herfitta, Linggar Jabo Al-Hakeem",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Matahariku",
@@ -1052,7 +1479,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "4o2BSpCTQuExpXunizvgIY",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e020fcd43498199925bba31fd12",
-                            "artist":  "Teman Aralie"
+                            "artist":  "Teman Aralie",
+                            "album":  "Single",
+                            "songwriters":  "Wahyu Arie Prasetyo",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Astrella 2025",
@@ -1064,9 +1497,12 @@
                             "cover":  null,
                             "artist":  "Nares Area, Broccoza",
                             "songwriters":  "Hasbi Labib Herfitta, Linggar Jabo Al-Hakeem, Raden Nareswara Buana Pradipta Yuwono, Muhamad Fere Rakha Adyatma",
-                            "composer":  "Hasbi Labib Herfitta, Linggar Jabo Al-Hakeem, Raden Nareswara Buana Pradipta Yuwono, Muhamad Fere Rakha Adyatma",
+                            "composer":  "Hasbi Labib Herfitta, Linggar Jabo Al-Hakeem",
                             "producer":  "Hasbi LH",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1837075619/astrella-2025"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1837075619/astrella-2025",
+                            "album":  "Single",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "My Lave",
@@ -1080,7 +1516,10 @@
                             "songwriters":  "Hasbi Labib Herfitta, Fikgi Perdana Putra, Linggar Jabo Al Hakeem",
                             "composer":  "Hasbi Labib Herfitta, Fikgi Perdana Putra, Linggar Jabo Al Hakeem",
                             "producer":  "Hasbi LH",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1847160633/my-lave"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1847160633/my-lave",
+                            "album":  "Single",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Langkah",
@@ -1094,7 +1533,10 @@
                             "songwriters":  "Hasbi Labib Herfitta",
                             "composer":  "Hasbi Labib Herfitta",
                             "producer":  "Hasbi LH",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1847162099/langkah"
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1847162099/langkah",
+                            "album":  "Temani Perjalanan",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Titik Kedua",
@@ -1104,7 +1546,13 @@
                             "spotifyId":  null,
                             "spotifyTrackId":  "7o0UNlcsFZdbjbSqcPsSRB",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e02860727a93956ab386b098043",
-                            "artist":  "Teman Aralie"
+                            "artist":  "Teman Aralie",
+                            "album":  "Single",
+                            "songwriters":  "Wahyu Arie Prasetyo",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "ManCyn",
@@ -1115,10 +1563,13 @@
                             "spotifyTrackId":  "1wzJTKAiFxaCDU8VIaJpFX",
                             "cover":  "https://i.scdn.co/image/ab67616d00001e02c1ad800ca783d822aa1ad49b",
                             "artist":  "Ivan B0B",
-                            "songwriters":  "Hasbi Labib Hervitta, Linggar Jabo Al Hakeem, Ivan Srikuncoro Jati",
-                            "composer":  "Hasbi Labib Hervitta, Linggar Jabo Al Hakeem, Ivan Srikuncoro Jati",
-                            "producer":  "Hasbi Labib Hervitta, Linggar Jabo Al Hakeem",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1867463705/mancyn"
+                            "songwriters":  "Hasbi Labib Herfitta, Linggar Jabo Al Hakeem, Ivan Srikuncoro Jati",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "producer":  "Hasbi LH",
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1867463705/mancyn",
+                            "album":  "Single",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         },
                         {
                             "title":  "Kagum",
@@ -1129,9 +1580,13 @@
                             "spotifyTrackId":  "3RV50o51gTIeFgvJstkGYj",
                             "cover":  null,
                             "artist":  "Arienovs",
-                            "songwriters":  "Hasbi LH, Pnkrs Project",
-                            "composer":  "Hasbi LH, Pnkrs Project",
-                            "creditsSourceUrl":  "https://www.shazam.com/song/1525860429/kagum"
+                            "songwriters":  "Wahyu Arie Prasetyo",
+                            "composer":  "Hasbi Labib Herfitta",
+                            "creditsSourceUrl":  "https://www.shazam.com/song/1525860429/kagum",
+                            "album":  "Single",
+                            "producer":  "Hasbi LH",
+                            "mixing":  "Hasbi LH",
+                            "mastering":  "Hasbi LH"
                         }
                     ],
     "platformMetadata":  {
@@ -1452,7 +1907,8 @@
                                                   },
                              "Chalista":  {
                                               "youtubeMusicId":  "mPhy9sf3HU8",
-                                              "deezerTrackId":  "2836962192"
+                                              "deezerTrackId":  "2836962192",
+                                              "appleAlbumId":  "1751070144"
                                           },
                              "merindu":  {
                                              "youtubeMusicId":  "7Au7Sz-Nm6E",
@@ -1477,7 +1933,8 @@
                                           },
                              "Kenalyn":  {
                                              "deezerTrackId":  "2543123391",
-                                             "tidalTrackId":  "328919047"
+                                             "tidalTrackId":  "328919047",
+                                             "appleAlbumId":  "1721120352"
                                          },
                              "Teman Baru Azizi":  {
                                                       "youtubeMusicId":  "ikWLVaQPtXA",
@@ -1486,7 +1943,8 @@
                                                   },
                              "Selamat Ulang Tahun, Jinan!":  {
                                                                  "youtubeMusicId":  "YosTDjrVKSs",
-                                                                 "deezerTrackId":  "3609866722"
+                                                                 "deezerTrackId":  "3609866722",
+                                                                 "appleAlbumId":  "1847160464"
                                                              },
                              "Syair Semesta":  {
                                                    "youtubeMusicId":  "ybGmKP8Qbkk",
@@ -1671,7 +2129,8 @@
                                          },
                              "Sempurna":  {
                                               "youtubeMusicId":  "vSDwimwtNpY",
-                                              "deezerTrackId":  "3609891362"
+                                              "deezerTrackId":  "3609891362",
+                                              "appleAlbumId":  "1847164169"
                                           },
                              "Sejatinya Keluarga":  {
                                                         "youtubeMusicId":  "UrgzOgACl4A"

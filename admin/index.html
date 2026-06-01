@@ -215,17 +215,29 @@
         <label>Producer
           <input id="producer" placeholder="Hasbi LH">
         </label>
+        <label>Mixing
+          <input id="mixing" placeholder="Hasbi LH">
+        </label>
+        <label>Mastering
+          <input id="mastering" placeholder="Hasbi LH">
+        </label>
+        <label>Studio / Label
+          <input id="studioLabel" placeholder="Nama studio atau label">
+        </label>
+        <label>Cover URL
+          <input id="cover" placeholder="https://...jpg/png">
+        </label>
         <label>Spotify Track ID atau URL
           <input id="spotifyTrack" placeholder="https://open.spotify.com/track/...">
         </label>
         <label>Spotify Album/Release ID atau URL
           <input id="spotifyAlbum" placeholder="https://open.spotify.com/album/...">
         </label>
-        <label>Apple Music URL
-          <input id="appleUrl" placeholder="https://music.apple.com/...">
+        <label>Apple Music URL atau ID
+          <input id="appleUrl" placeholder="https://music.apple.com/... atau 1818993667">
         </label>
-        <label>Apple Album ID atau URL
-          <input id="appleId" placeholder="https://music.apple.com/id/album/...">
+        <label>Apple Album URL atau ID
+          <input id="appleAlbum" placeholder="https://music.apple.com/id/album/... atau 1818993667">
         </label>
         <label>YouTube ID atau URL
           <input id="youtubeId" placeholder="https://www.youtube.com/watch?v=...">
@@ -238,12 +250,6 @@
         </label>
         <label>Tidal Track ID atau URL
           <input id="tidalUrl" placeholder="https://tidal.com/...">
-        </label>
-        <label>SoundCloud URL
-          <input id="soundcloudUrl" placeholder="https://soundcloud.com/...">
-        </label>
-        <label>Cover URL
-          <input id="cover" placeholder="https://...jpg/png">
         </label>
       </div>
       <div class="actions">
@@ -438,14 +444,25 @@ function extractTidalTrackId(value) {
   return match ? match[1] : text;
 }
 
-function extractAppleAlbumId(value) {
+function parseAppleMusicValue(value) {
   const text = value.trim();
   if (!text) return null;
+  const result = {};
+
   const albumMatch = text.match(/\/album\/[^/]+\/(\d+)/i);
-  if (albumMatch) return albumMatch[1];
   const idMatch = text.match(/\/album\/(\d+)/i);
-  if (idMatch) return idMatch[1];
-  return text;
+  const trackMatch = text.match(/[?&]i=(\d+)/i);
+
+  if (/^https?:\/\//i.test(text)) {
+    result.appleUrl = text;
+    if (albumMatch) result.appleAlbumId = albumMatch[1];
+    else if (idMatch) result.appleAlbumId = idMatch[1];
+    if (trackMatch) result.appleTrackId = trackMatch[1];
+    return result;
+  }
+
+  result.appleAlbumId = text;
+  return result;
 }
 
 function cleanValue(value) {
@@ -478,10 +495,9 @@ function fillFormForEdit(index) {
   setInputValue('releaseDate', item.releaseDate);
   setInputValue('spotifyTrack', item.spotifyTrackId);
   setInputValue('spotifyAlbum', item.spotifyId);
-  setInputValue('appleUrl', platformMeta.appleUrl || item.appleUrl);
+  setInputValue('appleUrl', platformMeta.appleUrl || item.appleUrl || platformMeta.appleAlbumId || item.appleAlbumId || item.appleId);
+  setInputValue('appleAlbum', platformMeta.appleAlbumUrl || platformMeta.appleAlbumId || item.appleAlbumId || item.appleId);
   setInputValue('tidalUrl', platformMeta.tidalUrl || item.tidalUrl || platformMeta.tidalTrackId || item.tidalTrackId);
-  setInputValue('soundcloudUrl', platformMeta.soundcloudUrl || item.soundcloudUrl);
-  setInputValue('appleId', item.appleId);
   setInputValue('youtubeId', item.youtubeId || platformMeta.youtubeId);
   setInputValue('youtubeMusicId', item.youtubeMusicId || platformMeta.youtubeMusicId);
   setInputValue('deezerTrackId', platformMeta.deezerUrl || item.deezerUrl || item.deezerTrackId || platformMeta.deezerTrackId);
@@ -490,6 +506,9 @@ function fillFormForEdit(index) {
   setInputValue('songwriters', item.songwriters);
   setInputValue('composer', item.composer);
   setInputValue('producer', item.producer);
+  setInputValue('mixing', item.mixing);
+  setInputValue('mastering', item.mastering);
+  setInputValue('studioLabel', item.studioLabel);
 
   document.getElementById('saveBtn').textContent = 'Simpan Edit & Commit';
   els.cancelEditBtn.hidden = false;
@@ -530,20 +549,36 @@ function buildReleaseFromForm() {
   const producer = cleanValue(document.getElementById('producer').value);
   if (producer) item.producer = producer;
 
-  const appleId = extractAppleAlbumId(document.getElementById('appleId').value);
-  if (appleId) item.appleId = appleId;
+  const mixing = cleanValue(document.getElementById('mixing').value);
+  if (mixing) item.mixing = mixing;
+
+  const mastering = cleanValue(document.getElementById('mastering').value);
+  if (mastering) item.mastering = mastering;
+
+  const studioLabel = cleanValue(document.getElementById('studioLabel').value);
+  if (studioLabel) item.studioLabel = studioLabel;
 
   const platformMeta = {};
   const youtubeValue = cleanValue(document.getElementById('youtubeId').value);
   const youtubeMusicValue = cleanValue(document.getElementById('youtubeMusicId').value);
   const appleUrl = cleanValue(document.getElementById('appleUrl').value);
+  const appleAlbumValue = cleanValue(document.getElementById('appleAlbum').value);
   const deezerValue = cleanValue(document.getElementById('deezerTrackId').value);
   const tidalValue = cleanValue(document.getElementById('tidalUrl').value);
-  const soundcloudUrl = cleanValue(document.getElementById('soundcloudUrl').value);
 
   if (youtubeValue) platformMeta.youtubeId = extractYouTubeId(youtubeValue);
   if (youtubeMusicValue) platformMeta.youtubeMusicId = extractYouTubeId(youtubeMusicValue);
-  if (appleUrl) platformMeta.appleUrl = appleUrl;
+  if (appleUrl) {
+    const appleMeta = parseAppleMusicValue(appleUrl);
+    if (appleMeta.appleUrl) platformMeta.appleUrl = appleMeta.appleUrl;
+    if (appleMeta.appleTrackId) platformMeta.appleTrackId = appleMeta.appleTrackId;
+    if (appleMeta.appleAlbumId) platformMeta.appleAlbumId = appleMeta.appleAlbumId;
+  }
+  if (appleAlbumValue) {
+    const appleAlbumMeta = parseAppleMusicValue(appleAlbumValue);
+    if (appleAlbumMeta.appleUrl) platformMeta.appleAlbumUrl = appleAlbumMeta.appleUrl;
+    if (appleAlbumMeta.appleAlbumId) platformMeta.appleAlbumId = appleAlbumMeta.appleAlbumId;
+  }
   if (deezerValue) {
     if (isUrl(deezerValue)) platformMeta.deezerUrl = deezerValue;
     platformMeta.deezerTrackId = extractDeezerTrackId(deezerValue);
@@ -552,7 +587,6 @@ function buildReleaseFromForm() {
     if (isUrl(tidalValue)) platformMeta.tidalUrl = tidalValue;
     else platformMeta.tidalTrackId = extractTidalTrackId(tidalValue);
   }
-  if (soundcloudUrl) platformMeta.soundcloudUrl = soundcloudUrl;
 
   return { item, platformMeta };
 }

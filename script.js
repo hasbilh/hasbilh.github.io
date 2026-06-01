@@ -281,6 +281,9 @@ function openModal(item, c1, c2, isProduced) {
     ['Author / Songwriters', item.songwriters],
     ['Composer', item.composer],
     ['Producer', item.producer],
+    ['Mixing', item.mixing],
+    ['Mastering', item.mastering],
+    ['Studio / Label', item.studioLabel],
   ].filter(([, value]) => value);
   const creditsHtml = creditRows.length
     ? `<div id="modal-extra-details" class="modal-credits">

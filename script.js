@@ -124,6 +124,17 @@ function escapeHtml(value) {
   }[char]));
 }
 
+function formatReleaseDate(value) {
+  if (!value) return '';
+  const date = new Date(`${value}T00:00:00`);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleDateString('id-ID', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+}
+
 function getSpotifyOembedUrl(item) {
   const id = item.spotifyTrackId || item.spotifyId;
   if (!id) return null;
@@ -283,6 +294,7 @@ function openModal(item, c1, c2, isProduced) {
     ['Producer', item.producer],
     ['Mixing', item.mixing],
     ['Mastering', item.mastering],
+    ['Release Date', formatReleaseDate(item.releaseDate)],
     ['Studio / Label', item.studioLabel],
   ].filter(([, value]) => value);
   const creditsHtml = creditRows.length

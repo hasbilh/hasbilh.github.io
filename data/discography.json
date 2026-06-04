@@ -713,7 +713,7 @@
       "releaseDate": "2024-09-12",
       "type": "Kolaborasi",
       "spotifyId": "1kQpH2tvls9uunYpH9BAH8",
-      "spotifyTrackId": "2PS7dcSCzON9niv6soIc1k",
+      "spotifyTrackId": "5DwccXmfxz5HGUP5lpkfNd",
       "cover": null,
       "artist": "Hasbi LH, Linggar Jabo, Ihza Mamta, Andre Ibrahim",
       "album": "Single",
@@ -1989,9 +1989,12 @@
       "youtubeMusicId": "JQXgORjdxto"
     },
     "Delynn": {
-      "youtubeId": "MmCtSIj4zJc",
+      "youtubeId": "wzO36cafawI",
       "deezerTrackId": "2975489511",
-      "tidalTrackId": "384706887"
+      "tidalTrackId": "384706887",
+      "youtubeMusicId": "wzO36cafawI",
+      "appleUrl": "https://music.apple.com/id/song/delynn-feat-andre-ibrahim/6774985169",
+      "appleAlbumId": "6774985166"
     },
     "Berkelana": {
       "youtubeMusicId": "9GZRNLqHD_A",

@@ -696,7 +696,7 @@
       "releaseDate": "2024-08-20",
       "type": "Kolaborasi",
       "spotifyId": "2h2rxquKF0hFAFJoi3ahBS",
-      "spotifyTrackId": "548M3VG876qJEFQHcA3zfZ",
+      "spotifyTrackId": "2hDAoL55QcEk1DuGkvuWDU",
       "cover": "https://i.scdn.co/image/ab67616d00001e02a83db673825313aed77ec1f3",
       "artist": "vxeds, Hasbi LH",
       "album": "Single",
@@ -1980,12 +1980,13 @@
       "tidalTrackId": "378677911"
     },
     "Catherina": {
-      "appleUrl": "https://music.apple.com/id/album/catherina-no-sanbika/1497863259?i=1497863600&uo=4",
+      "appleUrl": "https://music.apple.com/id/song/catherina/6774985491",
       "appleTrackId": "1497863600",
-      "appleAlbumId": "1497863259",
+      "appleAlbumId": "6774985490",
       "youtubeId": "0j1JUuW8eQo",
-      "deezerTrackId": "2937102571",
-      "tidalTrackId": "379794941"
+      "deezerTrackId": "994846341",
+      "tidalTrackId": "379794941",
+      "youtubeMusicId": "JQXgORjdxto"
     },
     "Delynn": {
       "youtubeId": "MmCtSIj4zJc",

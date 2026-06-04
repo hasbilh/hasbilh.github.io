@@ -1984,9 +1984,10 @@
       "appleTrackId": "1497863600",
       "appleAlbumId": "6774985490",
       "youtubeId": "0j1JUuW8eQo",
-      "deezerTrackId": "994846341",
-      "tidalTrackId": "379794941",
-      "youtubeMusicId": "JQXgORjdxto"
+      "deezerTrackId": "https://link.deezer.com/s/33sEwng6ze0sEBtbB1Y5K",
+      "tidalTrackId": "-",
+      "youtubeMusicId": "JQXgORjdxto",
+      "deezerUrl": "https://link.deezer.com/s/33sEwng6ze0sEBtbB1Y5K"
     },
     "Delynn": {
       "youtubeId": "wzO36cafawI",

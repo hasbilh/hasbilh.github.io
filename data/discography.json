@@ -679,7 +679,7 @@
       "releaseDate": "2024-08-06",
       "type": "Kolaborasi",
       "spotifyId": "2mhkph14ACNHHsjxRGBnvr",
-      "spotifyTrackId": "1SAXsimX1JtUXNh5iEdNAG",
+      "spotifyTrackId": "4YauhvEnDav73H7GpLmjmC",
       "cover": null,
       "artist": "Hasbi LH, Ihza Mamta",
       "album": "Single",
@@ -1975,9 +1975,12 @@
       "tidalTrackId": "377374974"
     },
     "Aralie": {
-      "youtubeId": "cLy1mI1hw94",
-      "deezerTrackId": "2928120421",
-      "tidalTrackId": "378677911"
+      "youtubeId": "V29zOzUla-U",
+      "deezerTrackId": "4054734501",
+      "tidalTrackId": "-",
+      "youtubeMusicId": "xdcdm7dD41o",
+      "appleUrl": "https://music.apple.com/id/song/aralie/6774985454",
+      "appleAlbumId": "6774985451"
     },
     "Catherina": {
       "appleUrl": "https://music.apple.com/id/song/catherina/6774985491",

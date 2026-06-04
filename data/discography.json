@@ -23,13 +23,12 @@
       "releaseDate": "2025-05-27",
       "type": "Solo",
       "spotifyId": "70W7iGGBZL9uWUBPOQCDTZ",
-      "spotifyTrackId": null,
+      "spotifyTrackId": "0kIEossgSVe4xkHAzJvQxf",
       "cover": "https://i.scdn.co/image/ab67616d00001e02a95dbec8e0e5af90c4c182cb",
       "artist": "Hasbi LH",
+      "album": "Single",
       "songwriters": "Hasbi Labib Herfitta",
       "composer": "Hasbi Labib Herfitta",
-      "creditsSourceUrl": "https://www.shazam.com/song/1818993669/cathy-cathy-cathy-instrumental",
-      "album": "Single",
       "producer": "Hasbi LH",
       "mixing": "Hasbi LH",
       "mastering": "Hasbi LH",
@@ -1694,10 +1693,12 @@
       "tidalTrackId": "-"
     },
     "Cathy! Cathy! Cathy! - Instrumental": {
-      "appleUrl": "https://music.apple.com/id/album/cathy-cathy-cathy-instrumental/1818993667?i=1818993669&uo=4",
+      "appleUrl": "https://music.apple.com/id/song/cathy-cathy-cathy-instrumental/6775072540",
       "appleTrackId": "1818993669",
-      "appleAlbumId": "1818993667",
-      "deezerTrackId": "3366114551"
+      "appleAlbumId": "6775072538",
+      "deezerTrackId": "4055177001",
+      "youtubeId": "td-hnhsKmgM",
+      "youtubeMusicId": "td-hnhsKmgM"
     },
     "Greesel Lutuna - Radio Edit": {
       "youtubeMusicId": "UnT3ltq9STg",

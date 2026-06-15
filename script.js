@@ -474,6 +474,7 @@ function openModal(item, c1, c2, isProduced) {
         ? `https://tidal.com/browse/album/${tidalAlbum}`
         : `https://tidal.com/search/${searchQuery}`);
   const soundcloudUrl = platformMeta.soundcloudUrl || item.soundcloudUrl || `https://soundcloud.com/search?q=${searchQuery}`;
+  const amazonUrl = platformMeta.amazonUrl || item.amazonUrl || `https://music.amazon.com/search/${searchQuery}`;
   const platformUrls = {
     spotify: safeExternalUrl(spotifyUrl),
     apple: safeExternalUrl(appleMusicUrl),
@@ -482,6 +483,7 @@ function openModal(item, c1, c2, isProduced) {
     soundcloud: safeExternalUrl(soundcloudUrl),
     deezer: safeExternalUrl(deezerUrl),
     tidal: safeExternalUrl(tidalUrl),
+    amazon: safeExternalUrl(amazonUrl),
   };
 
   platforms.innerHTML = `
@@ -526,6 +528,10 @@ function openModal(item, c1, c2, isProduced) {
         <path d="M12.012 3.992L8.008 7.996 4.004 3.992 0 7.996 4.004 12l4.004-4.004L12.012 12l-4.004 4.004 4.004 4.004 4.004-4.004L12.012 12l4.004-4.004-4.004-4.004zM16.042 7.996l3.979-3.979L24 7.996l-3.979 3.979z"/>
       </svg>
       Tidal
+    </a>
+    <a href="${escapeHtml(platformUrls.amazon)}" target="_blank" rel="noopener noreferrer" class="platform-link">
+      <i class="fa-brands fa-amazon" aria-hidden="true"></i>
+      Amazon Music
     </a>
   `;
 

@@ -15,7 +15,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Cathy!%20Cathy!%20Cathy!%20Hasbi%20LH"
     },
     {
         "title":  "Cathy! Cathy! Cathy! - Instrumental",
@@ -32,7 +33,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Cathy!%20Cathy!%20Cathy!%20-%20Instrumental%20Hasbi%20LH"
     },
     {
         "title":  "Greesel Lutuna - Radio Edit",
@@ -50,7 +52,8 @@ const DISCOGRAPHY = [
         "album":  "UG",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Greesel%20Lutuna%20-%20Radio%20Edit%20Hasbi%20LH"
     },
     {
         "title":  "Greesel Lutuna Part 2: Angan Terindah",
@@ -68,7 +71,8 @@ const DISCOGRAPHY = [
         "album":  "UG",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Greesel%20Lutuna%20Part%202%3A%20Angan%20Terindah%20Hasbi%20LH"
     },
     {
         "title":  "Keberanian - Instrumental",
@@ -85,7 +89,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Keberanian%20-%20Instrumental%20Hasbi%20LH"
     },
     {
         "title":  "Teruslah Melangkah",
@@ -102,7 +107,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Teruslah%20Melangkah%20Hasbi%20LH"
     },
     {
         "title":  "Oline in Love with You",
@@ -119,7 +125,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Oline%20in%20Love%20with%20You%20Hasbi%20LH"
     },
     {
         "title":  "Terkunang-kunang",
@@ -137,7 +144,8 @@ const DISCOGRAPHY = [
         "album":  "Single, UG",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Terkunang-kunang%20Hasbi%20LH"
     },
     {
         "title":  "Greesel Lutuna - Acoustic",
@@ -155,7 +163,8 @@ const DISCOGRAPHY = [
         "album":  "Single, UG",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Greesel%20Lutuna%20-%20Acoustic%20Hasbi%20LH"
     },
     {
         "title":  "Greesel Lutuna",
@@ -173,7 +182,8 @@ const DISCOGRAPHY = [
         "album":  "Single, UG",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Greesel%20Lutuna%20Hasbi%20LH"
     },
     {
         "title":  "Chik",
@@ -191,7 +201,8 @@ const DISCOGRAPHY = [
         "album":  "Single",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Chik%20Hasbi%20LH"
     },
     {
         "title":  "Siapa yang Flora",
@@ -208,7 +219,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Siapa%20yang%20Flora%20Hasbi%20LH"
     },
     {
         "title":  "Wake Me Up From The Night",
@@ -226,7 +238,8 @@ const DISCOGRAPHY = [
         "album":  "Ost. Nostalgi",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "THE KONS"
+        "studioLabel":  "THE KONS",
+        "amazonUrl":  "https://music.amazon.com/search/Wake%20Me%20Up%20From%20The%20Night%20Hasbi%20LH"
     },
     {
         "title":  "Kiamat Kubro",
@@ -244,7 +257,8 @@ const DISCOGRAPHY = [
         "album":  "Ost. Nostalgi",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "THE KONS"
+        "studioLabel":  "THE KONS",
+        "amazonUrl":  "https://music.amazon.com/search/Kiamat%20Kubro%20Hasbi%20LH"
     },
     {
         "title":  "Dying Experience",
@@ -262,7 +276,8 @@ const DISCOGRAPHY = [
         "album":  "Ost. Nostalgi",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "THE KONS"
+        "studioLabel":  "THE KONS",
+        "amazonUrl":  "https://music.amazon.com/search/Dying%20Experience%20Hasbi%20LH"
     },
     {
         "title":  "Lebih Dari Ini",
@@ -279,7 +294,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Lebih%20Dari%20Ini%20Hasbi%20LH"
     },
     {
         "title":  "Sunrise",
@@ -297,7 +313,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Sunrise%20Hasbi%20LH"
     },
     {
         "title":  "Pelan-pelan",
@@ -315,7 +332,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Pelan-pelan%20Hasbi%20LH"
     },
     {
         "title":  "Jemima Idola Semua",
@@ -333,7 +351,8 @@ const DISCOGRAPHY = [
         "album":  "Single",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Jemima%20Idola%20Semua%20Hasbi%20LH%2C%20Linggar%20Jabo"
     },
     {
         "title":  "Kanvas Hariku",
@@ -351,7 +370,8 @@ const DISCOGRAPHY = [
         "album":  "Single",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Kanvas%20Hariku%20Hasbi%20LH%2C%20Degrees"
     },
     {
         "title":  "Freya",
@@ -369,7 +389,8 @@ const DISCOGRAPHY = [
         "album":  "Single",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Freya%20Nares%20Area%2C%20Hasbi%20LH"
     },
     {
         "title":  "Selamat Malam Intan",
@@ -387,7 +408,8 @@ const DISCOGRAPHY = [
         "album":  "Single",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Selamat%20Malam%20Intan%20Tayateya%2C%20Hasbi%20LH"
     },
     {
         "title":  "Kenalan",
@@ -404,7 +426,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Kenalan%20Fikgi%20Tanumihardja%2C%20Hasbi%20LH"
     },
     {
         "title":  "MnG",
@@ -422,7 +445,8 @@ const DISCOGRAPHY = [
         "album":  "Single",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/MnG%20Hasbi%20LH%2C%20Gads"
     },
     {
         "title":  "Greesel Lutuna Part 3: Icel Only",
@@ -440,7 +464,8 @@ const DISCOGRAPHY = [
         "album":  "UG",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Greesel%20Lutuna%20Part%203%3A%20Icel%20Only%20Hasbi%20LH%2C%20Linggar%20Jabo%2C%20Gads"
     },
     {
         "title":  "Keberanian",
@@ -457,7 +482,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Keberanian%20Hasbi%20LH%2C%20Arienovs"
     },
     {
         "title":  "Terkunang-kunang - Remix",
@@ -475,7 +501,8 @@ const DISCOGRAPHY = [
         "album":  "UG",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Terkunang-kunang%20-%20Remix%20Hasbi%20LH%2C%20Leonarie"
     },
     {
         "title":  "Berkelana Lagi",
@@ -493,7 +520,8 @@ const DISCOGRAPHY = [
         "album":  "Single",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Berkelana%20Lagi%20Hasbi%20LH%2C%20Linggar%20Jabo%2C%20Misel"
     },
     {
         "title":  "Lagu Kedua Untuk Delynn",
@@ -511,7 +539,8 @@ const DISCOGRAPHY = [
         "album":  "Single",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Lagu%20Kedua%20Untuk%20Delynn%20Hasbi%20LH%2C%20Linggar%20Jabo"
     },
     {
         "title":  "Ekin",
@@ -528,7 +557,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Ekin%20Hasbi%20LH%2C%20Linggar%20Jabo"
     },
     {
         "title":  "Kutemukan Cahaya (Nur Intan)",
@@ -545,7 +575,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Kutemukan%20Cahaya%20(Nur%20Intan)%20Hasbi%20LH%2C%20Linggar%20Jabo%2C%20Ihza%20Mamta"
     },
     {
         "title":  "Serigala Tangguh",
@@ -563,7 +594,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Serigala%20Tangguh%20AuLavana%2C%20Hasbi%20LH%2C%20Linggar%20Jabo"
     },
     {
         "title":  "Seperti Teka Teki (STT)",
@@ -580,7 +612,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Seperti%20Teka%20Teki%20(STT)%20Linggar%20Jabo%2C%20Hasbi%20LH"
     },
     {
         "title":  "Oline Deeper",
@@ -598,7 +631,8 @@ const DISCOGRAPHY = [
         "album":  "Single",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Oline%20Deeper%20vxeds%2C%20Hasbi%20LH"
     },
     {
         "title":  "Temani Perjalanan",
@@ -616,7 +650,8 @@ const DISCOGRAPHY = [
         "album":  "Temani Perjalanan",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Temani%20Perjalanan%20Hillaryours%2C%20Hasbi%20LH%2C%20Linggar%20Jabo%2C%20thisiskowalski%2C%20Asa"
     },
     {
         "title":  "Bintang Panggungnya",
@@ -635,7 +670,8 @@ const DISCOGRAPHY = [
         "album":  "Single",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Bintang%20Panggungnya%20Nauu%2C%20Hasbi%20LH"
     },
     {
         "title":  "hiatus",
@@ -652,7 +688,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/hiatus%20Hasbi%20LH%2C%20Andre%20Ibrahim%2C%20Ihza%20Mamta%2C%20Linggar%20Jabo%2C%20Brawas%20Handoko%2C%20Farhan%20Pamungkas"
     },
     {
         "title":  "Makin Cornelia",
@@ -669,7 +706,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Makin%20Cornelia%20Linggar%20Jabo%2C%20Hasbi%20LH%2C%20Pinandito%20Prajamukti"
     },
     {
         "title":  "Aralie",
@@ -686,7 +724,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Aralie%20Hasbi%20LH%2C%20Ihza%20Mamta"
     },
     {
         "title":  "Catherina",
@@ -703,7 +742,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Catherina%20vxeds%2C%20Hasbi%20LH"
     },
     {
         "title":  "Delynn",
@@ -720,7 +760,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Delynn%20Hasbi%20LH%2C%20Linggar%20Jabo%2C%20Ihza%20Mamta%2C%20Andre%20Ibrahim"
     },
     {
         "title":  "Berkelana",
@@ -738,7 +779,8 @@ const DISCOGRAPHY = [
         "album":  "Single",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Berkelana%20Hasbi%20LH%2C%20Linggar%20Jabo"
     },
     {
         "title":  "Lilyttle girl",
@@ -756,7 +798,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Lilyttle%20girl%20Hasbi%20LH%2C%20Linggar%20Jabo%2C%20Ihza%20Mamta"
     },
     {
         "title":  "Kimmy no Koto ga",
@@ -773,7 +816,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Kimmy%20no%20Koto%20ga%20Anisa%20Dwila%2C%20Hasbi%20LH%2C%20Arienovs"
     },
     {
         "title":  "Chalista",
@@ -791,7 +835,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Chalista%20ChalistaR%2C%20Hasbi%20LH"
     },
     {
         "title":  "merindu",
@@ -808,7 +853,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/merindu%20Brawas%20Handoko%2C%20Hasbi%20LH"
     },
     {
         "title":  "kue tahun lalu",
@@ -825,7 +871,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/kue%20tahun%20lalu%20Andre%20Ibrahim%2C%20Hasbi%20LH"
     },
     {
         "title":  "Manda, Bolehkah?",
@@ -843,7 +890,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Manda%2C%20Bolehkah%3F%20Hasbi%20LH%2C%20Leonarie"
     },
     {
         "title":  "Jyessica",
@@ -860,7 +908,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Jyessica%20Hasbi%20LH%2C%20Leonarie"
     },
     {
         "title":  "Kenalyn",
@@ -878,7 +927,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Kenalyn%20Pinandito%20Prajamukti%2C%20Hasbi%20LH"
     },
     {
         "title":  "Teman Baru Azizi",
@@ -895,7 +945,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Teman%20Baru%20Azizi%20Hasbi%20LH%2C%20Hanafi"
     },
     {
         "title":  "Cuitan Viona",
@@ -913,7 +964,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Cuitan%20Viona%20Anisa%20Dwila%2C%20Hasbi%20LH"
     },
     {
         "title":  "Viona Fadrin",
@@ -930,7 +982,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Viona%20Fadrin%20Hasbi%20LH%2C%20Anisa%20Dwila"
     },
     {
         "title":  "Berbeda: Musikalisasi Puisi - Live Performance",
@@ -947,7 +1000,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Berbeda%3A%20Musikalisasi%20Puisi%20-%20Live%20Performance%20Hasbi%20LH%2C%20Ayuoctvn"
     },
     {
         "title":  "Pulang",
@@ -964,7 +1018,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Pulang%20Hasbi%20LH%2C%20Rizky%20Alvian"
     },
     {
         "title":  "Jarak",
@@ -981,7 +1036,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Jarak%20Hasbi%20LH%2C%20Rizky%20Alvian%2C%20Ica"
     },
     {
         "title":  "Happy Birthday, Shania Gracia!",
@@ -998,7 +1054,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Happy%20Birthday%2C%20Shania%20Gracia!%20Hasbi%20LH%2C%20Yanuar%20Prima%2C%20Ricky%20Abi%20Valentino"
     },
     {
         "title":  "Menyesal",
@@ -1015,7 +1072,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Gilang Rama Hendrawan",
         "mastering":  "Gilang Rama Hendrawan",
-        "studioLabel":  "RGH Entertain Studios"
+        "studioLabel":  "RGH Entertain Studios",
+        "amazonUrl":  "https://music.amazon.com/search/Menyesal%20RGH%20Project"
     },
     {
         "title":  "Terus Berlari",
@@ -1033,7 +1091,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Terus%20Berlari%20Pnkrs%20Project"
     },
     {
         "title":  "Selamat Berkepala Dua",
@@ -1050,7 +1109,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Selamat%20Berkepala%20Dua%20Pnkrs%20Project"
     },
     {
         "title":  "Pengantar Mimpimu",
@@ -1067,7 +1127,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Pengantar%20Mimpimu%20Pnkrs%20Project"
     },
     {
         "title":  "Si Kucing Kalem",
@@ -1085,7 +1146,8 @@ const DISCOGRAPHY = [
         "album":  "Single",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Si%20Kucing%20Kalem%20Pnkrs%20Project"
     },
     {
         "title":  "Sweet Victoria",
@@ -1102,7 +1164,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Sweet%20Victoria%20Pnkrs%20Project"
     },
     {
         "title":  "Syair Semesta",
@@ -1120,7 +1183,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Syair%20Semesta%20Pnkrs%20Project%2C%20Taya%2C%20Hanafi%2C%20Anisa%20Dwila%2C%20Hasbi%20LH%2C%20Arienovs%2C%20Agspry"
     },
     {
         "title":  "Sempurna",
@@ -1138,7 +1202,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Sempurna%20Pnkrs%20Project%2C%20Taya%2C%20Hanafi%2C%20Anisa%20Dwila%2C%20Hasbi%20LH%2C%20Arienovs%2C%20Agspry"
     },
     {
         "title":  "Selamat Ulang Tahun, Jinan!",
@@ -1156,7 +1221,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Selamat%20Ulang%20Tahun%2C%20Jinan!%20Pnkrs%20Project%2C%20Taya%2C%20Hanafi%2C%20Anisa%20Dwila%2C%20Hasbi%20LH%2C%20Arienovs%2C%20Agspry"
     },
     {
         "title":  "Sejatinya Keluarga",
@@ -1173,7 +1239,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "RGH Entertain Studios"
+        "studioLabel":  "RGH Entertain Studios",
+        "amazonUrl":  "https://music.amazon.com/search/Sejatinya%20Keluarga%20RGH%20Project%2C%20Gilang%20Rama%2C%20Hasbi%20LH%2C%20Riki%20Okta"
     },
     {
         "title":  "Jangan Pernah Menyerah (Ost. Melati)",
@@ -1191,7 +1258,8 @@ const DISCOGRAPHY = [
         "album":  "Ost. Melati",
         "mixing":  "Hasbi LH, Gilang Rama Hendrawan",
         "mastering":  "Hasbi LH, Gilang Rama Hendrawan",
-        "studioLabel":  "RGH Entertain Studios"
+        "studioLabel":  "RGH Entertain Studios",
+        "amazonUrl":  "https://music.amazon.com/search/Jangan%20Pernah%20Menyerah%20(Ost.%20Melati)%20RGH%20Project%2C%20Vidhu%2C%20Naila"
     },
     {
         "title":  "Calistha",
@@ -1208,7 +1276,8 @@ const DISCOGRAPHY = [
         "producer":  "Anggih Permata Putra",
         "mixing":  "Anggih Permata Putra",
         "mastering":  "Anggih Permata Putra",
-        "studioLabel":  "Heroes Records"
+        "studioLabel":  "Heroes Records",
+        "amazonUrl":  "https://music.amazon.com/search/Calistha%20Brave%20Party"
     },
     {
         "title":  "Bukan Yang Terakhir",
@@ -1225,7 +1294,8 @@ const DISCOGRAPHY = [
         "producer":  "Anggih Permata Putra",
         "mixing":  "Anggih Permata Putra",
         "mastering":  "Anggih Permata Putra",
-        "studioLabel":  "Heroes Records"
+        "studioLabel":  "Heroes Records",
+        "amazonUrl":  "https://music.amazon.com/search/Bukan%20Yang%20Terakhir%20Brave%20Party"
     },
     {
         "title":  "Bebas",
@@ -1243,7 +1313,8 @@ const DISCOGRAPHY = [
         "album":  "Single",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Bebas%20Nandemo-san"
     },
     {
         "title":  "Bebas (Instrumental)",
@@ -1261,7 +1332,8 @@ const DISCOGRAPHY = [
         "album":  "Single",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Bebas%20(Instrumental)%20Nandemo-san"
     },
     {
         "title":  "Semua Tentangmu",
@@ -1279,7 +1351,8 @@ const DISCOGRAPHY = [
         "album":  "Single",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Semua%20Tentangmu%20Cello%20Pangemanan"
     },
     {
         "title":  "Yessica, Satu-satunya",
@@ -1297,7 +1370,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Yessica%2C%20Satu-satunya%20Tayateya"
     },
     {
         "title":  "Niel, Rindu, Niel!!",
@@ -1314,7 +1388,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Niel%2C%20Rindu%2C%20Niel!!%20Linggar%20Jabo"
     },
     {
         "title":  "As Your Rainbow",
@@ -1331,7 +1406,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/As%20Your%20Rainbow%20Andre%20Ibrahim"
     },
     {
         "title":  "Victoria Milikku",
@@ -1348,7 +1424,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Victoria%20Milikku%20Arienovs%2C%20Tie%20Livia"
     },
     {
         "title":  "Pilihanku, Jessica",
@@ -1366,7 +1443,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Pilihanku%2C%20Jessica%20Brawas%20Handoko"
     },
     {
         "title":  "I. L. Y. A.",
@@ -1383,7 +1461,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/I.%20L.%20Y.%20A.%20Andre%20Ibrahim"
     },
     {
         "title":  "Gabriela Abigail",
@@ -1400,7 +1479,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Gabriela%20Abigail%20Ihza%20Mamta"
     },
     {
         "title":  "I\u0027m Glad That I Met You",
@@ -1417,7 +1497,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/I\u0027m%20Glad%20That%20I%20Met%20You%20Farhan%20Pamungkas"
     },
     {
         "title":  "Cornelia",
@@ -1435,7 +1516,8 @@ const DISCOGRAPHY = [
         "album":  "Single",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Cornelia%20Linggar%20Jabo"
     },
     {
         "title":  "Viva la Victoria",
@@ -1452,7 +1534,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Viva%20la%20Victoria%20Arienovs%2C%20Tie%20Livia"
     },
     {
         "title":  "Hari Spesial",
@@ -1469,7 +1552,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Hari%20Spesial%20Ihza%20Mamta"
     },
     {
         "title":  "Dreamcatcher",
@@ -1486,7 +1570,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Shiiyato",
         "mastering":  "Shiiyato",
-        "studioLabel":  "Wargavi48"
+        "studioLabel":  "Wargavi48",
+        "amazonUrl":  "https://music.amazon.com/search/Dreamcatcher%20Wargavi%2C%20Rizuka%20Miku"
     },
     {
         "title":  "Dreamcatcher (Instrumental)",
@@ -1504,7 +1589,8 @@ const DISCOGRAPHY = [
         "album":  "Ost. WGV: Dreamcatcher",
         "mixing":  "Shiiyato",
         "mastering":  "Shiiyato",
-        "studioLabel":  "Wargavi48"
+        "studioLabel":  "Wargavi48",
+        "amazonUrl":  "https://music.amazon.com/search/Dreamcatcher%20(Instrumental)%20Wargavi%2C%20Rizuka%20Miku"
     },
     {
         "title":  "Aralie Setiap Hari",
@@ -1521,7 +1607,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Aralie%20Setiap%20Hari%20Arienovs"
     },
     {
         "title":  "PEMILU",
@@ -1538,7 +1625,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/PEMILU%20Erlangga%20Danantara%2C%20Farhan%20Pamungkas"
     },
     {
         "title":  "Only You",
@@ -1555,7 +1643,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Only%20You%20Ihza%20Mamta"
     },
     {
         "title":  "Matahariku",
@@ -1572,7 +1661,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Matahariku%20Teman%20Aralie"
     },
     {
         "title":  "Astrella 2025",
@@ -1590,7 +1680,8 @@ const DISCOGRAPHY = [
         "album":  "Single",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Astrella%202025%20Nares%20Area%2C%20Broccoza"
     },
     {
         "title":  "My Lave",
@@ -1608,7 +1699,8 @@ const DISCOGRAPHY = [
         "album":  "Single",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/My%20Lave%20Fikgi%20Tanumihardja"
     },
     {
         "title":  "Langkah",
@@ -1626,7 +1718,8 @@ const DISCOGRAPHY = [
         "album":  "Temani Perjalanan",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Langkah%20Hillaryours"
     },
     {
         "title":  "Titik Kedua",
@@ -1643,7 +1736,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Titik%20Kedua%20Teman%20Aralie"
     },
     {
         "title":  "ManCyn",
@@ -1661,7 +1755,8 @@ const DISCOGRAPHY = [
         "album":  "Single",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/ManCyn%20Ivan%20B0B"
     },
     {
         "title":  "Kagum",
@@ -1679,7 +1774,8 @@ const DISCOGRAPHY = [
         "producer":  "Hasbi LH",
         "mixing":  "Hasbi LH",
         "mastering":  "Hasbi LH",
-        "studioLabel":  "Eruharecords"
+        "studioLabel":  "Eruharecords",
+        "amazonUrl":  "https://music.amazon.com/search/Kagum%20Arienovs"
     }
 ];
 

@@ -2951,6 +2951,100 @@
     background: rgba(37,99,235,0.12);
   }
 
+  /* MOBILE LAYOUT HARDENING */
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  section,
+  #platforms,
+  footer {
+    width: 100%;
+    min-width: 0;
+  }
+
+  section > *,
+  .disco-controls,
+  .disco-grid,
+  .filmography-grid,
+  .videos-grid,
+  .platforms-grid {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  img,
+  iframe,
+  video,
+  svg {
+    max-width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    body {
+      overflow-x: hidden;
+    }
+
+    section,
+    #platforms {
+      max-width: none;
+      padding-inline: 16px;
+    }
+
+    section > .reveal,
+    #about > .disco-controls,
+    #discography > .disco-controls,
+    #disco-grid,
+    .album-detail-view,
+    .filmography-grid,
+    .videos-grid {
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .about-stats-grid {
+      grid-template-columns: minmax(0, 1fr);
+      width: 100%;
+    }
+
+    .about-bio,
+    .tags-row,
+    .spotify-embed-wrap,
+    .spotify-embed {
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    #discography .filter-group,
+    #discography .sort-controls,
+    #discography .search-bar {
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    #discography .sort-controls select,
+    #discography .search-bar input {
+      min-width: 0;
+      max-width: 100%;
+    }
+  }
+
+  @media (max-width: 520px) {
+    #about > .disco-controls,
+    #discography > .disco-controls {
+      padding-inline: 16px;
+    }
+
+    #discography .filter-buttons {
+      max-width: calc(100% + 32px);
+    }
+  }
+
   @media (max-width: 768px) {
     html[data-theme='light'] .nav-links {
       border-color: rgba(38,74,128,0.13);

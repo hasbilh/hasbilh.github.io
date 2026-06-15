@@ -5,17 +5,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hasbi LH | Bukan Music Promptducer</title>
 <link rel="icon" type="image/png" href="favicon.png">
+<link rel="canonical" href="https://hasbilh.github.io/">
 <!-- Open Graph Meta Tags -->
 <meta property="og:title" content="Hasbi LH - Bukan Music Promptducer">
 <meta property="og:description" content="Music gallery of Hasbi LH featuring discography, collaborations, etc.">
-<meta property="og:image" content="thumbnail.jpg">
-<meta property="og:url" content="https://hasbilh.github.io">
+<meta property="og:image" content="https://hasbilh.github.io/thumbnail.jpg">
+<meta property="og:image:secure_url" content="https://hasbilh.github.io/thumbnail.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="2160">
+<meta property="og:image:height" content="1080">
+<meta property="og:image:alt" content="Hasbi LH - Bukan Music Promptducer">
+<meta property="og:url" content="https://hasbilh.github.io/">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="Hasbi LH">
 <!-- Twitter Card Meta Tags -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Hasbi LH - Bukan Music Promptducer">
 <meta name="twitter:description" content="Music gallery of Hasbi LH featuring discography, collaborations, etc.">
-<meta name="twitter:image" content="thumbnail.jpg">
+<meta name="twitter:image" content="https://hasbilh.github.io/thumbnail.jpg">
+<meta name="twitter:image:alt" content="Hasbi LH - Bukan Music Promptducer">
+<meta name="theme-color" id="theme-color-meta" content="#070b16">
+<script>
+  (function () {
+    try {
+      const savedTheme = localStorage.getItem('site_theme');
+      const theme = savedTheme || 'dark';
+      document.documentElement.dataset.theme = theme;
+      document.documentElement.style.colorScheme = theme;
+      document.getElementById('theme-color-meta').content = theme === 'light' ? '#f4f7fc' : '#070b16';
+    } catch (_) {
+      document.documentElement.dataset.theme = 'dark';
+    }
+  })();
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -40,7 +62,17 @@
     <li><a href="#filmography" data-i18n="nav.filmography">Filmografi</a></li>
     <li><a href="#videos" data-i18n="nav.videos">Video</a></li>
     <li><a href="#platforms" data-i18n="nav.platforms">Platform</a></li>
-    <li class="nav-lang">
+    <li><button class="nav-contact-btn" id="nav-contact-btn" type="button" data-i18n="nav.contact">Kontak</button></li>
+    <li class="nav-lang nav-preferences">
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Aktifkan mode terang" title="Aktifkan mode terang">
+        <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"></path>
+        </svg>
+        <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
       <div class="lang-select">
         <div class="lang-switch" id="lang-select" role="tablist" aria-label="Language selector">
           <button class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
@@ -60,8 +92,7 @@
 
   <p class="hero-label">Bukan Music Promptducer</p>
   <h1 class="hero-title">
-    <span class="line1">HASBI</span>
-    <span class="line2">LH</span>
+    <span class="line1">HASBI LH</span>
   </h1>
   <p class="hero-tagline" data-i18n="hero.tagline">Independent Musician, Songwriter, Composer & Producer.</p>
 
@@ -71,10 +102,6 @@
     <a href="#platforms" class="btn-outline" data-i18n="cta.listen">Dengarkan Sekarang</a>
   </div>
 
-  <div class="scroll-indicator">
-    <span data-i18n="misc.scroll">Scroll</span>
-    <div class="scroll-line"></div>
-  </div>
 </div>
 
 <div class="divider"></div>
@@ -144,7 +171,7 @@
       <p class="filter-label" data-i18n="label.year">
         Tahun Rilis
       </p>
-      <div class="filter-buttons">
+      <div class="filter-buttons" id="year-filter-buttons">
         <button class="filter-btn active" data-year="all" data-i18n="filter.year.all">Semua</button>
         <button class="filter-btn" data-year="2026">2026</button>
         <button class="filter-btn" data-year="2025">2025</button>
@@ -170,6 +197,7 @@
         <button class="filter-btn filter-category" data-category="Kolaborasi" data-i18n="filter.category.Kolaborasi">Kolaborasi</button>
         <button class="filter-btn filter-category" data-category="Grup Musik Hasbi LH" data-i18n="filter.category.grup">Grup Musik Hasbi LH</button>
         <button class="filter-btn filter-category" data-category="Artis Lain" data-i18n="filter.category.artis">Artis Lain</button>
+        <button class="filter-btn filter-category" data-category="Album" data-i18n="filter.category.album">Album</button>
       </div>
     </div>
     <div class="sort-controls">
@@ -186,7 +214,6 @@
       <span class="search-icon">🔍</span>
       <input type="text" id="search-input" placeholder="Cari lagu/artis..." data-i18n="search.placeholder">
     </div>
-    <div id="disco-pagination" class="disco-pagination reveal reveal-delay-3"></div>
   </div>
 
   <div id="disco-grid" class="disco-grid reveal reveal-delay-2">
@@ -237,8 +264,8 @@
 </section>
 
 <!-- MODAL -->
-<div class="modal-overlay" id="modal-overlay">
-  <div class="modal" id="modal">
+<div class="modal-overlay" id="modal-overlay" aria-hidden="true">
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-artist" tabindex="-1">
     <div class="modal-header">
       <div id="modal-cover-container"></div>
       <div class="modal-heading">
@@ -246,7 +273,7 @@
         <div class="modal-artist" id="modal-artist"></div>
         <div class="modal-tags" id="modal-tags"></div>
       </div>
-      <button class="modal-close" id="modal-close">✕</button>
+      <button class="modal-close" id="modal-close" type="button" aria-label="Tutup">✕</button>
     </div>
     <div class="modal-body">
       <div class="modal-embed" id="modal-embed"></div>
@@ -312,16 +339,16 @@
     </a>
     <a href="https://music.youtube.com/channel/UCzbwOQAfE1PUvvayXCBdHdw" target="_blank" rel="noopener noreferrer" class="platform-card">
       <span class="platform-card-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 0C5.376 0 0 5.376 0 12s5.376 12 12 12 12-5.376 12-12S18.624 0 12 0zm0 19.104c-3.924 0-7.104-3.18-7.104-7.104S8.076 4.896 12 4.896s7.104 3.18 7.104 7.104-3.18 7.104-7.104 7.104zm0-13.332c-3.432 0-6.228 2.796-6.228 6.228S8.568 18.228 12 18.228s6.228-2.796 6.228-6.228S15.432 5.772 12 5.772zM9.684 15.54V8.46L15.816 12l-6.132 3.54z"/>
         </svg>
       </span>
       <span class="platform-card-name">YT Music</span>
     </a>
     <a href="https://soundcloud.com/hazbi-hzz" target="_blank" rel="noopener noreferrer" class="platform-card">
       <span class="platform-card-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M7 17.939h-.411c-.907.058-1.586.518-1.739 1.398-.355.167-.671.326-.671.326s1.916.114 4.129.114c2.213 0 4.129-.114 4.129-.114s-.316-.159-.671-.326c-.153-.88-.832-1.34-1.739-1.398H9v-5.969c0-.307.029-.614.089-.91.06-.296.153-.58.278-.841.125-.261.284-.489.472-.683.188-.194.406-.345.647-.45.241-.105.497-.158.765-.158.269 0 .525.053.766.158.241.105.459.256.647.45.188.194.347.422.472.683.125.261.218.545.278.841.06.296.089.603.089.91V17.939zM12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22.083c-5.994 0-10.861-4.867-10.861-10.861S6.006 1.361 12 1.361 22.861 6.228 22.861 12.222 17.994 22.083 12 22.083z"/>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M23.999 14.165c-.052 1.796-1.612 3.169-3.4 3.169h-8.18a.68.68 0 0 1-.675-.683V7.862a.747.747 0 0 1 .452-.724s.75-.513 2.333-.513a5.364 5.364 0 0 1 2.763.755 5.433 5.433 0 0 1 2.57 3.54c.282-.08.574-.121.868-.12.884 0 1.73.358 2.347.992s.948 1.49.922 2.373ZM10.721 8.421c.247 2.98.427 5.697 0 8.672a.264.264 0 0 1-.53 0c-.395-2.946-.22-5.718 0-8.672a.264.264 0 0 1 .53 0ZM9.072 9.448c.285 2.659.37 4.986-.006 7.655a.277.277 0 0 1-.55 0c-.331-2.63-.256-5.02 0-7.655a.277.277 0 0 1 .556 0Zm-1.663-.257c.27 2.726.39 5.171 0 7.904a.266.266 0 0 1-.532 0c-.38-2.69-.257-5.21 0-7.904a.266.266 0 0 1 .532 0Zm-1.647.77a26.108 26.108 0 0 1-.008 7.147.272.272 0 0 1-.542 0 27.955 27.955 0 0 1 0-7.147.275.275 0 0 1 .55 0Zm-1.67 1.769c.421 1.865.228 3.5-.029 5.388a.257.257 0 0 1-.514 0c-.21-1.858-.398-3.549 0-5.389a.272.272 0 0 1 .543 0Zm-1.655-.273c.388 1.897.26 3.508-.01 5.412-.026.28-.514.283-.54 0-.244-1.878-.347-3.54-.01-5.412a.283.283 0 0 1 .56 0Zm-1.668.911c.4 1.268.257 2.292-.026 3.572a.257.257 0 0 1-.514 0c-.241-1.262-.354-2.312-.023-3.572a.283.283 0 0 1 .563 0Z"/>
         </svg>
       </span>
       <span class="platform-card-name">SoundCloud</span>
@@ -336,8 +363,8 @@
     </a>
     <a href="https://tidal.com/credits/15281318" target="_blank" rel="noopener noreferrer" class="platform-card">
       <span class="platform-card-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm.844 17.656c-1.961 0-3.552-1.59-3.552-3.552 0-1.962 1.59-3.552 3.552-3.552s3.552 1.59 3.552 3.552c0 1.962-1.59 3.552-3.552 3.552zm6.504-5.024c-.414 0-.75-.336-.75-.75s.336-.75.75-.75.75.336.75.75-.336.75-.75.75zm-13.008 0c-.414 0-.75-.336-.75-.75s.336-.75.75-.75.75.336.75.75-.336.75-.75.75z"/>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12.012 3.992L8.008 7.996 4.004 3.992 0 7.996 4.004 12l4.004-4.004L12.012 12l-4.004 4.004 4.004 4.004 4.004-4.004L12.012 12l4.004-4.004-4.004-4.004zM16.042 7.996l3.979-3.979L24 7.996l-3.979 3.979z"/>
         </svg>
       </span>
       <span class="platform-card-name">Tidal</span>
@@ -373,10 +400,71 @@
   <p>Created by <a href="https://hasbilh.github.io/biolink" target="_blank" rel="noopener noreferrer">Hasbi LH</a> | Data via Spotify & YouTube RSS</p>
 </footer>
 
+<button class="floating-action contact-fab" id="contact-fab" type="button" aria-label="Kontak kerja sama" title="Kontak kerja sama" aria-haspopup="dialog" aria-controls="contact-dialog">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M4 4h16v16H4z"></path>
+    <path d="m4 6 8 6 8-6"></path>
+  </svg>
+</button>
+
+<button class="back-to-top" id="back-to-top" type="button" aria-label="Kembali ke atas" title="Kembali ke atas">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M6 15l6-6 6 6"></path>
+  </svg>
+</button>
+
+<div class="contact-dialog-overlay" id="contact-dialog-overlay" hidden>
+  <div class="contact-dialog" id="contact-dialog" role="dialog" aria-modal="true" aria-labelledby="contact-dialog-title" aria-describedby="contact-dialog-description">
+    <button class="contact-dialog-close" id="contact-dialog-close" type="button" aria-label="Tutup">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M6 6l12 12M18 6 6 18"></path>
+      </svg>
+    </button>
+    <div class="contact-dialog-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h16v16H4z"></path>
+        <path d="m4 6 8 6 8-6"></path>
+      </svg>
+    </div>
+    <p class="contact-dialog-label" data-i18n="contact.label">Kontak</p>
+    <h2 id="contact-dialog-title" data-i18n="contact.title">Mari Bekerja Sama</h2>
+    <p id="contact-dialog-description" data-i18n="contact.description">Untuk kolaborasi dan kerja sama, silakan hubungi melalui kontak berikut.</p>
+    <a class="contact-email" href="mailto:hasbilh_@outlook.com">
+      <svg class="contact-email-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 5h16v14H4z"></path>
+        <path d="m4 7 8 6 8-6"></path>
+      </svg>
+      <span class="contact-email-content">
+        <strong data-i18n="contact.send_email">Kirim Email</strong>
+        <small>hasbilh_@outlook.com</small>
+      </span>
+    </a>
+    <div class="contact-socials">
+      <a class="contact-social contact-social-x" href="https://x.com/messages/compose?recipient_id=156588231" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+        </svg>
+        <span>
+          <strong data-i18n="contact.dm_x">DM di X</strong>
+          <small>@hasbilh_</small>
+        </span>
+      </a>
+      <a class="contact-social contact-social-instagram" href="https://ig.me/m/hasbilh_" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path>
+        </svg>
+        <span>
+          <strong data-i18n="contact.dm_instagram">DM di Instagram</strong>
+          <small>@hasbilh_</small>
+        </span>
+      </a>
+    </div>
+  </div>
+</div>
+
 <script src="data/translations.js"></script>
 <script src="data/discography-data.js"></script>
 <script src="data/video-data.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
-

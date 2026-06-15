@@ -35,8 +35,75 @@ function getText(key) {
   return (TRANSLATIONS[lang] && TRANSLATIONS[lang][key]) || TRANSLATIONS['id'][key] || key;
 }
 
+const backToTopButton = document.getElementById('back-to-top');
+const contactFab = document.getElementById('contact-fab');
+const navContactButton = document.getElementById('nav-contact-btn');
+const contactDialogOverlay = document.getElementById('contact-dialog-overlay');
+const contactDialog = document.getElementById('contact-dialog');
+const contactDialogClose = document.getElementById('contact-dialog-close');
+
+function updateBackToTopLabel() {
+  if (!backToTopButton) return;
+  const label = getText('back_to_top');
+  backToTopButton.setAttribute('aria-label', label);
+  backToTopButton.title = label;
+}
+
+function updateContactLabels() {
+  if (contactFab) {
+    const buttonLabel = getText('contact.button');
+    contactFab.setAttribute('aria-label', buttonLabel);
+    contactFab.title = buttonLabel;
+  }
+  if (contactDialogClose) {
+    contactDialogClose.setAttribute('aria-label', getText('contact.close'));
+  }
+}
+
+function updateModalLabels() {
+  const modalClose = document.getElementById('modal-close');
+  if (modalClose) modalClose.setAttribute('aria-label', getText('modal.close'));
+}
+
+// ====== THEME ======
+const themeToggle = document.getElementById('theme-toggle');
+const themeColorMeta = document.getElementById('theme-color-meta');
+
+function getCurrentTheme() {
+  return document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+}
+
+function updateThemeButton() {
+  if (!themeToggle) return;
+  const nextTheme = getCurrentTheme() === 'dark' ? 'light' : 'dark';
+  const label = getText(nextTheme === 'light' ? 'theme.enable_light' : 'theme.enable_dark');
+  themeToggle.setAttribute('aria-label', label);
+  themeToggle.title = label;
+  themeToggle.setAttribute('aria-pressed', getCurrentTheme() === 'light' ? 'true' : 'false');
+  if (themeColorMeta) {
+    themeColorMeta.content = getCurrentTheme() === 'light' ? '#f4f7fc' : '#070b16';
+  }
+}
+
+function applyTheme(theme, persist = false) {
+  const normalizedTheme = theme === 'light' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = normalizedTheme;
+  document.documentElement.style.colorScheme = normalizedTheme;
+  if (persist) localStorage.setItem('site_theme', normalizedTheme);
+  updateThemeButton();
+}
+
+applyTheme(getCurrentTheme());
+
+if (themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    applyTheme(getCurrentTheme() === 'dark' ? 'light' : 'dark', true);
+  });
+}
+
 function applyTranslations(lang) {
   const dict = TRANSLATIONS[lang] || TRANSLATIONS['id'];
+  document.documentElement.lang = lang === 'ja' ? 'ja' : lang;
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (dict[key]) {
@@ -48,6 +115,10 @@ function applyTranslations(lang) {
       }
     }
   });
+  updateThemeButton();
+  updateBackToTopLabel();
+  updateContactLabels();
+  updateModalLabels();
 }
 
 function refreshDiscographyView() {
@@ -124,11 +195,27 @@ function escapeHtml(value) {
   }[char]));
 }
 
+function safeExternalUrl(value, fallback = '#') {
+  try {
+    const url = new URL(String(value || ''), window.location.href);
+    return url.protocol === 'https:' || url.protocol === 'http:' ? url.href : fallback;
+  } catch (_) {
+    return fallback;
+  }
+}
+
+function normalizeYouTubeId(value) {
+  const id = String(value || '').trim();
+  return /^[A-Za-z0-9_-]{11}$/.test(id) ? id : '';
+}
+
 function formatReleaseDate(value) {
   if (!value) return '';
   const date = new Date(`${value}T00:00:00`);
   if (Number.isNaN(date.getTime())) return value;
-  return date.toLocaleDateString('id-ID', {
+  const localeMap = { id: 'id-ID', en: 'en-US', ja: 'ja-JP' };
+  const locale = localeMap[localStorage.getItem('site_lang') || 'id'] || 'id-ID';
+  return date.toLocaleDateString(locale, {
     day: 'numeric',
     month: 'long',
     year: 'numeric',
@@ -136,23 +223,29 @@ function formatReleaseDate(value) {
 }
 
 function getSpotifyOembedUrl(item) {
-  const id = item.spotifyTrackId || item.spotifyId;
-  if (!id) return null;
-  const type = item.spotifyTrackId ? 'track' : 'album';
-  return `https://open.spotify.com/oembed?url=https://open.spotify.com/${type}/${id}`;
+  const id = item.spotifyTrackId;
+  if (!id || !/^[A-Za-z0-9]{22}$/.test(id)) return null;
+  return `https://open.spotify.com/oembed?url=https://open.spotify.com/track/${id}`;
 }
+
+const spotifyCoverCache = new Map();
 
 async function resolveCoverFromSpotify(item) {
   const oembedUrl = getSpotifyOembedUrl(item);
   if (!oembedUrl) return null;
-  try {
-    const response = await fetch(oembedUrl);
-    if (!response.ok) return null;
-    const json = await response.json();
-    return json.thumbnail_url || null;
-  } catch (error) {
-    return null;
+  if (!spotifyCoverCache.has(item.spotifyTrackId)) {
+    spotifyCoverCache.set(item.spotifyTrackId, (async () => {
+      try {
+        const response = await fetch(oembedUrl);
+        if (!response.ok) return null;
+        const json = await response.json();
+        return safeExternalUrl(json.thumbnail_url, '') || null;
+      } catch (error) {
+        return null;
+      }
+    })());
   }
+  return spotifyCoverCache.get(item.spotifyTrackId);
 }
 
 function buildCard(item, index, isProduced) {
@@ -165,7 +258,14 @@ function buildCard(item, index, isProduced) {
   const [c1, c2] = getGradient(index);
   const initials = makeInitials(item.title);
   const normalizedType = (item.type || '').toString().trim().toLowerCase();
-  const typeClass = normalizedType === 'kolaborasi' ? 'disco-type collab' : normalizedType === 'grup musik hasbi lh' ? 'disco-type group' : 'disco-type';
+  const typeClassMap = {
+    'solo': 'disco-type solo',
+    'kolaborasi': 'disco-type collab',
+    'grup musik hasbi lh': 'disco-type group',
+    'artis lain': 'disco-type other',
+    'video': 'disco-type video',
+  };
+  const typeClass = typeClassMap[normalizedType] || 'disco-type';
   const typeKeyMap = {
     'solo': 'filter.category.Solo',
     'kolaborasi': 'filter.category.Kolaborasi',
@@ -173,13 +273,16 @@ function buildCard(item, index, isProduced) {
     'artis lain': 'filter.category.artis'
   };
   const typeLabel = (typeKeyMap[normalizedType] ? getText(typeKeyMap[normalizedType]) : (item.type || 'Single'));
-  const artistLine = item.artist ? `<br><span style="font-size:11px;color:var(--muted2);">${item.artist}</span>` : '';
+  const safeTitle = escapeHtml(item.title);
+  const safeArtist = escapeHtml(item.artist);
+  const safeCover = safeExternalUrl(item.cover, '');
+  const artistLine = item.artist ? `<br><span style="font-size:11px;color:var(--muted2);">${safeArtist}</span>` : '';
 
   card.innerHTML = `
     <div class="disco-cover">
-      ${item.cover 
-        ? `<img class="disco-img" src="${item.cover}" alt="${item.title}" loading="lazy">`
-        : `<div class="disco-cover-placeholder" style="background:linear-gradient(135deg,${c1},${c2})">${initials}</div>`
+      ${safeCover
+        ? `<img class="disco-img" src="${escapeHtml(safeCover)}" alt="${safeTitle}" loading="lazy">`
+        : `<div class="disco-cover-placeholder" style="background:linear-gradient(135deg,${c1},${c2})">${escapeHtml(initials)}</div>`
       }
       <div class="disco-play-overlay">
         <div class="play-icon">
@@ -188,10 +291,10 @@ function buildCard(item, index, isProduced) {
       </div>
     </div>
     <div class="disco-info">
-      <div class="disco-title">${item.title}${artistLine}</div>
+      <div class="disco-title">${safeTitle}${artistLine}</div>
       <div class="disco-meta">
-          <span class="disco-year">${yearLabel}</span>
-          <span class="${typeClass}">${typeLabel}</span>
+          <span class="disco-year">${escapeHtml(yearLabel)}</span>
+          <span class="${typeClass}">${escapeHtml(typeLabel)}</span>
         </div>
     </div>
   `;
@@ -203,47 +306,67 @@ function buildCard(item, index, isProduced) {
 
   card.addEventListener('click', () => openModal(item, c1, c2, isProduced));
 
-  if (!item.cover && (item.spotifyTrackId || item.spotifyId)) {
+  if (item.spotifyTrackId) {
     resolveCoverFromSpotify(item).then(url => {
       if (!url) return;
       item.cover = url;
-      const placeholder = card.querySelector('.disco-cover-placeholder');
-      if (placeholder) {
-        const img = document.createElement('img');
-        img.className = 'disco-img';
-        img.src = url;
-        img.alt = item.title;
-        img.loading = 'lazy';
-        img.onerror = () => img.replaceWith(createCoverPlaceholder(initials, c1, c2));
-        placeholder.replaceWith(img);
-      }
+      const currentCover = card.querySelector('.disco-img, .disco-cover-placeholder');
+      if (!currentCover) return;
+      const img = document.createElement('img');
+      img.className = 'disco-img';
+      img.src = url;
+      img.alt = item.title;
+      img.loading = 'lazy';
+      img.onerror = () => img.replaceWith(createCoverPlaceholder(initials, c1, c2));
+      currentCover.replaceWith(img);
     });
   }
 
   return card;
 }
 
+let modalCleanupTimer = null;
+let modalRequestToken = 0;
+let modalPreviouslyFocused = null;
+
+function prepareModalOpen() {
+  if (modalCleanupTimer) {
+    clearTimeout(modalCleanupTimer);
+    modalCleanupTimer = null;
+  }
+  document.getElementById('modal-extra-details')?.remove();
+  if (!document.getElementById('modal-overlay')?.classList.contains('open')) {
+    modalPreviouslyFocused = document.activeElement;
+  }
+  return ++modalRequestToken;
+}
+
 function openModal(item, c1, c2, isProduced) {
+  const requestToken = prepareModalOpen();
   const overlay = document.getElementById('modal-overlay');
   const initials = makeInitials(item.title);
+  const safeCover = safeExternalUrl(item.cover, '');
 
   // Cover
   const coverContainer = document.getElementById('modal-cover-container');
-  if (item.cover) {
-    coverContainer.innerHTML = `<img class="modal-cover" src="${item.cover}" alt="${item.title}">`;
+  if (safeCover) {
+    coverContainer.innerHTML = `<img class="modal-cover" src="${escapeHtml(safeCover)}" alt="${escapeHtml(item.title)}">`;
   } else {
-    coverContainer.innerHTML = `<div class="modal-cover-placeholder" style="background:linear-gradient(135deg,${c1},${c2})">${initials}</div>`;
-    if (item.spotifyTrackId || item.spotifyId) {
-      resolveCoverFromSpotify(item).then(url => {
-        if (!url) return;
-        item.cover = url;
-        coverContainer.innerHTML = `<img class="modal-cover" src="${url}" alt="${item.title}">`;
-      });
-    }
+    coverContainer.innerHTML = `<div class="modal-cover-placeholder" style="background:linear-gradient(135deg,${c1},${c2})">${escapeHtml(initials)}</div>`;
+  }
+
+  if (item.spotifyTrackId) {
+    resolveCoverFromSpotify(item).then(url => {
+      if (!url || requestToken !== modalRequestToken || !overlay.classList.contains('open')) return;
+      item.cover = url;
+      coverContainer.innerHTML = `<img class="modal-cover" src="${escapeHtml(url)}" alt="${escapeHtml(item.title)}">`;
+    });
   }
 
   document.getElementById('modal-title').textContent = item.title;
-  document.getElementById('modal-artist').textContent = item.artist ? `by ${item.artist}` : 'Hasbi LH';
+  document.getElementById('modal-artist').textContent = item.artist
+    ? getText('modal.by').replace('{artist}', item.artist)
+    : 'Hasbi LH';
 
   const tags = document.getElementById('modal-tags');
   const yearLabel = item.year || '—';
@@ -254,18 +377,24 @@ function openModal(item, c1, c2, isProduced) {
     'grup musik hasbi lh': 'filter.category.grup',
     'artis lain': 'filter.category.artis'
   };
+  const modalTypeClassMap = {
+    'solo': 'solo',
+    'kolaborasi': 'collab',
+    'grup musik hasbi lh': 'group',
+    'artis lain': 'other',
+    'video': 'video',
+  };
+  const modalTypeClass = modalTypeClassMap[normalizedType] || '';
   const typeLabelTranslated = typeKeyMap[normalizedType] ? getText(typeKeyMap[normalizedType]) : item.type;
   tags.innerHTML = `
-    <span class="modal-tag">${yearLabel}</span>
-    <span class="modal-tag">${isProduced ? getText('film.produced') : typeLabelTranslated}</span>
+    <span class="modal-tag">${escapeHtml(yearLabel)}</span>
+    <span class="modal-tag ${isProduced ? '' : modalTypeClass}">${escapeHtml(isProduced ? getText('film.produced') : typeLabelTranslated)}</span>
   `;
 
   // Spotify embed
   const embedDiv = document.getElementById('modal-embed');
   const spotifyTrackId = item.spotifyTrackId;
-  const spotifyAlbumId = item.spotifyId;
   const isSpotifyTrack = spotifyTrackId && /^[A-Za-z0-9]{22}$/.test(spotifyTrackId);
-  const isSpotifyAlbum = !spotifyTrackId && spotifyAlbumId && /^[A-Za-z0-9]{22}$/.test(spotifyAlbumId);
   const searchArtist = item.artist || 'Hasbi LH';
   const searchQuery = encodeURIComponent(`${item.title} ${searchArtist}`);
 
@@ -275,27 +404,21 @@ function openModal(item, c1, c2, isProduced) {
       width="100%" height="152" frameBorder="0" 
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
       loading="lazy"></iframe>`;
-  } else if (isSpotifyAlbum) {
-    embedDiv.innerHTML = `<iframe style="border-radius:8px" 
-      src="https://open.spotify.com/embed/album/${spotifyAlbumId}?utm_source=generator&theme=0" 
-      width="100%" height="152" frameBorder="0" 
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-      loading="lazy"></iframe>`;
   } else {
     embedDiv.innerHTML = `<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px;">
-      <p>Spotify embed tidak tersedia untuk rilisan ini. Gunakan tautan pencarian.</p>
+      <p>${escapeHtml(getText('modal.spotify_unavailable'))}</p>
     </div>`;
   }
 
   const creditRows = [
-    ['Album', item.album],
-    ['Author / Songwriters', item.songwriters],
-    ['Composer', item.composer],
-    ['Producer', item.producer],
-    ['Mixing', item.mixing],
-    ['Mastering', item.mastering],
-    ['Release Date', formatReleaseDate(item.releaseDate)],
-    ['Studio / Label', item.studioLabel],
+    [getText('modal.credit.album'), item.album],
+    [getText('modal.credit.songwriters'), item.songwriters],
+    [getText('modal.credit.composer'), item.composer],
+    [getText('modal.credit.producer'), item.producer],
+    [getText('modal.credit.mixing'), item.mixing],
+    [getText('modal.credit.mastering'), item.mastering],
+    [getText('modal.credit.release_date'), formatReleaseDate(item.releaseDate)],
+    [getText('modal.credit.studio_label'), item.studioLabel],
   ].filter(([, value]) => value);
   const creditsHtml = creditRows.length
     ? `<div id="modal-extra-details" class="modal-credits">
@@ -314,9 +437,7 @@ function openModal(item, c1, c2, isProduced) {
   const platforms = document.getElementById('modal-platforms');
   const spotifyUrl = isSpotifyTrack
     ? `https://open.spotify.com/track/${spotifyTrackId}`
-    : isSpotifyAlbum
-      ? `https://open.spotify.com/album/${spotifyAlbumId}`
-      : `https://open.spotify.com/search/${searchQuery}`;
+    : `https://open.spotify.com/search/${searchQuery}`;
 
   const appleMusicUrl = platformMeta.appleUrl
     || (platformMeta.appleTrackId && platformMeta.appleAlbumId
@@ -353,54 +474,65 @@ function openModal(item, c1, c2, isProduced) {
         ? `https://tidal.com/browse/album/${tidalAlbum}`
         : `https://tidal.com/search/${searchQuery}`);
   const soundcloudUrl = platformMeta.soundcloudUrl || item.soundcloudUrl || `https://soundcloud.com/search?q=${searchQuery}`;
+  const platformUrls = {
+    spotify: safeExternalUrl(spotifyUrl),
+    apple: safeExternalUrl(appleMusicUrl),
+    youtube: safeExternalUrl(youtubeUrl),
+    youtubeMusic: safeExternalUrl(ytMusicUrl),
+    soundcloud: safeExternalUrl(soundcloudUrl),
+    deezer: safeExternalUrl(deezerUrl),
+    tidal: safeExternalUrl(tidalUrl),
+  };
 
   platforms.innerHTML = `
-    <a href="${spotifyUrl}" target="_blank" rel="noopener noreferrer" class="platform-link">
+    <a href="${escapeHtml(platformUrls.spotify)}" target="_blank" rel="noopener noreferrer" class="platform-link">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.6-.12-.421.18-.78.6-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.241 1.081zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.42-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.781-.18-.601.18-1.2.78-1.381 4.5-1.14 11.28-.86 15.72 1.621.479.3.599 1.02.28 1.5-.319.48-1.041.6-1.52.28z"/>
       </svg>
       Spotify
     </a>
-    <a href="${appleMusicUrl}" target="_blank" rel="noopener noreferrer" class="platform-link">
+    <a href="${escapeHtml(platformUrls.apple)}" target="_blank" rel="noopener noreferrer" class="platform-link">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
         <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
       </svg>
       Apple Music
     </a>
-    <a href="${youtubeUrl}" target="_blank" rel="noopener noreferrer" class="platform-link">
+    <a href="${escapeHtml(platformUrls.youtube)}" target="_blank" rel="noopener noreferrer" class="platform-link">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
         <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
       </svg>
       YouTube
     </a>
-    <a href="${ytMusicUrl}" target="_blank" rel="noopener noreferrer" class="platform-link">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+    <a href="${escapeHtml(platformUrls.youtubeMusic)}" target="_blank" rel="noopener noreferrer" class="platform-link">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 0C5.376 0 0 5.376 0 12s5.376 12 12 12 12-5.376 12-12S18.624 0 12 0zm0 19.104c-3.924 0-7.104-3.18-7.104-7.104S8.076 4.896 12 4.896s7.104 3.18 7.104 7.104-3.18 7.104-7.104 7.104zm0-13.332c-3.432 0-6.228 2.796-6.228 6.228S8.568 18.228 12 18.228s6.228-2.796 6.228-6.228S15.432 5.772 12 5.772zM9.684 15.54V8.46L15.816 12l-6.132 3.54z"/>
       </svg>
       YT Music
     </a>
-    <a href="${soundcloudUrl}" target="_blank" rel="noopener noreferrer" class="platform-link">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M7 17.939h-.411c-.907.058-1.586.518-1.739 1.398-.355.167-.671.326-.671.326s1.916.114 4.129.114c2.213 0 4.129-.114 4.129-.114s-.316-.159-.671-.326c-.153-.88-.832-1.34-1.739-1.398H9v-5.969c0-.307.029-.614.089-.91.06-.296.153-.58.278-.841.125-.261.284-.489.472-.683.188-.194.406-.345.647-.45.241-.105.497-.158.765-.158.269 0 .525.053.766.158.241.105.459.256.647.45.188.194.347.422.472.683.125.261.218.545.278.841.06.296.089.603.089.91V17.939zM12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22.083c-5.994 0-10.861-4.867-10.861-10.861S6.006 1.361 12 1.361 22.861 6.228 22.861 12.222 17.994 22.083 12 22.083z"/>
+    <a href="${escapeHtml(platformUrls.soundcloud)}" target="_blank" rel="noopener noreferrer" class="platform-link">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M23.999 14.165c-.052 1.796-1.612 3.169-3.4 3.169h-8.18a.68.68 0 0 1-.675-.683V7.862a.747.747 0 0 1 .452-.724s.75-.513 2.333-.513a5.364 5.364 0 0 1 2.763.755 5.433 5.433 0 0 1 2.57 3.54c.282-.08.574-.121.868-.12.884 0 1.73.358 2.347.992s.948 1.49.922 2.373ZM10.721 8.421c.247 2.98.427 5.697 0 8.672a.264.264 0 0 1-.53 0c-.395-2.946-.22-5.718 0-8.672a.264.264 0 0 1 .53 0ZM9.072 9.448c.285 2.659.37 4.986-.006 7.655a.277.277 0 0 1-.55 0c-.331-2.63-.256-5.02 0-7.655a.277.277 0 0 1 .556 0Zm-1.663-.257c.27 2.726.39 5.171 0 7.904a.266.266 0 0 1-.532 0c-.38-2.69-.257-5.21 0-7.904a.266.266 0 0 1 .532 0Zm-1.647.77a26.108 26.108 0 0 1-.008 7.147.272.272 0 0 1-.542 0 27.955 27.955 0 0 1 0-7.147.275.275 0 0 1 .55 0Zm-1.67 1.769c.421 1.865.228 3.5-.029 5.388a.257.257 0 0 1-.514 0c-.21-1.858-.398-3.549 0-5.389a.272.272 0 0 1 .543 0Zm-1.655-.273c.388 1.897.26 3.508-.01 5.412-.026.28-.514.283-.54 0-.244-1.878-.347-3.54-.01-5.412a.283.283 0 0 1 .56 0Zm-1.668.911c.4 1.268.257 2.292-.026 3.572a.257.257 0 0 1-.514 0c-.241-1.262-.354-2.312-.023-3.572a.283.283 0 0 1 .563 0Z"/>
       </svg>
       SoundCloud
     </a>
-    <a href="${deezerUrl}" target="_blank" rel="noopener noreferrer" class="platform-link">
+    <a href="${escapeHtml(platformUrls.deezer)}" target="_blank" rel="noopener noreferrer" class="platform-link">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
         <path d="M18.81 4.16v3.03H24V4.16h-5.19zM6.27 8.38v3.03h5.19V8.38H6.27zM18.81 8.38v3.03H24V8.38h-5.19zM6.27 12.61v3.03h5.19v-3.03H6.27zM18.81 12.61v3.03H24v-3.03h-5.19zM6.27 16.83v3.03h5.19v-3.03H6.27zM12.54 16.83v3.03h5.19v-3.03h-5.19zM0 16.83v3.03h5.19v-3.03H0zM12.54 4.16v3.03h5.19V4.16h-5.19zM0 4.16v3.03h5.19V4.16H0zM0 8.38v3.03h5.19V8.38H0zM0 12.61v3.03h5.19v-3.03H0z"/>
       </svg>
       Deezer
     </a>
-    <a href="${tidalUrl}" target="_blank" rel="noopener noreferrer" class="platform-link">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm.844 17.656c-1.961 0-3.552-1.59-3.552-3.552 0-1.962 1.59-3.552 3.552-3.552s3.552 1.59 3.552 3.552c0 1.962-1.59 3.552-3.552 3.552zm6.504-5.024c-.414 0-.75-.336-.75-.75s.336-.75.75-.75.75.336.75.75-.336.75-.75.75zm-13.008 0c-.414 0-.75-.336-.75-.75s.336-.75.75-.75.75.336.75.75-.336.75-.75.75z"/>
+    <a href="${escapeHtml(platformUrls.tidal)}" target="_blank" rel="noopener noreferrer" class="platform-link">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12.012 3.992L8.008 7.996 4.004 3.992 0 7.996 4.004 12l4.004-4.004L12.012 12l-4.004 4.004 4.004 4.004 4.004-4.004L12.012 12l4.004-4.004-4.004-4.004zM16.042 7.996l3.979-3.979L24 7.996l-3.979 3.979z"/>
       </svg>
       Tidal
     </a>
   `;
 
   overlay.classList.add('open');
+  overlay.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
+  requestAnimationFrame(() => document.getElementById('modal-close')?.focus());
 }
 
 document.getElementById('modal-close').addEventListener('click', closeModal);
@@ -408,11 +540,19 @@ document.getElementById('modal-overlay').addEventListener('click', (e) => {
   if (e.target === document.getElementById('modal-overlay')) closeModal();
 });
 function closeModal() {
-  document.getElementById('modal-overlay').classList.remove('open');
+  const overlay = document.getElementById('modal-overlay');
+  if (!overlay.classList.contains('open')) return;
+  modalRequestToken++;
+  overlay.classList.remove('open');
+  overlay.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
-  setTimeout(() => {
+  if (modalCleanupTimer) clearTimeout(modalCleanupTimer);
+  modalCleanupTimer = setTimeout(() => {
     document.getElementById('modal-embed').innerHTML = '';
     document.getElementById('modal-extra-details')?.remove();
+    modalPreviouslyFocused?.focus?.();
+    modalPreviouslyFocused = null;
+    modalCleanupTimer = null;
   }, 300);
 }
 
@@ -430,6 +570,66 @@ if (navToggle && nav) {
         navToggle.setAttribute('aria-expanded', 'false');
       }
     });
+  });
+}
+
+// ====== BACK TO TOP ======
+function updateBackToTopVisibility() {
+  if (!backToTopButton) return;
+  backToTopButton.classList.toggle('visible', window.scrollY > 500);
+}
+
+if (backToTopButton) {
+  updateBackToTopLabel();
+  updateBackToTopVisibility();
+  window.addEventListener('scroll', updateBackToTopVisibility, { passive: true });
+  backToTopButton.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+// ====== CONTACT DIALOG ======
+let contactPreviouslyFocused = null;
+let contactCloseTimer = null;
+
+function openContactDialog() {
+  if (!contactDialogOverlay || !contactDialog) return;
+  if (contactCloseTimer) {
+    clearTimeout(contactCloseTimer);
+    contactCloseTimer = null;
+  }
+  contactPreviouslyFocused = document.activeElement;
+  contactDialogOverlay.hidden = false;
+  requestAnimationFrame(() => contactDialogOverlay.classList.add('open'));
+  document.body.style.overflow = 'hidden';
+  contactDialogClose?.focus();
+}
+
+function closeContactDialog() {
+  if (!contactDialogOverlay || contactDialogOverlay.hidden) return;
+  contactDialogOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+  if (contactCloseTimer) clearTimeout(contactCloseTimer);
+  contactCloseTimer = setTimeout(() => {
+    contactDialogOverlay.hidden = true;
+    contactPreviouslyFocused?.focus?.();
+    contactCloseTimer = null;
+  }, 220);
+}
+
+if (contactFab && contactDialogOverlay) {
+  updateContactLabels();
+  contactFab.addEventListener('click', openContactDialog);
+  navContactButton?.addEventListener('click', () => {
+    if (nav?.classList.contains('nav-open')) {
+      nav.classList.remove('nav-open');
+      navToggle?.setAttribute('aria-expanded', 'false');
+    }
+    openContactDialog();
+  });
+  contactDialogClose?.addEventListener('click', closeContactDialog);
+  contactDialogOverlay.addEventListener('click', event => {
+    if (event.target === contactDialogOverlay) closeContactDialog();
   });
 }
 
@@ -461,27 +661,41 @@ async function initDiscography() {
     grid.innerHTML = '<div class="loading-spinner-full"><div class="spinner"></div></div>';
   }
   await loadDiscographyDatabase();
+  renderYearFilters();
   renderDisco('all', 'all', '', 'date-desc', 1);
 }
 
-function renderDisco(filterYear, filterCategory, searchQuery, sortBy, page) {
-  page = page || 1;
-  currentPage = page;
+function renderYearFilters() {
+  const container = document.getElementById('year-filter-buttons');
+  if (!container) return;
+  const years = [...new Set(discographyData.map(item => Number(item.year)).filter(Number.isFinite))]
+    .sort((a, b) => b - a);
+  container.innerHTML = '';
 
-  const grid = document.getElementById('disco-grid');
-  grid.innerHTML = '';
-  let items = discographyData.slice();
+  const allButton = document.createElement('button');
+  allButton.className = 'filter-btn active';
+  allButton.dataset.year = 'all';
+  allButton.dataset.i18n = 'filter.year.all';
+  allButton.textContent = getText('filter.year.all');
+  container.appendChild(allButton);
 
-  // Filter by year
-  if (filterYear !== 'all') items = items.filter(i => String(i.year) === filterYear);
+  years.forEach(year => {
+    const button = document.createElement('button');
+    button.className = 'filter-btn';
+    button.dataset.year = String(year);
+    button.textContent = String(year);
+    container.appendChild(button);
+  });
+}
 
-  // Filter by category
-  if (filterCategory && filterCategory !== 'all') items = items.filter(i => i.type === filterCategory);
+function getItemAlbums(item) {
+  return String(item.album || '')
+    .split(',')
+    .map(album => album.trim())
+    .filter(Boolean);
+}
 
-  // Search filter
-  if (searchQuery) items = items.filter(i => i.title.toLowerCase().includes(searchQuery) || (i.artist||'').toLowerCase().includes(searchQuery));
-
-  // Sort items
+function sortDiscographyItems(items, sortBy) {
   items.sort((a, b) => {
     switch (sortBy) {
       case 'date-desc':
@@ -500,12 +714,218 @@ function renderDisco(filterYear, filterCategory, searchQuery, sortBy, page) {
         return (b.releaseDate || '0000-00-00').localeCompare(a.releaseDate || '0000-00-00');
     }
   });
+  return items;
+}
+
+function getAlbumGroups() {
+  const groups = new Map();
+  discographyData.forEach(item => {
+    getItemAlbums(item).forEach(album => {
+      if (!groups.has(album)) groups.set(album, []);
+      groups.get(album).push(item);
+    });
+  });
+  return groups;
+}
+
+function getAlbumCollageTracks(tracks, limit = 4) {
+  const sortedTracks = sortDiscographyItems(tracks.slice(), 'date-desc');
+  const selected = [];
+  const usedCovers = new Set();
+
+  sortedTracks.forEach(track => {
+    if (selected.length >= limit) return;
+    const cover = safeExternalUrl(track.cover, '');
+    if (!cover || usedCovers.has(cover)) return;
+    usedCovers.add(cover);
+    selected.push(track);
+  });
+
+  sortedTracks.forEach(track => {
+    if (selected.length >= limit || selected.includes(track)) return;
+    selected.push(track);
+  });
+
+  return selected;
+}
+
+function buildAlbumCard(albumName, tracks, index) {
+  const card = document.createElement('article');
+  card.className = 'disco-card album-card';
+  const [c1, c2] = getGradient(index);
+  const initials = makeInitials(albumName);
+  const leadTrack = sortDiscographyItems(tracks.slice(), 'date-desc')[0];
+  const safeCover = safeExternalUrl(leadTrack?.cover, '');
+  const trackCount = getText('album.track_count').replace('{count}', tracks.length);
+  const isSingleAlbum = albumName.trim().toLowerCase() === 'single';
+  const collageTracks = isSingleAlbum ? getAlbumCollageTracks(tracks) : [];
+  const coverMarkup = isSingleAlbum
+    ? `<div class="album-cover-collage">
+        ${collageTracks.map((track, collageIndex) => {
+          const collageCover = safeExternalUrl(track.cover, '');
+          const [placeholderStart, placeholderEnd] = getGradient(index + collageIndex);
+          return `<div class="album-collage-item" data-collage-index="${collageIndex}">
+            ${collageCover
+              ? `<img src="${escapeHtml(collageCover)}" alt="${escapeHtml(track.title)}" loading="lazy">`
+              : `<div class="disco-cover-placeholder" style="background:linear-gradient(135deg,${placeholderStart},${placeholderEnd})">${escapeHtml(makeInitials(track.title))}</div>`
+            }
+          </div>`;
+        }).join('')}
+      </div>`
+    : safeCover
+      ? `<img class="disco-img" src="${escapeHtml(safeCover)}" alt="${escapeHtml(albumName)}" loading="lazy">`
+      : `<div class="disco-cover-placeholder" style="background:linear-gradient(135deg,${c1},${c2})">${escapeHtml(initials)}</div>`;
+
+  card.innerHTML = `
+    <div class="disco-cover${isSingleAlbum ? ' has-collage' : ''}">
+      ${coverMarkup}
+      <div class="album-card-overlay">
+        <span>${escapeHtml(trackCount)}</span>
+      </div>
+    </div>
+    <div class="disco-info">
+      <div class="disco-title">${escapeHtml(albumName)}</div>
+      <div class="album-track-count">${escapeHtml(trackCount)}</div>
+    </div>
+  `;
+
+  if (isSingleAlbum) {
+    collageTracks.forEach((track, collageIndex) => {
+      if (!track.spotifyTrackId) return;
+      resolveCoverFromSpotify(track).then(url => {
+        if (!url) return;
+        const collageItem = card.querySelector(`[data-collage-index="${collageIndex}"]`);
+        if (!collageItem) return;
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = track.title;
+        img.loading = 'lazy';
+        collageItem.replaceChildren(img);
+      });
+    });
+  } else if (leadTrack?.spotifyTrackId) {
+    resolveCoverFromSpotify(leadTrack).then(url => {
+      if (!url) return;
+      const currentCover = card.querySelector('.disco-img, .disco-cover-placeholder');
+      if (!currentCover) return;
+      const img = document.createElement('img');
+      img.className = 'disco-img';
+      img.src = url;
+      img.alt = albumName;
+      img.loading = 'lazy';
+      currentCover.replaceWith(img);
+    });
+  }
+
+  card.addEventListener('click', () => {
+    selectedAlbum = albumName;
+    currentPage = 1;
+    renderDisco('all', 'Album', document.getElementById('search-input').value.toLowerCase().trim(), currentSort, 1);
+    requestAnimationFrame(() => {
+      document.querySelector('.album-detail-header')?.scrollIntoView({
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        block: 'start',
+      });
+    });
+  });
+  return card;
+}
+
+function renderAlbumBrowser(searchQuery, sortBy) {
+  const grid = document.getElementById('disco-grid');
+  const groups = getAlbumGroups();
+  let albums = [...groups.entries()].map(([name, tracks]) => ({
+    name,
+    tracks,
+    latestRelease: sortDiscographyItems(tracks.slice(), 'date-desc')[0]?.releaseDate || '',
+  }));
+
+  if (searchQuery) {
+    albums = albums.filter(album =>
+      album.name.toLowerCase().includes(searchQuery)
+      || album.tracks.some(item =>
+        item.title.toLowerCase().includes(searchQuery)
+        || (item.artist || '').toLowerCase().includes(searchQuery)
+      )
+    );
+  }
+
+  albums.sort((a, b) => {
+    if (sortBy === 'date-asc') return a.latestRelease.localeCompare(b.latestRelease);
+    if (sortBy === 'date-desc') return b.latestRelease.localeCompare(a.latestRelease);
+    if (sortBy === 'title-desc' || sortBy === 'artist-desc') return b.name.localeCompare(a.name);
+    return a.name.localeCompare(b.name);
+  });
+
+  if (albums.length === 0) {
+    grid.innerHTML = `<div class="no-results">${getText('no_results.discography')}</div>`;
+    return;
+  }
+
+  albums.forEach((album, index) => {
+    grid.appendChild(buildAlbumCard(album.name, album.tracks, index));
+  });
+}
+
+function renderAlbumHeader(albumName, trackCount) {
+  const header = document.createElement('div');
+  header.className = 'album-detail-header';
+  header.innerHTML = `
+    <button type="button" class="album-back-btn">
+      <span aria-hidden="true">←</span>
+      ${escapeHtml(getText('album.back'))}
+    </button>
+    <div>
+      <h3>
+        <span class="album-detail-title">${escapeHtml(albumName)}</span>
+        <span class="album-detail-count">${escapeHtml(getText('album.track_count').replace('{count}', trackCount))}</span>
+      </h3>
+    </div>
+  `;
+  header.querySelector('.album-back-btn').addEventListener('click', () => {
+    selectedAlbum = null;
+    currentPage = 1;
+    renderDisco('all', 'Album', document.getElementById('search-input').value.toLowerCase().trim(), currentSort, 1);
+    requestAnimationFrame(() => {
+      document.querySelector('#discography > .disco-controls')?.scrollIntoView({
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        block: 'start',
+      });
+    });
+  });
+  return header;
+}
+
+function renderDisco(filterYear, filterCategory, searchQuery, sortBy, page) {
+  page = page || 1;
+  currentPage = page;
+
+  const grid = document.getElementById('disco-grid');
+  grid.innerHTML = '';
+
+  if (filterCategory === 'Album' && !selectedAlbum) {
+    renderAlbumBrowser(searchQuery, sortBy);
+    return;
+  }
+
+  let items = discographyData.slice();
+
+  if (filterCategory === 'Album' && selectedAlbum) {
+    items = items.filter(item => getItemAlbums(item).includes(selectedAlbum));
+  } else {
+    if (filterYear !== 'all') items = items.filter(i => String(i.year) === filterYear);
+    if (filterCategory && filterCategory !== 'all') items = items.filter(i => i.type === filterCategory);
+  }
+
+  // Search filter
+  if (searchQuery) items = items.filter(i => i.title.toLowerCase().includes(searchQuery) || (i.artist||'').toLowerCase().includes(searchQuery));
+
+  sortDiscographyItems(items, sortBy);
 
   filteredItems = items;
 
   if (items.length === 0) {
     grid.innerHTML = `<div class="no-results">${getText('no_results.discography')}</div>`;
-    renderPagination(0, 1);
     return;
   }
 
@@ -515,15 +935,22 @@ function renderDisco(filterYear, filterCategory, searchQuery, sortBy, page) {
   const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
   const pageItems = items.slice(startIdx, startIdx + ITEMS_PER_PAGE);
 
+  if (filterCategory === 'Album' && selectedAlbum) {
+    grid.appendChild(renderAlbumHeader(selectedAlbum, items.length));
+  }
+
+  const trackPagination = document.createElement('div');
+  trackPagination.className = 'disco-pagination track-list-pagination';
+  grid.appendChild(trackPagination);
+
   pageItems.forEach((item, idx) => {
     grid.appendChild(buildCard(item, startIdx + idx, false));
   });
 
-  renderPagination(items.length, totalPages);
+  renderPagination(items.length, totalPages, trackPagination);
 }
 
-function renderPagination(totalItems, totalPages) {
-  const container = document.getElementById('disco-pagination');
+function renderPagination(totalItems, totalPages, container) {
   container.innerHTML = '';
 
   if (totalPages <= 1) return;
@@ -610,23 +1037,37 @@ function goToPage(page) {
 // Filter buttons
 let currentYear = 'all';
 let currentCategory = 'all';
+let selectedAlbum = null;
 let currentSort = 'date-desc';
 
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    if (btn.classList.contains('filter-category')) {
-      document.querySelectorAll('.filter-btn.filter-category').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const cat = btn.dataset.category;
-      currentCategory = (cat === undefined || cat === '') ? 'all' : cat;
-    } else {
-      document.querySelectorAll('.filter-btn:not(.filter-category)').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const yr = btn.dataset.year;
-      currentYear = (yr === undefined || yr === '') ? 'all' : yr;
-    }
-    renderDisco(currentYear, currentCategory, document.getElementById('search-input').value.toLowerCase().trim(), currentSort, 1);
+function setYearFiltersDisabled(disabled) {
+  document.querySelectorAll('#year-filter-buttons .filter-btn').forEach(yearButton => {
+    yearButton.disabled = disabled;
+    yearButton.setAttribute('aria-disabled', disabled ? 'true' : 'false');
   });
+}
+
+document.querySelector('.filter-group').addEventListener('click', (event) => {
+  const btn = event.target.closest('.filter-btn');
+  if (!btn || btn.disabled) return;
+  if (btn.classList.contains('filter-category')) {
+    document.querySelectorAll('.filter-btn.filter-category').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentCategory = btn.dataset.category || 'all';
+    selectedAlbum = null;
+    setYearFiltersDisabled(currentCategory === 'Album');
+    if (currentCategory === 'Album') {
+      currentYear = 'all';
+      document.querySelectorAll('#year-filter-buttons .filter-btn').forEach(yearButton => {
+        yearButton.classList.toggle('active', yearButton.dataset.year === 'all');
+      });
+    }
+  } else {
+    document.querySelectorAll('#year-filter-buttons .filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentYear = btn.dataset.year || 'all';
+  }
+  renderDisco(currentYear, currentCategory, document.getElementById('search-input').value.toLowerCase().trim(), currentSort, 1);
 });
 
 document.getElementById('sort-select').addEventListener('change', (e) => {
@@ -647,23 +1088,51 @@ const CHANNEL_HANDLE = '@hasbilh_';
 const CHANNEL_URL = `https://www.youtube.com/${CHANNEL_HANDLE}`;
 const CHANNEL_ID = 'UC-64KIoELn2IxnTZdgwPDLg';
 const RSS_URL = 'https://www.youtube.com/feeds/videos.xml?channel_id=UC-64KIoELn2IxnTZdgwPDLg';
+const RSS_JSON_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`;
 const CORS_PROXY = `https://api.allorigins.win/get?url=${encodeURIComponent(RSS_URL)}`;
+
+function getYouTubeIdFromUrl(value) {
+  try {
+    const url = new URL(value);
+    if (url.hostname === 'youtu.be') return normalizeYouTubeId(url.pathname.slice(1));
+    if (url.pathname.startsWith('/shorts/')) return normalizeYouTubeId(url.pathname.split('/')[2]);
+    return normalizeYouTubeId(url.searchParams.get('v'));
+  } catch (_) {
+    return '';
+  }
+}
+
+function parseYouTubeXml(xmlText) {
+  const xml = new DOMParser().parseFromString(xmlText, 'text/xml');
+  return Array.from(xml.getElementsByTagNameNS('*', 'entry')).map(entry => {
+    const videoId = entry.getElementsByTagNameNS('*', 'videoId')[0]?.textContent || '';
+    const title = entry.getElementsByTagNameNS('*', 'title')[0]?.textContent || '';
+    const published = entry.getElementsByTagNameNS('*', 'published')[0]?.textContent || '';
+    return {
+      id: videoId,
+      title,
+      date: new Date(published).getFullYear() || '',
+    };
+  }).filter(video => normalizeYouTubeId(video.id));
+}
 
 function renderVideos(videos) {
   const grid = document.getElementById('videos-grid');
   grid.innerHTML = '';
-  if (!videos || videos.length === 0) {
+  const validVideos = (videos || []).filter(v => normalizeYouTubeId(v.id));
+  if (validVideos.length === 0) {
     grid.innerHTML = `<div class="no-results">${getText('no_results.videos')} <a href="${CHANNEL_URL}" target="_blank" rel="noopener noreferrer" style="color:var(--accent2)">${getText('videos.open_channel')}</a></div>`;
     return;
   }
-  videos.slice(0, 9).forEach(v => {
+  validVideos.slice(0, 10).forEach(v => {
     const card = document.createElement('div');
     card.className = 'video-card';
     card.style.cursor = 'pointer';
-    const thumb = `https://img.youtube.com/vi/${v.id}/mqdefault.jpg`;
+    const videoId = normalizeYouTubeId(v.id);
+    const thumb = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
     card.innerHTML = `
       <div class="video-thumb">
-        <img src="${thumb}" alt="${v.title}" loading="lazy" onerror="this.src='https://img.youtube.com/vi/${v.id}/default.jpg'">
+        <img src="${thumb}" alt="${escapeHtml(v.title)}" loading="lazy">
         <div class="video-play-btn">
           <div class="yt-play">
             <svg width="16" height="12" viewBox="0 0 16 12"><polygon points="0,0 16,6 0,12"/></svg>
@@ -671,8 +1140,8 @@ function renderVideos(videos) {
         </div>
       </div>
       <div class="video-info">
-        <div class="video-title">${v.title}</div>
-        <div class="video-date">${v.date}</div>
+        <div class="video-title">${escapeHtml(v.title)}</div>
+        <div class="video-date">${escapeHtml(v.date)}</div>
       </div>
     `;
     card.addEventListener('click', () => openVideoModal(v));
@@ -681,23 +1150,30 @@ function renderVideos(videos) {
 }
 
 function openVideoModal(video) {
+  const videoId = normalizeYouTubeId(video.id);
+  if (!videoId) return;
+  prepareModalOpen();
   const overlay = document.getElementById('modal-overlay');
-  document.getElementById('modal-extra-details')?.remove();
   const coverContainer = document.getElementById('modal-cover-container');
-  coverContainer.innerHTML = `<div class="modal-cover-placeholder" style="background:linear-gradient(135deg,#0d1528,#163f72)">YT</div>`;
+  coverContainer.innerHTML = `
+    <div class="modal-cover-placeholder video-modal-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+      </svg>
+    </div>`;
   document.getElementById('modal-title').textContent = video.title;
   document.getElementById('modal-artist').textContent = 'YouTube';
   document.getElementById('modal-tags').innerHTML = `
-    <span class="modal-tag">${video.date}</span>
-    <span class="modal-tag">${getText('modal.tag_video')}</span>
+    <span class="modal-tag">${escapeHtml(video.date)}</span>
+    <span class="modal-tag video">${escapeHtml(getText('modal.tag_video'))}</span>
   `;
 
   const embedDiv = document.getElementById('modal-embed');
   embedDiv.innerHTML = `
     <div style="position:relative;padding-top:56.25%;">
       <iframe
-        src="https://www.youtube.com/embed/${video.id}?rel=0"
-        title="${video.title.replace(/"/g, '&quot;')}"
+        src="https://www.youtube.com/embed/${videoId}?rel=0"
+        title="${escapeHtml(video.title)}"
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen
@@ -708,25 +1184,36 @@ function openVideoModal(video) {
 
   const platforms = document.getElementById('modal-platforms');
   platforms.innerHTML = `
-    <a href="https://www.youtube.com/watch?v=${video.id}" target="_blank" rel="noopener noreferrer" class="platform-link">${getText('modal.open_youtube')}</a>
+    <a href="https://www.youtube.com/watch?v=${videoId}" target="_blank" rel="noopener noreferrer" class="platform-link">${escapeHtml(getText('modal.open_youtube'))}</a>
   `;
 
   overlay.classList.add('open');
+  overlay.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
+  requestAnimationFrame(() => document.getElementById('modal-close')?.focus());
 }
 
 async function fetchYouTubeRSS() {
   try {
+    const response = await fetch(RSS_JSON_URL);
+    if (!response.ok) throw new Error('RSS JSON request failed');
+    const data = await response.json();
+    const videos = (data.items || []).map(item => ({
+      id: getYouTubeIdFromUrl(item.link || item.guid || ''),
+      title: item.title || '',
+      date: new Date(item.pubDate || '').getFullYear() || '',
+    })).filter(video => video.id);
+    if (videos.length > 0) {
+      renderVideos(videos);
+      return;
+    }
+  } catch (_) {}
+
+  try {
     const res = await fetch(CORS_PROXY);
     if (!res.ok) throw new Error('Network error');
     const data = await res.json();
-    const xml = new DOMParser().parseFromString(data.contents, 'text/xml');
-    const entries = xml.querySelectorAll('entry');
-    const videos = Array.from(entries).map(e => ({
-      id: e.querySelector('videoId')?.textContent || '',
-      title: e.querySelector('title')?.textContent || '',
-      date: new Date(e.querySelector('published')?.textContent||'').getFullYear() || '',
-    })).filter(v => v.id);
+    const videos = parseYouTubeXml(data.contents);
     if (videos.length > 0) { renderVideos(videos); return; }
   } catch(_) {}
 
@@ -734,13 +1221,7 @@ async function fetchYouTubeRSS() {
   try {
     const res2 = await fetch(`https://corsproxy.io/?${encodeURIComponent(RSS_URL)}`);
     if (!res2.ok) throw new Error();
-    const xml = new DOMParser().parseFromString(await res2.text(), 'text/xml');
-    const entries = xml.querySelectorAll('entry');
-    const videos = Array.from(entries).map(e => ({
-      id: e.querySelector('videoId')?.textContent || '',
-      title: e.querySelector('title')?.textContent || '',
-      date: new Date(e.querySelector('published')?.textContent||'').getFullYear() || '',
-    })).filter(v => v.id);
+    const videos = parseYouTubeXml(await res2.text());
     if (videos.length > 0) { renderVideos(videos); return; }
   } catch(_) {}
 
@@ -750,8 +1231,40 @@ async function fetchYouTubeRSS() {
 
 fetchYouTubeRSS();
 
-// ====== KEYBOARD ESC ======
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+// ====== KEYBOARD ======
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    if (contactDialogOverlay && !contactDialogOverlay.hidden) {
+      closeContactDialog();
+    } else {
+      closeModal();
+    }
+    return;
+  }
+
+  const openModalElement = document.getElementById('modal-overlay')?.classList.contains('open')
+    ? document.getElementById('modal')
+    : null;
+  const activeDialog = contactDialogOverlay && !contactDialogOverlay.hidden
+    ? contactDialog
+    : openModalElement;
+
+  if (event.key === 'Tab' && activeDialog) {
+    const focusable = [...activeDialog.querySelectorAll('button, a[href], iframe, [tabindex]:not([tabindex="-1"])')]
+      .filter(element => !element.disabled);
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+
+});
 
 
 

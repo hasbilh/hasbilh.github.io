@@ -565,7 +565,7 @@ function showVideoMiniPlayer(video, videoNode) {
 function moveModalVideoToMiniPlayer() {
   const modalEmbed = document.getElementById('modal-embed');
   const videoNode = modalEmbed?.querySelector('.modal-video-embed');
-  if (!currentModalVideo || !modalMediaInteracted || !videoNode) return false;
+  if (!currentModalVideo || !videoNode) return false;
   return showVideoMiniPlayer(currentModalVideo, videoNode);
 }
 
@@ -1449,7 +1449,7 @@ function openVideoModal(video, existingVideoNode = null) {
   }
   prepareModalOpen();
   currentModalVideo = video;
-  if (existingVideoNode) modalMediaInteracted = true;
+  modalMediaInteracted = true;
   currentMediaTitle = video.title || 'YouTube';
   const overlay = document.getElementById('modal-overlay');
   const coverContainer = document.getElementById('modal-cover-container');

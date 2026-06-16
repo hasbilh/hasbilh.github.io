@@ -284,11 +284,11 @@ function buildCard(item, index, isProduced) {
         ? `<img class="disco-img" src="${escapeHtml(safeCover)}" alt="${safeTitle}" loading="lazy">`
         : `<div class="disco-cover-placeholder" style="background:linear-gradient(135deg,${c1},${c2})">${escapeHtml(initials)}</div>`
       }
-      <div class="disco-play-overlay">
+      ${item.spotifyTrackId ? `<button class="disco-play-overlay" type="button" aria-label="Putar ${safeTitle}">
         <div class="play-icon">
           <svg width="18" height="18" viewBox="0 0 18 18"><polygon points="4,2 16,9 4,16"/></svg>
         </div>
-      </div>
+      </button>` : ''}
     </div>
     <div class="disco-info">
       <div class="disco-title">${safeTitle}${artistLine}</div>
@@ -305,6 +305,11 @@ function buildCard(item, index, isProduced) {
   }
 
   card.addEventListener('click', () => openModal(item, c1, c2, isProduced));
+  card.querySelector('.disco-play-overlay')?.addEventListener('click', event => {
+    event.preventDefault();
+    event.stopPropagation();
+    playDiscographyItem(item);
+  });
 
   if (item.spotifyTrackId) {
     resolveCoverFromSpotify(item).then(url => {
@@ -328,12 +333,286 @@ function buildCard(item, index, isProduced) {
 let modalCleanupTimer = null;
 let modalRequestToken = 0;
 let modalPreviouslyFocused = null;
+let currentMediaTitle = '';
+let modalMediaInteracted = false;
+let currentModalVideo = null;
+let currentMiniVideo = null;
+let spotifyController = null;
+let spotifyControllerReady = false;
+let pendingSpotifyTrackId = null;
+let persistentSpotifyTrackId = null;
+let persistentDiscographyItem = null;
+let persistentPlaying = false;
+let persistentPosition = 0;
+let persistentDuration = 0;
+
+function hideSpotifyControllerFrame() {
+  const host = document.getElementById('spotify-controller-host');
+  if (host) {
+    host.hidden = false;
+    host.setAttribute('aria-hidden', 'true');
+  }
+  document.querySelectorAll('iframe[src*="open.spotify.com/embed"]').forEach(frame => {
+    if (frame.closest('.spotify-embed-wrap')) return;
+    frame.tabIndex = -1;
+    frame.setAttribute('aria-hidden', 'true');
+    Object.assign(frame.style, {
+      display: 'block',
+      position: 'absolute',
+      left: '-100vw',
+      top: '-100vh',
+      zIndex: '-1',
+      width: '1px',
+      height: '1px',
+      opacity: '0',
+      visibility: 'hidden',
+      pointerEvents: 'none',
+    });
+  });
+}
+
+const spotifyFrameObserver = new MutationObserver(hideSpotifyControllerFrame);
+spotifyFrameObserver.observe(document.documentElement, { childList: true, subtree: true });
+
+function formatPlaybackTime(seconds) {
+  const safeSeconds = Math.max(0, Math.floor(Number(seconds) || 0));
+  const minutes = Math.floor(safeSeconds / 60);
+  const secs = safeSeconds % 60;
+  return `${minutes}:${secs.toString().padStart(2, '0')}`;
+}
+
+function updatePersistentPlayerUi() {
+  const player = document.getElementById('persistent-player');
+  const playButton = document.getElementById('persistent-player-play');
+  const progressFill = document.getElementById('persistent-progress-fill');
+  const timeCurrent = document.getElementById('persistent-time-current');
+  const timeTotal = document.getElementById('persistent-time-total');
+  if (!player) return;
+
+  player.classList.toggle('is-playing', persistentPlaying);
+  playButton?.setAttribute('aria-label', persistentPlaying ? 'Pause audio' : 'Play audio');
+  if (progressFill) {
+    const ratio = persistentDuration > 0 ? Math.min(1, persistentPosition / persistentDuration) : 0;
+    progressFill.style.width = `${ratio * 100}%`;
+  }
+  if (timeCurrent) timeCurrent.textContent = formatPlaybackTime(persistentPosition);
+  if (timeTotal) timeTotal.textContent = formatPlaybackTime(persistentDuration);
+}
+
+function setPersistentTrackInfo(item) {
+  const cover = document.getElementById('persistent-player-cover');
+  const title = document.getElementById('persistent-player-title');
+  const artist = document.getElementById('persistent-player-artist');
+  const source = document.getElementById('persistent-player-source');
+  const safeCover = safeExternalUrl(item?.cover, '');
+  if (cover) {
+    if (safeCover) {
+      cover.src = safeCover;
+      cover.alt = item?.title || '';
+      cover.hidden = false;
+    } else {
+      cover.removeAttribute('src');
+      cover.hidden = true;
+    }
+  }
+  if (title) title.textContent = item?.title || 'Spotify';
+  if (artist) artist.textContent = item?.artist || 'Hasbi LH';
+  if (source) {
+    const spotifyUrl = item?.spotifyTrackId && /^[A-Za-z0-9]{22}$/.test(item.spotifyTrackId)
+      ? `https://open.spotify.com/track/${item.spotifyTrackId}`
+      : 'https://open.spotify.com/';
+    source.href = spotifyUrl;
+    source.textContent = 'Buka di Spotify';
+  }
+}
+
+function initSpotifyController(IFrameAPI = window.SpotifyIframeApi) {
+  const host = document.getElementById('spotify-controller-host');
+  if (!IFrameAPI || !host || spotifyController) return;
+
+  IFrameAPI.createController(
+    host,
+    {
+      uri: 'spotify:track:5BVAoJTekW7SaS9bMOrUCr',
+      width: '300',
+      height: '80',
+    },
+    controller => {
+      spotifyController = controller;
+      hideSpotifyControllerFrame();
+      spotifyController.addListener('ready', () => {
+        spotifyControllerReady = true;
+        hideSpotifyControllerFrame();
+        if (pendingSpotifyTrackId) {
+          const trackId = pendingSpotifyTrackId;
+          pendingSpotifyTrackId = null;
+          playSpotifyTrack(trackId);
+        }
+      });
+      spotifyController.addListener('playback_update', event => {
+        const data = event?.data || {};
+        persistentPlaying = !data.isPaused;
+        persistentPosition = (data.position || 0) / 1000;
+        persistentDuration = (data.duration || 0) / 1000;
+        updatePersistentPlayerUi();
+      });
+    },
+  );
+}
+
+function playSpotifyTrack(trackId) {
+  if (!trackId) return;
+  if (!spotifyController || !spotifyControllerReady) {
+    pendingSpotifyTrackId = trackId;
+    initSpotifyController();
+    return;
+  }
+  spotifyController.loadUri(`spotify:track:${trackId}`);
+  spotifyController.play();
+}
+
+function pauseSpotifyTrack() {
+  spotifyController?.pause?.();
+  persistentPlaying = false;
+  updatePersistentPlayerUi();
+}
+
+function resumeSpotifyTrack() {
+  if (!persistentSpotifyTrackId) return;
+  if (!spotifyController || !spotifyControllerReady) {
+    playSpotifyTrack(persistentSpotifyTrackId);
+    return;
+  }
+  spotifyController.resume?.();
+  persistentPlaying = true;
+  updatePersistentPlayerUi();
+}
+
+window.onSpotifyIframeApiReady = IFrameAPI => {
+  initSpotifyController(IFrameAPI);
+};
+
+if (window.SpotifyIframeApi) {
+  initSpotifyController(window.SpotifyIframeApi);
+}
+
+function stopPersistentPlayer() {
+  const player = document.getElementById('persistent-player');
+  const playerEmbed = document.getElementById('persistent-player-embed');
+  if (!player) return;
+  pauseSpotifyTrack();
+  pendingSpotifyTrackId = null;
+  persistentSpotifyTrackId = null;
+  persistentDiscographyItem = null;
+  persistentPlaying = false;
+  persistentPosition = 0;
+  persistentDuration = 0;
+  player.classList.remove('show');
+  player.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('has-persistent-player');
+  if (playerEmbed) playerEmbed.innerHTML = '';
+  updatePersistentPlayerUi();
+}
+
+function showPersistentPlayer() {
+  const player = document.getElementById('persistent-player');
+  if (!player) return;
+  player.classList.add('show');
+  player.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('has-persistent-player');
+}
+
+function closeVideoMiniPlayer() {
+  const player = document.getElementById('video-mini-player');
+  const embed = document.getElementById('video-mini-embed');
+  if (!player) return;
+  player.classList.remove('show');
+  player.setAttribute('aria-hidden', 'true');
+  currentMiniVideo = null;
+  setTimeout(() => {
+    if (!player.classList.contains('show') && embed) embed.innerHTML = '';
+  }, 240);
+}
+
+function stopVideoPlayback() {
+  const miniPlayer = document.getElementById('video-mini-player');
+  const miniEmbed = document.getElementById('video-mini-embed');
+  const modalEmbed = document.getElementById('modal-embed');
+  miniPlayer?.classList.remove('show');
+  miniPlayer?.setAttribute('aria-hidden', 'true');
+  if (miniEmbed) miniEmbed.innerHTML = '';
+  if (currentModalVideo && modalEmbed) modalEmbed.innerHTML = '';
+  currentMiniVideo = null;
+  currentModalVideo = null;
+  modalMediaInteracted = false;
+}
+
+function showVideoMiniPlayer(video, videoNode) {
+  const player = document.getElementById('video-mini-player');
+  const embed = document.getElementById('video-mini-embed');
+  const title = document.getElementById('video-mini-title');
+  if (!player || !embed || !videoNode) return false;
+  stopPersistentPlayer();
+  embed.innerHTML = '';
+  embed.appendChild(videoNode);
+  currentMiniVideo = video;
+  if (title) title.textContent = video?.title || 'YouTube';
+  player.classList.add('show');
+  player.setAttribute('aria-hidden', 'false');
+  return true;
+}
+
+function moveModalVideoToMiniPlayer() {
+  const modalEmbed = document.getElementById('modal-embed');
+  const videoNode = modalEmbed?.querySelector('.modal-video-embed');
+  if (!currentModalVideo || !modalMediaInteracted || !videoNode) return false;
+  return showVideoMiniPlayer(currentModalVideo, videoNode);
+}
+
+function openVideoMiniPlayerModal() {
+  if (!currentMiniVideo) return;
+  const videoNode = document.getElementById('video-mini-embed')?.querySelector('.modal-video-embed');
+  openVideoModal(currentMiniVideo, videoNode || null);
+}
+
+function playDiscographyItem(item) {
+  const spotifyTrackId = item?.spotifyTrackId;
+  if (!spotifyTrackId || !/^[A-Za-z0-9]{22}$/.test(spotifyTrackId)) return;
+  const playerEmbed = document.getElementById('persistent-player-embed');
+  if (!playerEmbed) return;
+
+  stopVideoPlayback();
+  stopPersistentPlayer();
+  persistentSpotifyTrackId = spotifyTrackId;
+  persistentDiscographyItem = item;
+  persistentPlaying = true;
+  persistentPosition = 0;
+  persistentDuration = 0;
+  setPersistentTrackInfo(item);
+  playerEmbed.innerHTML = '';
+  showPersistentPlayer();
+  updatePersistentPlayerUi();
+  playSpotifyTrack(spotifyTrackId);
+}
+
+function openPersistentPlayerTrackModal() {
+  if (!persistentDiscographyItem) return;
+  const itemIndex = discographyData.findIndex(item => (
+    item === persistentDiscographyItem ||
+    (item.spotifyTrackId && item.spotifyTrackId === persistentDiscographyItem.spotifyTrackId) ||
+    (item.title === persistentDiscographyItem.title && item.artist === persistentDiscographyItem.artist)
+  ));
+  const [c1, c2] = getGradient(Math.max(0, itemIndex));
+  openModal(persistentDiscographyItem, c1, c2, false);
+}
 
 function prepareModalOpen() {
   if (modalCleanupTimer) {
     clearTimeout(modalCleanupTimer);
     modalCleanupTimer = null;
   }
+  modalMediaInteracted = false;
+  currentModalVideo = null;
   document.getElementById('modal-extra-details')?.remove();
   if (!document.getElementById('modal-overlay')?.classList.contains('open')) {
     modalPreviouslyFocused = document.activeElement;
@@ -343,6 +622,7 @@ function prepareModalOpen() {
 
 function openModal(item, c1, c2, isProduced) {
   const requestToken = prepareModalOpen();
+  currentMediaTitle = item.artist ? `${item.title} - ${item.artist}` : item.title;
   const overlay = document.getElementById('modal-overlay');
   const initials = makeInitials(item.title);
   const safeCover = safeExternalUrl(item.cover, '');
@@ -391,24 +671,13 @@ function openModal(item, c1, c2, isProduced) {
     <span class="modal-tag ${isProduced ? '' : modalTypeClass}">${escapeHtml(isProduced ? getText('film.produced') : typeLabelTranslated)}</span>
   `;
 
-  // Spotify embed
   const embedDiv = document.getElementById('modal-embed');
+  embedDiv.hidden = true;
+  embedDiv.innerHTML = '';
   const spotifyTrackId = item.spotifyTrackId;
   const isSpotifyTrack = spotifyTrackId && /^[A-Za-z0-9]{22}$/.test(spotifyTrackId);
   const searchArtist = item.artist || 'Hasbi LH';
   const searchQuery = encodeURIComponent(`${item.title} ${searchArtist}`);
-
-  if (isSpotifyTrack) {
-    embedDiv.innerHTML = `<iframe style="border-radius:8px" 
-      src="https://open.spotify.com/embed/track/${spotifyTrackId}?utm_source=generator&theme=0" 
-      width="100%" height="152" frameBorder="0" 
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-      loading="lazy"></iframe>`;
-  } else {
-    embedDiv.innerHTML = `<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px;">
-      <p>${escapeHtml(getText('modal.spotify_unavailable'))}</p>
-    </div>`;
-  }
 
   const creditRows = [
     [getText('modal.credit.album'), item.album],
@@ -545,6 +814,15 @@ document.getElementById('modal-close').addEventListener('click', closeModal);
 document.getElementById('modal-overlay').addEventListener('click', (e) => {
   if (e.target === document.getElementById('modal-overlay')) closeModal();
 });
+
+const modalEmbedElement = document.getElementById('modal-embed');
+['pointerdown', 'touchstart', 'focusin'].forEach(eventName => {
+  modalEmbedElement?.addEventListener(eventName, () => {
+    modalMediaInteracted = true;
+    stopPersistentPlayer();
+  }, true);
+});
+
 function closeModal() {
   const overlay = document.getElementById('modal-overlay');
   if (!overlay.classList.contains('open')) return;
@@ -552,10 +830,13 @@ function closeModal() {
   overlay.classList.remove('open');
   overlay.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
+  const movedToVideoMini = moveModalVideoToMiniPlayer();
   if (modalCleanupTimer) clearTimeout(modalCleanupTimer);
   modalCleanupTimer = setTimeout(() => {
-    document.getElementById('modal-embed').innerHTML = '';
+    if (!movedToVideoMini) document.getElementById('modal-embed').innerHTML = '';
     document.getElementById('modal-extra-details')?.remove();
+    currentModalVideo = null;
+    modalMediaInteracted = false;
     modalPreviouslyFocused?.focus?.();
     modalPreviouslyFocused = null;
     modalCleanupTimer = null;
@@ -1155,10 +1436,21 @@ function renderVideos(videos) {
   });
 }
 
-function openVideoModal(video) {
+function openVideoModal(video, existingVideoNode = null) {
   const videoId = normalizeYouTubeId(video.id);
   if (!videoId) return;
+  if (existingVideoNode) {
+    const miniPlayer = document.getElementById('video-mini-player');
+    miniPlayer?.classList.remove('show');
+    miniPlayer?.setAttribute('aria-hidden', 'true');
+    currentMiniVideo = null;
+  } else {
+    closeVideoMiniPlayer();
+  }
   prepareModalOpen();
+  currentModalVideo = video;
+  if (existingVideoNode) modalMediaInteracted = true;
+  currentMediaTitle = video.title || 'YouTube';
   const overlay = document.getElementById('modal-overlay');
   const coverContainer = document.getElementById('modal-cover-container');
   coverContainer.innerHTML = `
@@ -1175,18 +1467,24 @@ function openVideoModal(video) {
   `;
 
   const embedDiv = document.getElementById('modal-embed');
-  embedDiv.innerHTML = `
-    <div style="position:relative;padding-top:56.25%;">
-      <iframe
-        src="https://www.youtube.com/embed/${videoId}?rel=0"
-        title="${escapeHtml(video.title)}"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-        style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
-      ></iframe>
-    </div>
-  `;
+  embedDiv.hidden = false;
+  embedDiv.innerHTML = '';
+  if (existingVideoNode) {
+    embedDiv.appendChild(existingVideoNode);
+  } else {
+    embedDiv.innerHTML = `
+      <div class="modal-video-embed">
+        <iframe
+          src="https://www.youtube.com/embed/${videoId}?rel=0"
+          title="${escapeHtml(video.title)}"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
+        ></iframe>
+      </div>
+    `;
+  }
 
   const platforms = document.getElementById('modal-platforms');
   platforms.innerHTML = `
@@ -1236,6 +1534,25 @@ async function fetchYouTubeRSS() {
 }
 
 fetchYouTubeRSS();
+
+document.getElementById('persistent-player-stop')?.addEventListener('click', stopPersistentPlayer);
+document.getElementById('persistent-player-title')?.addEventListener('click', openPersistentPlayerTrackModal);
+document.getElementById('persistent-player-play')?.addEventListener('click', () => {
+  if (!persistentSpotifyTrackId) return;
+  if (persistentPlaying) pauseSpotifyTrack();
+  else resumeSpotifyTrack();
+});
+document.getElementById('video-mini-title')?.addEventListener('click', openVideoMiniPlayerModal);
+document.getElementById('video-mini-close')?.addEventListener('click', closeVideoMiniPlayer);
+document.getElementById('persistent-progress-bar')?.addEventListener('click', event => {
+  if (!persistentDuration || !spotifyController) return;
+  const rect = event.currentTarget.getBoundingClientRect();
+  const ratio = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
+  const targetSeconds = ratio * persistentDuration;
+  spotifyController.seek?.(Math.floor(targetSeconds * 1000));
+  persistentPosition = targetSeconds;
+  updatePersistentPlayerUi();
+});
 
 // ====== KEYBOARD ======
 document.addEventListener('keydown', (event) => {

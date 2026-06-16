@@ -9,8 +9,8 @@
 <!-- Open Graph Meta Tags -->
 <meta property="og:title" content="Hasbi LH - Bukan Music Promptducer">
 <meta property="og:description" content="All about Hasbi LH featuring discography, filmography, videos, and more.">
-<meta property="og:image" content="https://hasbilh.github.io/thumbnail.jpg">
-<meta property="og:image:secure_url" content="https://hasbilh.github.io/thumbnail.jpg">
+<meta property="og:image" content="https://hasbilh.github.io/thumbnail-x.jpg">
+<meta property="og:image:secure_url" content="https://hasbilh.github.io/thumbnail-x.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="2160">
 <meta property="og:image:height" content="1080">
@@ -22,7 +22,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Hasbi LH - Bukan Music Promptducer">
 <meta name="twitter:description" content="All about Hasbi LH featuring discography, filmography, videos, and more.">
-<meta name="twitter:image" content="https://hasbilh.github.io/thumbnail.jpg">
+<meta name="twitter:image" content="https://hasbilh.github.io/thumbnail-x.jpg">
 <meta name="twitter:image:alt" content="Hasbi LH - Bukan Music Promptducer">
 <meta name="theme-color" id="theme-color-meta" content="#070b16">
 <script>
@@ -40,7 +40,7 @@
 </script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-<link rel="stylesheet" href="styles.css?v=20260616-5">
+<link rel="stylesheet" href="styles.css?v=20260616-24">
 </head>
 <body>
 
@@ -148,7 +148,7 @@
     <div class="spotify-embed-wrap">
       <iframe class="spotify-embed"
               src="https://open.spotify.com/embed/artist/0368tIB0tl0hcEp1ugjBiY?utm_source=generator&theme=0" 
-              width="100%" height="152" frameBorder="0" 
+              width="100%" height="352" frameBorder="0" 
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
               loading="lazy"></iframe>
     </div>
@@ -281,6 +281,43 @@
       <div id="modal-platforms" class="platform-links"></div>
     </div>
   </div>
+</div>
+
+<div class="persistent-player" id="persistent-player" aria-hidden="true">
+  <div class="persistent-player-track">
+    <img class="persistent-player-cover" id="persistent-player-cover" src="" alt="" hidden>
+    <div class="persistent-player-info">
+      <button class="persistent-player-title" id="persistent-player-title" type="button">Pilih lagu</button>
+      <span id="persistent-player-artist"></span>
+      <a class="persistent-player-source" id="persistent-player-source" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer">Buka di Spotify</a>
+    </div>
+  </div>
+  <div class="persistent-player-controls">
+    <button class="persistent-player-play" id="persistent-player-play" type="button" aria-label="Play/Pause">
+      <svg class="persistent-play-icon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3 1.713a.7.7 0 0 1 1.05-.607l10.89 6.288a.7.7 0 0 1 0 1.134L4.05 14.787A.7.7 0 0 1 3 14.18V1.713z"/></svg>
+      <svg class="persistent-pause-icon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M2.7 1a.7.7 0 0 0-.7.7v12.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7H2.7zm8 0a.7.7 0 0 0-.7.7v12.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7h-2.6z"/></svg>
+    </button>
+    <div class="persistent-player-progress">
+      <span id="persistent-time-current">0:00</span>
+      <button class="persistent-progress-bar" id="persistent-progress-bar" type="button" aria-label="Seek audio">
+        <span class="persistent-progress-fill" id="persistent-progress-fill"></span>
+      </button>
+      <span id="persistent-time-total">0:00</span>
+    </div>
+  </div>
+  <div class="persistent-player-embed" id="persistent-player-embed"></div>
+  <button class="persistent-player-stop" id="persistent-player-stop" type="button" aria-label="Tutup player">✕</button>
+</div>
+
+<div id="spotify-controller-host" class="spotify-controller-host" aria-hidden="true" hidden></div>
+
+<div class="video-mini-player" id="video-mini-player" aria-hidden="true">
+  <div class="video-mini-embed" id="video-mini-embed"></div>
+  <div class="video-mini-info">
+    <button class="video-mini-title" id="video-mini-title" type="button">YouTube</button>
+    <span>Video dari YouTube</span>
+  </div>
+  <button class="video-mini-close" id="video-mini-close" type="button" aria-label="Tutup video">✕</button>
 </div>
 
 
@@ -472,6 +509,7 @@
 <script src="data/translations.js?v=20260616-2"></script>
 <script src="data/discography-data.js?v=20260616-2"></script>
 <script src="data/video-data.js?v=20260616-2"></script>
-<script src="script.js?v=20260616-4"></script>
+<script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
+<script src="script.js?v=20260616-24"></script>
 </body>
 </html>

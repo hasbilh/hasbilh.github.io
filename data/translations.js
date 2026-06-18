@@ -55,7 +55,7 @@ const TRANSLATIONS = {
     'modal.credit.release_date': 'Tanggal Rilis',
     'modal.credit.studio_label': 'Studio / Label',
     'about.bio.p1': '<strong>Hasbi LH</strong> adalah musisi independen, penulis lagu, komposer, dan produser musik asal <strong>Cilacap, Indonesia</strong>. Dikenal dengan lagu dan lirik yang terinspirasi dari kisah pribadi dan budaya internet.',
-    'about.bio.p2': 'Perjalanan solonya dimulai dengan perilisan lagu berjudul <strong>"Pulang."</strong> Ia kemudian dikenal luas di kalangan penggemar JKT48 melalui track <strong>"Greesel Lutuna"</strong>. Hasbi merupakan mantan anggota band pop punk <strong>Brave Party</strong> sebagai gitaris dan trio grup <strong>RGH Project</strong> sebagai gitaris/keyboardist/bassist/produser.',
+    'about.bio.p2': 'Perjalanan solonya dimulai dengan perilisan lagu berjudul <strong>"Pulang."</strong> Ia kemudian dikenal di kalangan penggemar JKT48 melalui lagu <strong>"Greesel Lutuna"</strong>. Hasbi merupakan mantan anggota band pop punk <strong>Brave Party</strong> sebagai gitaris dan trio grup <strong>RGH Project</strong> sebagai gitaris/keyboardist/bassist/produser.',
     'about.bio.p3': 'Kini ia memproduksi seluruh karya solonya secara mandiri, mulai dari rekaman hingga mastering. Memadukan pop, emo, melodic, rock, dan R&B, ia menciptakan lagu yang terasa personal dan beresonansi dengan audiens niche.',
     'discography.intro': 'Daftar lengkap rilisan mandiri Hasbi LH, lagu-lagu grup musik yang pernah dianggotai Hasbi LH, serta lagu-lagu dari artis lain yang musiknya diproduksi oleh Hasbi LH',
     'label.year': 'Tahun Rilis',

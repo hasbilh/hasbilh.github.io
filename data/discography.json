@@ -6,7 +6,7 @@
       "releaseDate": "2026-07-09",
       "type": "Kolaborasi",
       "spotifyId": "66bQXvt8mQIPpO55rQiLlb",
-      "spotifyTrackId": null,
+      "spotifyTrackId": "16Bbyb5vQKNeBBbGfkFAtN",
       "cover": null,
       "artist": "Ekinair, Hasbi LH",
       "album": "Single",
@@ -2463,7 +2463,10 @@
     },
     "Ekin In Winterland": {
       "youtubeId": "R8jvgWu",
-      "youtubeMusicId": "R8jvgWu"
+      "youtubeMusicId": "R8jvgWu",
+      "appleUrl": "https://music.apple.com/id/song/ekin-in-winterland/6786033084",
+      "appleAlbumUrl": "https://music.apple.com/id/album/ekin-in-winterland-single/6786033082",
+      "appleAlbumId": "6786033082"
     }
   }
 }

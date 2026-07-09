@@ -2466,7 +2466,10 @@
       "youtubeMusicId": "R8jvgWu",
       "appleUrl": "https://music.apple.com/id/song/ekin-in-winterland/6786033084",
       "appleAlbumUrl": "https://music.apple.com/id/album/ekin-in-winterland-single/6786033082",
-      "appleAlbumId": "6786033082"
+      "appleAlbumId": "6786033082",
+      "deezerUrl": "https://www.deezer.com/en/track/4124941331",
+      "deezerTrackId": "4124941331",
+      "tidalTrackId": "538828727"
     }
   }
 }

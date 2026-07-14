@@ -2490,7 +2490,12 @@
     },
     "Di Jalan Yang Sama": {
       "youtubeId": "sFwfeQxa9KM",
-      "youtubeMusicId": "jqPjAvAGjAQ"
+      "youtubeMusicId": "jqPjAvAGjAQ",
+      "appleUrl": "https://music.apple.com/id/song/di-jalan-yang-sama/6788875748",
+      "appleAlbumUrl": "https://music.apple.com/id/album/di-jalan-yang-sama-single/6788875505",
+      "appleAlbumId": "6788875505",
+      "deezerUrl": "https://link.deezer.com/s/33P7BR2tSdIDqbFbusmvP",
+      "deezerTrackId": "https://link.deezer.com/s/33P7BR2tSdIDqbFbusmvP"
     }
   }
 }

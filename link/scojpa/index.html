@@ -1,10 +1,22 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Smartlink</title>
-<link rel="icon" type="image/png" href="../favicon.png">
+<title>Dying Experience by Hasbi LH</title>
+<meta name="description" content="Dengarkan Dying Experience by Hasbi LH">
+<meta property="og:title" content="Dying Experience by Hasbi LH">
+<meta property="og:description" content="Dengarkan Dying Experience by Hasbi LH">
+<meta property="og:image" content="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e021fef68394ee11e8d9514357e">
+<meta property="og:image:secure_url" content="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e021fef68394ee11e8d9514357e">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:url" content="https://hasbilh.github.io/link/scojpa/">
+<meta property="og:type" content="music.song">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Dying Experience by Hasbi LH">
+<meta name="twitter:description" content="Dengarkan Dying Experience by Hasbi LH">
+<meta name="twitter:image" content="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e021fef68394ee11e8d9514357e">
+<link rel="icon" type="image/png" href="../../favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -239,10 +251,10 @@
     <div class="status">Memuat smartlink...</div>
   </section>
   <footer class="credit-footer">
-    Provided by <a href="../">Hasbi LH</a>
+    Provided by <a href="../../">Hasbi LH</a>
   </footer>
 </main>
-<script src="../data/discography-data.js"></script>
+<script src="../../data/discography-data.js"></script>
 <script>
 const app = document.getElementById('app');
 
@@ -423,7 +435,7 @@ async function loadDatabase() {
     platformMetadata: typeof PLATFORM_METADATA !== 'undefined' ? PLATFORM_METADATA : {},
   };
   try {
-    const response = await fetch('../data/discography.json', { cache: 'no-store' });
+    const response = await fetch('../../data/discography.json', { cache: 'no-store' });
     if (!response.ok) throw new Error('JSON unavailable');
     const data = await response.json();
     return {
@@ -546,3 +558,4 @@ function renderSearch(items) {
 </script>
 </body>
 </html>
+

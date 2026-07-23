@@ -1,16 +1,6 @@
 // Generated fallback copy of data/discography.json.
 const DISCOGRAPHY = [
   {
-    "title": "AGUS",
-    "year": 2026,
-    "releaseDate": "2026-07-23",
-    "type": "Solo",
-    "spotifyId": null,
-    "spotifyTrackId": null,
-    "cover": null,
-    "artist": "Agus"
-  },
-  {
     "title": "Di Jalan Yang Sama",
     "year": 2026,
     "releaseDate": "2026-07-14",

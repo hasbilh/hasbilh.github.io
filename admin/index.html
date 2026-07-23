@@ -470,6 +470,30 @@ function cleanValue(value) {
   return text || null;
 }
 
+function toGeneratedJs(value) {
+  return JSON.stringify(value || {}, null, 2)
+    .replace(/</g, '\\u003c')
+    .replace(/>/g, '\\u003e')
+    .replace(/&/g, '\\u0026')
+    .replace(/\u2028/g, '\\u2028')
+    .replace(/\u2029/g, '\\u2029');
+}
+
+function buildDiscographyDataJs(sourceDatabase) {
+  const discography = Array.isArray(sourceDatabase?.discography) ? sourceDatabase.discography : [];
+  const platformMetadata = sourceDatabase?.platformMetadata && typeof sourceDatabase.platformMetadata === 'object'
+    ? sourceDatabase.platformMetadata
+    : {};
+
+  return [
+    '// Generated fallback copy of data/discography.json.',
+    `const DISCOGRAPHY = ${toGeneratedJs(discography)};`,
+    '',
+    `const PLATFORM_METADATA = ${toGeneratedJs(platformMetadata)};`,
+    '',
+  ].join('\n');
+}
+
 function setInputValue(id, value) {
   document.getElementById(id).value = value || '';
 }
@@ -593,11 +617,15 @@ function buildReleaseFromForm() {
 
 async function saveDatabase(message) {
   if (!database) throw new Error('Database belum dimuat.');
+  const generatedFallback = buildDiscographyDataJs(database);
   await apiRequest('/discography', {
     method: 'PUT',
     headers: authHeaders({ 'Content-Type': 'application/json' }),
     body: JSON.stringify({
       ...database,
+      generatedFiles: {
+        'data/discography-data.js': generatedFallback,
+      },
       commitMessage: message,
     }),
   });

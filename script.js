@@ -204,6 +204,31 @@ function safeExternalUrl(value, fallback = '#') {
   }
 }
 
+function getReleaseSlug(item) {
+  return `${item?.title || ''}-${item?.artist || ''}`
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '') || 'release';
+}
+
+function getReleaseShortCode(item) {
+  const input = getReleaseSlug(item);
+  let hash = 5381;
+  for (let i = 0; i < input.length; i++) {
+    hash = ((hash << 5) + hash) ^ input.charCodeAt(i);
+  }
+  return (hash >>> 0).toString(36).padStart(6, '0').slice(0, 6);
+}
+
+function getSmartlinkUrl(item) {
+  const url = new URL('link/', window.location.href);
+  url.searchParams.set('id', getReleaseShortCode(item));
+  return url.href;
+}
+
 function normalizeYouTubeId(value) {
   const id = String(value || '').trim();
   return /^[A-Za-z0-9_-]{11}$/.test(id) ? id : '';
@@ -747,6 +772,7 @@ function openModal(item, c1, c2, isProduced) {
   // Platform links
   const platformMeta = platformMetadata[item.title] || {};
   const platforms = document.getElementById('modal-platforms');
+  platforms.className = 'platform-links';
   const spotifyUrl = isSpotifyTrack
     ? `https://open.spotify.com/track/${spotifyTrackId}`
     : `https://open.spotify.com/search/${searchQuery}`;
@@ -788,6 +814,7 @@ function openModal(item, c1, c2, isProduced) {
   const soundcloudUrl = platformMeta.soundcloudUrl || item.soundcloudUrl || `https://soundcloud.com/search?q=${searchQuery}`;
   const amazonUrl = platformMeta.amazonUrl || item.amazonUrl || `https://music.amazon.com/search/${searchQuery}`;
   const platformUrls = {
+    smartlink: getSmartlinkUrl(item),
     spotify: safeExternalUrl(spotifyUrl),
     apple: safeExternalUrl(appleMusicUrl),
     youtube: safeExternalUrl(youtubeUrl),
@@ -845,6 +872,15 @@ function openModal(item, c1, c2, isProduced) {
       <i class="fa-brands fa-amazon" aria-hidden="true"></i>
       Amazon Music
     </a>
+    <div class="smartlink-row">
+    <a href="${escapeHtml(platformUrls.smartlink)}" target="_blank" rel="noopener noreferrer" class="platform-link smartlink-link">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M10 13a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 0 0-7.07-7.07L11.5 4.43"></path>
+        <path d="M14 11a5 5 0 0 0-7.07 0L4.1 13.83a5 5 0 0 0 7.07 7.07l1.33-1.33"></path>
+      </svg>
+      Smartlink
+    </a>
+    </div>
   `;
 
   overlay.classList.add('open');
@@ -1509,6 +1545,7 @@ function openVideoModal(video, keepCurrentPlayer = false) {
   embedDiv.innerHTML = '<div class="modal-video-placeholder" id="modal-video-placeholder" aria-hidden="true"></div>';
 
   const platforms = document.getElementById('modal-platforms');
+  platforms.className = 'platform-links';
   platforms.innerHTML = `
     <a href="https://www.youtube.com/watch?v=${videoId}" target="_blank" rel="noopener noreferrer" class="platform-link">${escapeHtml(getText('modal.open_youtube'))}</a>
   `;

@@ -224,8 +224,7 @@ function getReleaseShortCode(item) {
 }
 
 function getSmartlinkUrl(item) {
-  const url = new URL('link/', window.location.href);
-  url.searchParams.set('id', getReleaseShortCode(item));
+  const url = new URL(`link/${getReleaseShortCode(item)}/`, window.location.href);
   return url.href;
 }
 

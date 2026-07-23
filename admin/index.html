@@ -494,6 +494,74 @@ function buildDiscographyDataJs(sourceDatabase) {
   ].join('\n');
 }
 
+function getReleaseSlug(item) {
+  return `${item?.title || ''}-${item?.artist || ''}`
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '') || 'release';
+}
+
+function getReleaseShortCode(item) {
+  const input = getReleaseSlug(item);
+  let hash = 5381;
+  for (let i = 0; i < input.length; i++) {
+    hash = ((hash << 5) + hash) ^ input.charCodeAt(i);
+  }
+  return (hash >>> 0).toString(36).padStart(6, '0').slice(0, 6);
+}
+
+async function getSmartlinkTemplate() {
+  const response = await fetch('../link/index.html', { cache: 'no-store' });
+  if (!response.ok) throw new Error('Template link/index.html gagal dimuat.');
+  return response.text();
+}
+
+function buildSmartlinkMeta(item, code) {
+  const title = escapeHtml(`${item.title} by ${item.artist || 'Hasbi LH'}`);
+  const description = escapeHtml(`Dengarkan ${item.title} by ${item.artist || 'Hasbi LH'}`);
+  const image = escapeHtml(item.cover || '../thumbnail.png');
+  const url = `https://hasbilh.github.io/link/${code}/`;
+  return [
+    `<title>${title}</title>`,
+    `<meta name="description" content="${description}">`,
+    `<meta property="og:title" content="${title}">`,
+    `<meta property="og:description" content="${description}">`,
+    `<meta property="og:image" content="${image}">`,
+    `<meta property="og:image:secure_url" content="${image}">`,
+    `<meta property="og:image:type" content="image/jpeg">`,
+    `<meta property="og:url" content="${url}">`,
+    '<meta property="og:type" content="music.song">',
+    '<meta name="twitter:card" content="summary_large_image">',
+    `<meta name="twitter:title" content="${title}">`,
+    `<meta name="twitter:description" content="${description}">`,
+    `<meta name="twitter:image" content="${image}">`,
+  ].join('\n');
+}
+
+function buildSmartlinkPage(template, item) {
+  const code = getReleaseShortCode(item);
+  return template
+    .replace('<title>Smartlink</title>', buildSmartlinkMeta(item, code))
+    .replaceAll('href="../favicon.png"', 'href="../../favicon.png"')
+    .replaceAll('src="../data/discography-data.js"', 'src="../../data/discography-data.js"')
+    .replaceAll("fetch('../data/discography.json'", "fetch('../../data/discography.json'")
+    .replaceAll('href="../"', 'href="../../"');
+}
+
+async function buildGeneratedFiles() {
+  const generatedFiles = {
+    'data/discography-data.js': buildDiscographyDataJs(database),
+  };
+  const template = await getSmartlinkTemplate();
+  (database.discography || []).forEach(item => {
+    generatedFiles[`link/${getReleaseShortCode(item)}/index.html`] = buildSmartlinkPage(template, item);
+  });
+  return generatedFiles;
+}
+
 function setInputValue(id, value) {
   document.getElementById(id).value = value || '';
 }
@@ -617,15 +685,13 @@ function buildReleaseFromForm() {
 
 async function saveDatabase(message) {
   if (!database) throw new Error('Database belum dimuat.');
-  const generatedFallback = buildDiscographyDataJs(database);
+  const generatedFiles = await buildGeneratedFiles();
   await apiRequest('/discography', {
     method: 'PUT',
     headers: authHeaders({ 'Content-Type': 'application/json' }),
     body: JSON.stringify({
       ...database,
-      generatedFiles: {
-        'data/discography-data.js': generatedFallback,
-      },
+      generatedFiles,
       commitMessage: message,
     }),
   });

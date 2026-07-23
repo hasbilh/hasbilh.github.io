@@ -1,6 +1,16 @@
 // Generated fallback copy of data/discography.json.
 const DISCOGRAPHY = [
   {
+    "title": "jokowi",
+    "year": 2026,
+    "releaseDate": "2026-07-23",
+    "type": "Solo",
+    "spotifyId": null,
+    "spotifyTrackId": null,
+    "cover": null,
+    "artist": "agus"
+  },
+  {
     "title": "Di Jalan Yang Sama",
     "year": 2026,
     "releaseDate": "2026-07-14",

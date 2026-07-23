@@ -551,12 +551,14 @@ function buildSmartlinkPage(template, item) {
     .replaceAll('href="../"', 'href="../../"');
 }
 
-async function buildGeneratedFiles() {
+async function buildGeneratedFiles(smartlinkItems = []) {
   const generatedFiles = {
     'data/discography-data.js': buildDiscographyDataJs(database),
   };
+  const items = smartlinkItems.filter(Boolean);
+  if (items.length === 0) return generatedFiles;
   const template = await getSmartlinkTemplate();
-  (database.discography || []).forEach(item => {
+  items.forEach(item => {
     generatedFiles[`link/${getReleaseShortCode(item)}/index.html`] = buildSmartlinkPage(template, item);
   });
   return generatedFiles;
@@ -683,15 +685,21 @@ function buildReleaseFromForm() {
   return { item, platformMeta };
 }
 
-async function saveDatabase(message) {
+function validateDeletedFilePath(path) {
+  return /^link\/[a-z0-9]{6}\/index\.html$/.test(path);
+}
+
+async function saveDatabase(message, smartlinkItems = [], deletedFiles = []) {
   if (!database) throw new Error('Database belum dimuat.');
-  const generatedFiles = await buildGeneratedFiles();
+  const generatedFiles = await buildGeneratedFiles(smartlinkItems);
+  const safeDeletedFiles = deletedFiles.filter(validateDeletedFilePath);
   await apiRequest('/discography', {
     method: 'PUT',
     headers: authHeaders({ 'Content-Type': 'application/json' }),
     body: JSON.stringify({
       ...database,
       generatedFiles,
+      deletedFiles: safeDeletedFiles,
       commitMessage: message,
     }),
   });
@@ -802,7 +810,11 @@ els.discographyRows.addEventListener('click', async (event) => {
       if (removed?.title && database.platformMetadata[removed.title]) {
         delete database.platformMetadata[removed.title];
       }
-      await saveDatabase(`Remove discography release: ${removed.title}`);
+      await saveDatabase(
+        `Remove discography release: ${removed.title}`,
+        [],
+        [`link/${getReleaseShortCode(removed)}/index.html`],
+      );
       if (removed === editingItemRef) {
         els.form.reset();
         clearEditMode();
@@ -865,7 +877,7 @@ els.form.addEventListener('submit', async (event) => {
     }
 
     const action = editingItemRef ? 'Update' : 'Add';
-    await saveDatabase(`${action} discography release: ${item.title}`);
+    await saveDatabase(`${action} discography release: ${item.title}`, [item]);
     setStatus(els.saveStatus, `Rilisan "${item.title}" berhasil ${editingItemRef ? 'diperbarui' : 'ditambahkan'} dan dicommit.`, 'ok');
     await loadDatabase();
     els.form.reset();

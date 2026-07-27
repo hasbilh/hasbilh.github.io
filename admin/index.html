@@ -174,6 +174,7 @@
     <div class="actions">
       <button id="loginBtn" type="button">Login with GitHub</button>
       <button id="loadBtn" class="secondary" type="button" hidden>Load Database</button>
+      <button id="importLocalBtn" class="secondary" type="button" hidden>Import JSON ke D1</button>
       <button id="logoutBtn" class="secondary" type="button" hidden>Logout</button>
     </div>
     <div id="connectionStatus" class="status">Belum login.</div>
@@ -253,13 +254,13 @@
         </label>
       </div>
       <div class="actions">
-        <button id="saveBtn" type="submit">Tambah & Commit</button>
+        <button id="saveBtn" type="submit">Tambah & Simpan</button>
         <button id="resetBtn" class="secondary" type="reset">Reset Form</button>
         <button id="cancelEditBtn" class="secondary" type="button" hidden>Batal Edit</button>
         <span id="editingBadge" class="editing-badge">Mode edit aktif</span>
       </div>
     </form>
-    <div id="saveStatus" class="status">Isi form lalu commit ke database.</div>
+    <div id="saveStatus" class="status">Isi form lalu simpan ke database D1.</div>
   </section>
 
   <section class="panel admin-only" hidden>
@@ -286,6 +287,7 @@ const API_BASE = 'https://hasbi-discography-api.21stvengenz.workers.dev';
 const els = {
   loginBtn: document.getElementById('loginBtn'),
   loadBtn: document.getElementById('loadBtn'),
+  importLocalBtn: document.getElementById('importLocalBtn'),
   logoutBtn: document.getElementById('logoutBtn'),
   connectionStatus: document.getElementById('connectionStatus'),
   form: document.getElementById('releaseForm'),
@@ -325,6 +327,7 @@ function setAdminPanelsVisible(visible) {
 function setLoginControls(loggedIn) {
   els.loginBtn.hidden = loggedIn;
   els.loadBtn.hidden = !loggedIn;
+  els.importLocalBtn.hidden = !loggedIn;
   els.logoutBtn.hidden = !loggedIn;
 }
 
@@ -369,6 +372,17 @@ async function loadDatabase() {
   return database;
 }
 
+async function loadLocalDatabase() {
+  const response = await fetch('../data/discography.json', { cache: 'no-store' });
+  if (!response.ok) throw new Error('data/discography.json gagal dimuat.');
+  const localDatabase = await response.json();
+  if (!Array.isArray(localDatabase.discography)) throw new Error('Format data/discography.json tidak valid.');
+  if (!localDatabase.platformMetadata || typeof localDatabase.platformMetadata !== 'object') {
+    localDatabase.platformMetadata = {};
+  }
+  return localDatabase;
+}
+
 function renderSummary() {
   const items = (database?.discography || [])
     .map((item, index) => ({ item, index }))
@@ -378,7 +392,7 @@ function renderSummary() {
     ? items.filter(({ item }) => [item.title, item.artist, item.type, item.year, item.releaseDate].join(' ').toLowerCase().includes(query))
     : items;
 
-  setStatus(els.summary, `${items.length} rilisan dimuat dari data/discography.json.`, 'ok');
+  setStatus(els.summary, `${items.length} rilisan dimuat dari Cloudflare D1.`, 'ok');
   els.discographyRows.innerHTML = visibleItems.map(({ item, index }) => `
     <tr>
       <td>${escapeHtml(item.title || '')}</td>
@@ -532,6 +546,8 @@ function buildSmartlinkMeta(item, code) {
     `<meta property="og:image" content="${image}">`,
     `<meta property="og:image:secure_url" content="${image}">`,
     `<meta property="og:image:type" content="image/jpeg">`,
+    '<meta property="og:image:width" content="640">',
+    '<meta property="og:image:height" content="640">',
     `<meta property="og:url" content="${url}">`,
     '<meta property="og:type" content="music.song">',
     '<meta name="twitter:card" content="summary_large_image">',
@@ -571,7 +587,7 @@ function setInputValue(id, value) {
 function clearEditMode() {
   editingItemRef = null;
   editingOriginalTitle = null;
-  document.getElementById('saveBtn').textContent = 'Tambah & Commit';
+  document.getElementById('saveBtn').textContent = 'Tambah & Simpan';
   els.cancelEditBtn.hidden = true;
   els.editingBadge.classList.remove('active');
 }
@@ -604,7 +620,7 @@ function fillFormForEdit(index) {
   setInputValue('mastering', item.mastering);
   setInputValue('studioLabel', item.studioLabel);
 
-  document.getElementById('saveBtn').textContent = 'Simpan Edit & Commit';
+  document.getElementById('saveBtn').textContent = 'Simpan Edit';
   els.cancelEditBtn.hidden = false;
   els.editingBadge.classList.add('active');
   setStatus(els.saveStatus, `Mengedit "${item.title}".`);
@@ -689,18 +705,14 @@ function validateDeletedFilePath(path) {
   return /^link\/[a-z0-9]{6}\/index\.html$/.test(path);
 }
 
-async function saveDatabase(message, smartlinkItems = [], deletedFiles = []) {
+async function saveDatabase() {
   if (!database) throw new Error('Database belum dimuat.');
-  const generatedFiles = await buildGeneratedFiles(smartlinkItems);
-  const safeDeletedFiles = deletedFiles.filter(validateDeletedFilePath);
   await apiRequest('/discography', {
     method: 'PUT',
     headers: authHeaders({ 'Content-Type': 'application/json' }),
     body: JSON.stringify({
-      ...database,
-      generatedFiles,
-      deletedFiles: safeDeletedFiles,
-      commitMessage: message,
+      discography: database.discography || [],
+      platformMetadata: database.platformMetadata || {},
     }),
   });
 }
@@ -749,6 +761,24 @@ els.loadBtn.addEventListener('click', async () => {
     setStatus(els.connectionStatus, error.message, 'error');
   } finally {
     els.loadBtn.disabled = false;
+  }
+});
+
+els.importLocalBtn.addEventListener('click', async () => {
+  const ok = confirm('Import isi data/discography.json lokal ke Cloudflare D1? Data D1 saat ini akan diganti.');
+  if (!ok) return;
+
+  els.importLocalBtn.disabled = true;
+  setStatus(els.connectionStatus, 'Mengimpor data lokal ke D1...');
+  try {
+    database = await loadLocalDatabase();
+    await saveDatabase();
+    await loadDatabase();
+    setStatus(els.connectionStatus, 'Import JSON ke D1 berhasil.', 'ok');
+  } catch (error) {
+    setStatus(els.connectionStatus, error.message, 'error');
+  } finally {
+    els.importLocalBtn.disabled = false;
   }
 });
 
@@ -801,7 +831,7 @@ els.discographyRows.addEventListener('click', async (event) => {
   }
 
   if (button.dataset.action === 'delete') {
-    const ok = confirm(`Hapus "${item.title}" dari database dan commit perubahan?`);
+    const ok = confirm(`Hapus "${item.title}" dari database D1?`);
     if (!ok) return;
 
     button.disabled = true;
@@ -810,17 +840,13 @@ els.discographyRows.addEventListener('click', async (event) => {
       if (removed?.title && database.platformMetadata[removed.title]) {
         delete database.platformMetadata[removed.title];
       }
-      await saveDatabase(
-        `Remove discography release: ${removed.title}`,
-        [],
-        [`link/${getReleaseShortCode(removed)}/index.html`],
-      );
+      await saveDatabase();
       if (removed === editingItemRef) {
         els.form.reset();
         clearEditMode();
       }
       renderSummary();
-      setStatus(els.saveStatus, `Rilisan "${removed.title}" berhasil dihapus dan dicommit.`, 'ok');
+      setStatus(els.saveStatus, `Rilisan "${removed.title}" berhasil dihapus dari D1.`, 'ok');
     } catch (error) {
       setStatus(els.saveStatus, error.message, 'error');
       await loadDatabase().catch(() => {});
@@ -877,8 +903,8 @@ els.form.addEventListener('submit', async (event) => {
     }
 
     const action = editingItemRef ? 'Update' : 'Add';
-    await saveDatabase(`${action} discography release: ${item.title}`, [item]);
-    setStatus(els.saveStatus, `Rilisan "${item.title}" berhasil ${editingItemRef ? 'diperbarui' : 'ditambahkan'} dan dicommit.`, 'ok');
+    await saveDatabase();
+    setStatus(els.saveStatus, `Rilisan "${item.title}" berhasil ${editingItemRef ? 'diperbarui' : 'ditambahkan'} di D1.`, 'ok');
     await loadDatabase();
     els.form.reset();
     document.getElementById('type').value = 'Kolaborasi';

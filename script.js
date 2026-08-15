@@ -223,8 +223,10 @@ function getReleaseShortCode(item) {
   return (hash >>> 0).toString(36).padStart(6, '0').slice(0, 6);
 }
 
+const DISCOGRAPHY_API_BASE = 'https://hasbi-discography-api.21stvengenz.workers.dev';
+
 function getSmartlinkUrl(item) {
-  const url = new URL(`link/${getReleaseShortCode(item)}/`, window.location.href);
+  const url = new URL(`/link/${getReleaseShortCode(item)}/`, DISCOGRAPHY_API_BASE);
   return url.href;
 }
 
@@ -1007,7 +1009,7 @@ let platformMetadata = typeof PLATFORM_METADATA !== 'undefined' ? PLATFORM_METAD
 
 async function loadDiscographyDatabase() {
   try {
-    const response = await fetch('data/discography.json', { cache: 'no-store' });
+    const response = await fetch(`${DISCOGRAPHY_API_BASE}/discography`, { cache: 'no-store' });
     if (!response.ok) throw new Error('Failed to load discography database');
 
     const data = await response.json();
@@ -1016,7 +1018,19 @@ async function loadDiscographyDatabase() {
     discographyData = data.discography;
     platformMetadata = data.platformMetadata || {};
   } catch (error) {
-    console.warn('Using bundled discography fallback:', error);
+    console.warn('Using local discography fallback:', error);
+    try {
+      const response = await fetch('data/discography.json', { cache: 'no-store' });
+      if (!response.ok) throw new Error('Failed to load local discography database');
+
+      const data = await response.json();
+      if (!Array.isArray(data.discography)) throw new Error('Invalid local discography database');
+
+      discographyData = data.discography;
+      platformMetadata = data.platformMetadata || {};
+    } catch (fallbackError) {
+      console.warn('Using bundled discography fallback:', fallbackError);
+    }
   }
 }
 

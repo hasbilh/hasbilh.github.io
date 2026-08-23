@@ -175,6 +175,7 @@
       <button id="loginBtn" type="button">Login with GitHub</button>
       <button id="loadBtn" class="secondary" type="button" hidden>Load Database</button>
       <button id="importLocalBtn" class="secondary" type="button" hidden>Import JSON ke D1</button>
+      <button id="syncCoversBtn" class="secondary" type="button" hidden>Sync Artwork Spotify</button>
       <button id="logoutBtn" class="secondary" type="button" hidden>Logout</button>
     </div>
     <div id="connectionStatus" class="status">Belum login.</div>
@@ -288,6 +289,7 @@ const els = {
   loginBtn: document.getElementById('loginBtn'),
   loadBtn: document.getElementById('loadBtn'),
   importLocalBtn: document.getElementById('importLocalBtn'),
+  syncCoversBtn: document.getElementById('syncCoversBtn'),
   logoutBtn: document.getElementById('logoutBtn'),
   connectionStatus: document.getElementById('connectionStatus'),
   form: document.getElementById('releaseForm'),
@@ -328,6 +330,7 @@ function setLoginControls(loggedIn) {
   els.loginBtn.hidden = loggedIn;
   els.loadBtn.hidden = !loggedIn;
   els.importLocalBtn.hidden = !loggedIn;
+  els.syncCoversBtn.hidden = !loggedIn;
   els.logoutBtn.hidden = !loggedIn;
 }
 
@@ -424,6 +427,72 @@ function extractSpotifyId(value, expectedType) {
   if (!text) return null;
   const match = text.match(new RegExp(`/intl-[a-z]+/${expectedType}/([A-Za-z0-9]+)|/${expectedType}/([A-Za-z0-9]+)`));
   return match ? (match[1] || match[2]) : text;
+}
+
+function safeExternalUrl(value, fallback = '') {
+  try {
+    const url = new URL(String(value || ''));
+    return url.protocol === 'https:' || url.protocol === 'http:' ? url.href : fallback;
+  } catch (_) {
+    return fallback;
+  }
+}
+
+async function fetchSpotifyCoverUrl(spotifyTrackId) {
+  if (!spotifyTrackId || !/^[A-Za-z0-9]{22}$/.test(spotifyTrackId)) return '';
+  const oembedUrl = `https://open.spotify.com/oembed?url=https://open.spotify.com/track/${spotifyTrackId}`;
+  const response = await fetch(oembedUrl);
+  if (!response.ok) throw new Error('Artwork Spotify gagal dimuat.');
+  const data = await response.json();
+  return safeExternalUrl(data.thumbnail_url, '');
+}
+
+async function syncCoverFromSpotify({ silent = false } = {}) {
+  const spotifyTrackId = extractSpotifyId(document.getElementById('spotifyTrack').value, 'track');
+  if (!spotifyTrackId) return '';
+  if (!/^[A-Za-z0-9]{22}$/.test(spotifyTrackId)) {
+    if (!silent) setStatus(els.saveStatus, 'Spotify Track ID tidak valid untuk mengambil artwork.', 'error');
+    return '';
+  }
+
+  if (!silent) setStatus(els.saveStatus, 'Mengambil artwork dari Spotify...');
+  const coverUrl = await fetchSpotifyCoverUrl(spotifyTrackId);
+  if (coverUrl) {
+    document.getElementById('cover').value = coverUrl;
+    if (!silent) setStatus(els.saveStatus, 'Cover URL berhasil disesuaikan dengan artwork Spotify.', 'ok');
+  }
+  return coverUrl;
+}
+
+async function syncDatabaseCoversFromSpotify() {
+  if (!database) await loadDatabase();
+  const items = database.discography || [];
+  let updated = 0;
+  let skipped = 0;
+
+  for (let index = 0; index < items.length; index += 1) {
+    const item = items[index];
+    const spotifyTrackId = item.spotifyTrackId;
+    if (!spotifyTrackId || !/^[A-Za-z0-9]{22}$/.test(spotifyTrackId)) {
+      skipped += 1;
+      continue;
+    }
+
+    setStatus(els.connectionStatus, `Sinkron artwork Spotify ${index + 1}/${items.length}: ${item.title}`);
+    try {
+      const coverUrl = await fetchSpotifyCoverUrl(spotifyTrackId);
+      if (coverUrl && item.cover !== coverUrl) {
+        item.cover = coverUrl;
+        updated += 1;
+      }
+    } catch (_) {
+      skipped += 1;
+    }
+  }
+
+  await saveDatabase();
+  renderSummary();
+  return { updated, skipped, total: items.length };
 }
 
 function isUrl(value) {
@@ -772,13 +841,33 @@ els.importLocalBtn.addEventListener('click', async () => {
   setStatus(els.connectionStatus, 'Mengimpor data lokal ke D1...');
   try {
     database = await loadLocalDatabase();
-    await saveDatabase();
+    await syncDatabaseCoversFromSpotify();
     await loadDatabase();
     setStatus(els.connectionStatus, 'Import JSON ke D1 berhasil.', 'ok');
   } catch (error) {
     setStatus(els.connectionStatus, error.message, 'error');
   } finally {
     els.importLocalBtn.disabled = false;
+  }
+});
+
+els.syncCoversBtn.addEventListener('click', async () => {
+  const ok = confirm('Sinkronkan semua Cover URL di D1 dengan artwork Spotify?');
+  if (!ok) return;
+
+  els.syncCoversBtn.disabled = true;
+  try {
+    const result = await syncDatabaseCoversFromSpotify();
+    setStatus(
+      els.connectionStatus,
+      `Artwork Spotify selesai disinkronkan. ${result.updated} diperbarui, ${result.skipped} dilewati, total ${result.total}.`,
+      'ok',
+    );
+    await loadDatabase();
+  } catch (error) {
+    setStatus(els.connectionStatus, error.message, 'error');
+  } finally {
+    els.syncCoversBtn.disabled = false;
   }
 });
 
@@ -800,6 +889,12 @@ els.releaseDateBtn.addEventListener('click', () => {
   } else {
     input.focus();
   }
+});
+
+document.getElementById('spotifyTrack').addEventListener('change', () => {
+  syncCoverFromSpotify().catch(error => {
+    setStatus(els.saveStatus, error.message, 'error');
+  });
 });
 
 els.tableSearch.addEventListener('input', () => {
@@ -875,6 +970,7 @@ els.form.addEventListener('submit', async (event) => {
   setStatus(els.saveStatus, 'Menyiapkan data...');
   try {
     if (!database) await loadDatabase();
+    await syncCoverFromSpotify({ silent: true });
     const { item, platformMeta } = buildReleaseFromForm();
     const duplicate = database.discography.find(existing => existing !== editingItemRef && existing.title === item.title && existing.artist === item.artist);
     if (duplicate && !confirm('Judul dan artist yang sama sudah ada. Tetap tambahkan?')) return;

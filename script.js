@@ -337,7 +337,7 @@ function buildCard(item, index, isProduced) {
     playDiscographyItem(item);
   });
 
-  if (item.spotifyTrackId) {
+  if (!safeCover && item.spotifyTrackId) {
     resolveCoverFromSpotify(item).then(url => {
       if (!url) return;
       item.cover = url;
@@ -704,7 +704,7 @@ function openModal(item, c1, c2, isProduced) {
     coverContainer.innerHTML = `<div class="modal-cover-placeholder" style="background:linear-gradient(135deg,${c1},${c2})">${escapeHtml(initials)}</div>`;
   }
 
-  if (item.spotifyTrackId) {
+  if (!safeCover && item.spotifyTrackId) {
     resolveCoverFromSpotify(item).then(url => {
       if (!url || requestToken !== modalRequestToken || !overlay.classList.contains('open')) return;
       item.cover = url;

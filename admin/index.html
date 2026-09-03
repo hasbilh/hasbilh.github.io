@@ -253,6 +253,9 @@
         <label>Tidal Track ID atau URL
           <input id="tidalUrl" placeholder="https://tidal.com/...">
         </label>
+        <label>Amazon Music URL
+          <input id="amazonUrl" placeholder="https://music.amazon.com/...">
+        </label>
       </div>
       <div class="actions">
         <button id="saveBtn" type="submit">Tambah & Simpan</button>
@@ -680,6 +683,7 @@ function fillFormForEdit(index) {
   setInputValue('youtubeId', item.youtubeId || platformMeta.youtubeId);
   setInputValue('youtubeMusicId', item.youtubeMusicId || platformMeta.youtubeMusicId);
   setInputValue('deezerTrackId', platformMeta.deezerUrl || item.deezerUrl || item.deezerTrackId || platformMeta.deezerTrackId);
+  setInputValue('amazonUrl', platformMeta.amazonUrl || item.amazonUrl);
   setInputValue('cover', item.cover);
   setInputValue('album', item.album);
   setInputValue('songwriters', item.songwriters);
@@ -744,6 +748,7 @@ function buildReleaseFromForm() {
   const appleAlbumValue = cleanValue(document.getElementById('appleAlbum').value);
   const deezerValue = cleanValue(document.getElementById('deezerTrackId').value);
   const tidalValue = cleanValue(document.getElementById('tidalUrl').value);
+  const amazonValue = cleanValue(document.getElementById('amazonUrl').value);
 
   if (youtubeValue) platformMeta.youtubeId = extractYouTubeId(youtubeValue);
   if (youtubeMusicValue) platformMeta.youtubeMusicId = extractYouTubeId(youtubeMusicValue);
@@ -765,6 +770,10 @@ function buildReleaseFromForm() {
   if (tidalValue) {
     if (isUrl(tidalValue)) platformMeta.tidalUrl = tidalValue;
     else platformMeta.tidalTrackId = extractTidalTrackId(tidalValue);
+  }
+  if (amazonValue) {
+    if (!isUrl(amazonValue)) throw new Error('Amazon Music URL harus berupa link https://...');
+    platformMeta.amazonUrl = amazonValue;
   }
 
   return { item, platformMeta };

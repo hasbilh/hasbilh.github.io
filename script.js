@@ -31,8 +31,8 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
 // ====== TRANSLATION HELPERS ======
 function getText(key) {
-  const lang = localStorage.getItem('site_lang') || 'id';
-  return (TRANSLATIONS[lang] && TRANSLATIONS[lang][key]) || TRANSLATIONS['id'][key] || key;
+  const lang = localStorage.getItem('site_lang') || 'en';
+  return (TRANSLATIONS[lang] && TRANSLATIONS[lang][key]) || (TRANSLATIONS['en'] && TRANSLATIONS['en'][key]) || TRANSLATIONS['id'][key] || key;
 }
 
 const backToTopButton = document.getElementById('back-to-top');
@@ -102,7 +102,7 @@ if (themeToggle) {
 }
 
 function applyTranslations(lang) {
-  const dict = TRANSLATIONS[lang] || TRANSLATIONS['id'];
+  const dict = TRANSLATIONS[lang] || TRANSLATIONS['en'] || TRANSLATIONS['id'];
   document.documentElement.lang = lang === 'ja' ? 'ja' : lang;
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
@@ -137,7 +137,7 @@ function setActiveLangButton(container, lang) {
 }
 
 if (langSelectEl) {
-  const saved = localStorage.getItem('site_lang') || 'id';
+  const saved = localStorage.getItem('site_lang') || 'en';
   // if it's a native select element (legacy), handle value
   if (langSelectEl.tagName && langSelectEl.tagName.toLowerCase() === 'select') {
     langSelectEl.value = saved;
@@ -240,7 +240,7 @@ function formatReleaseDate(value) {
   const date = new Date(`${value}T00:00:00`);
   if (Number.isNaN(date.getTime())) return value;
   const localeMap = { id: 'id-ID', en: 'en-US', ja: 'ja-JP' };
-  const locale = localeMap[localStorage.getItem('site_lang') || 'id'] || 'id-ID';
+  const locale = localeMap[localStorage.getItem('site_lang') || 'en'] || 'en-US';
   return date.toLocaleDateString(locale, {
     day: 'numeric',
     month: 'long',

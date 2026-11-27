@@ -172,6 +172,14 @@
   .candidate-row small { display: block; color: var(--muted); overflow-wrap: anywhere; }
   .candidate-row strong { color: var(--text); }
   .candidate-row a.secondary { display: inline-block; color: var(--text); text-decoration: none; white-space: nowrap; }
+  .platform-open-link {
+    display: inline-block;
+    width: max-content;
+    color: var(--accent);
+    font-size: 12px;
+    text-decoration: none;
+  }
+  .platform-open-link[hidden] { display: none; }
   @media (max-width: 760px) {
     header { align-items: flex-start; flex-direction: column; }
     .grid { grid-template-columns: 1fr; }
@@ -473,6 +481,36 @@ function safeExternalUrl(value, fallback = '') {
   } catch (_) {
     return fallback;
   }
+}
+
+const PLATFORM_INPUTS = {
+  spotifyTrack: value => /^[A-Za-z0-9]{22}$/.test(value) ? `https://open.spotify.com/track/${value}` : value,
+  spotifyAlbum: value => /^[A-Za-z0-9]{22}$/.test(value) ? `https://open.spotify.com/album/${value}` : value,
+  appleUrl: value => /^\d+$/.test(value) ? `https://music.apple.com/id/album/${value}` : value,
+  appleAlbum: value => /^\d+$/.test(value) ? `https://music.apple.com/id/album/${value}` : value,
+  youtubeId: value => /^[A-Za-z0-9_-]{11}$/.test(value) ? `https://www.youtube.com/watch?v=${value}` : value,
+  youtubeMusicId: value => /^[A-Za-z0-9_-]{11}$/.test(value) ? `https://music.youtube.com/watch?v=${value}` : value,
+  deezerTrackId: value => /^\d+$/.test(value) ? `https://www.deezer.com/en/track/${value}` : value,
+  tidalUrl: value => /^\d+$/.test(value) ? `https://tidal.com/browse/track/${value}` : value,
+};
+
+function refreshPlatformOpeners() {
+  Object.entries(PLATFORM_INPUTS).forEach(([id, toUrl]) => {
+    const input = document.getElementById(id);
+    if (!input) return;
+    let opener = input.nextElementSibling;
+    if (!opener || !opener.classList.contains('platform-open-link')) {
+      opener = document.createElement('a');
+      opener.className = 'platform-open-link';
+      opener.target = '_blank';
+      opener.rel = 'noopener noreferrer';
+      opener.textContent = 'Buka di tab baru';
+      input.insertAdjacentElement('afterend', opener);
+    }
+    const url = safeExternalUrl(toUrl(input.value.trim()), '');
+    opener.href = url || '#';
+    opener.hidden = !url;
+  });
 }
 
 function normalizeIsrc(value) {
@@ -826,6 +864,7 @@ function fillFormForEdit(index) {
   setInputValue('mastering', item.mastering);
   setInputValue('studioLabel', item.studioLabel);
   setInputValue('isrc', item.isrc);
+  refreshPlatformOpeners();
 
   document.getElementById('saveBtn').textContent = 'Simpan Edit';
   els.cancelEditBtn.hidden = false;
@@ -1061,6 +1100,7 @@ els.isrcImportBtn.addEventListener('click', async () => {
     if (result.cover && !document.getElementById('cover').value.trim()) document.getElementById('cover').value = result.cover;
     if (result.spotifyTrackId) document.getElementById('spotifyTrack').value = result.spotifyTrackId;
     const applied = applyPlatformLinks(result.links || []);
+    refreshPlatformOpeners();
     renderIsrcCandidates(result.candidates || []);
     const names = result.links.map(link => link.platform).join(', ');
     const candidateCount = Array.isArray(result.candidates) ? result.candidates.length : 0;
@@ -1141,10 +1181,16 @@ els.cancelEditBtn.addEventListener('click', () => {
 els.form.addEventListener('reset', () => {
   setTimeout(() => {
     document.getElementById('type').value = 'Kolaborasi';
+    refreshPlatformOpeners();
     renderIsrcCandidates([]);
     clearEditMode();
   }, 0);
 });
+
+Object.keys(PLATFORM_INPUTS).forEach(id => {
+  document.getElementById(id)?.addEventListener('input', refreshPlatformOpeners);
+});
+refreshPlatformOpeners();
 
 els.form.addEventListener('submit', async (event) => {
   event.preventDefault();

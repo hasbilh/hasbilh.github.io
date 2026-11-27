@@ -171,6 +171,7 @@
   }
   .candidate-row small { display: block; color: var(--muted); overflow-wrap: anywhere; }
   .candidate-row strong { color: var(--text); }
+  .candidate-row a.secondary { display: inline-block; color: var(--text); text-decoration: none; white-space: nowrap; }
   @media (max-width: 760px) {
     header { align-items: flex-start; flex-direction: column; }
     .grid { grid-template-columns: 1fr; }
@@ -531,11 +532,13 @@ function renderIsrcCandidates(candidates) {
       ${validCandidates.map((candidate, index) => `
         <div class="candidate-row">
           <div>
-            <strong>${escapeHtml(platformLabel(candidate.platform))} · skor ${Number(candidate.score) || 0}</strong>
+            <strong>${escapeHtml(platformLabel(candidate.platform))}${candidate.isSearch ? ' · pencarian manual' : ` · skor ${Number(candidate.score) || 0}`}</strong>
             <small>${escapeHtml(candidate.label || candidate.url)}</small>
             <small><a href="${escapeHtml(candidate.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(candidate.url)}</a></small>
           </div>
-          <button class="secondary small" type="button" data-candidate-index="${index}">Pilih</button>
+          ${candidate.isSearch
+            ? `<a class="button secondary small" href="${escapeHtml(candidate.url)}" target="_blank" rel="noopener noreferrer">Buka</a>`
+            : `<button class="secondary small" type="button" data-candidate-index="${index}">Pilih</button>`}
         </div>
       `).join('')}
     </div>

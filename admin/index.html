@@ -226,6 +226,13 @@
         <label>Studio / Label
           <input id="studioLabel" placeholder="Nama studio atau label">
         </label>
+        <label class="span-2">FFM.to / Feature.fm Smartlink
+          <span class="date-field">
+            <input id="featureFmUrl" type="url" placeholder="https://ffm.to/nama-rilisan">
+            <button id="featureFmImportBtn" class="secondary" type="button">Ambil Link</button>
+          </span>
+          <small class="note">Mengisi link Spotify, Apple Music, YouTube, Deezer, Tidal, dan platform lain yang ditemukan otomatis.</small>
+        </label>
         <label>Cover URL
           <input id="cover" placeholder="https://...jpg/png">
         </label>
@@ -306,6 +313,8 @@ const els = {
   refreshTableBtn: document.getElementById('refreshTableBtn'),
   cancelEditBtn: document.getElementById('cancelEditBtn'),
   releaseDateBtn: document.getElementById('releaseDateBtn'),
+  featureFmUrl: document.getElementById('featureFmUrl'),
+  featureFmImportBtn: document.getElementById('featureFmImportBtn'),
   editingBadge: document.getElementById('editingBadge'),
 };
 
@@ -441,6 +450,119 @@ function safeExternalUrl(value, fallback = '') {
     return url.protocol === 'https:' || url.protocol === 'http:' ? url.href : fallback;
   } catch (_) {
     return fallback;
+  }
+}
+
+function normalizeFeatureFmUrl(value) {
+  const text = String(value || '').trim();
+  if (!text) return '';
+  const candidate = /^https?:\/\//i.test(text) ? text : `https://${text}`;
+  try {
+    const url = new URL(candidate);
+    const hostname = url.hostname.toLowerCase().replace(/^www\./, '');
+    if (hostname !== 'ffm.to' && !hostname.endsWith('.ffm.to') && hostname !== 'feature.fm' && !hostname.endsWith('.feature.fm')) {
+      throw new Error('URL harus berasal dari ffm.to atau Feature.fm.');
+    }
+    return url.href;
+  } catch (error) {
+    if (error.message.includes('ffm.to') || error.message.includes('Feature.fm')) throw error;
+    throw new Error('URL FFM.to / Feature.fm tidak valid.');
+  }
+}
+
+function platformKeyFromUrl(value) {
+  try {
+    const hostname = new URL(value).hostname.toLowerCase();
+    if (hostname.includes('spotify')) return 'spotify';
+    if (hostname.includes('apple') || hostname.includes('itunes')) return 'apple';
+    if (hostname.includes('music.youtube')) return 'youtubeMusic';
+    if (hostname.includes('youtube') || hostname.includes('youtu.be')) return 'youtube';
+    if (hostname.includes('deezer')) return 'deezer';
+    if (hostname.includes('tidal')) return 'tidal';
+    if (hostname.includes('amazon')) return 'amazon';
+    if (hostname.includes('soundcloud')) return 'soundcloud';
+  } catch (_) {
+    return '';
+  }
+  return '';
+}
+
+function collectFeatureFmLinks(payload) {
+  const links = [];
+  const add = (platform, url) => {
+    const safeUrl = safeExternalUrl(url, '');
+    if (safeUrl && platformKeyFromUrl(safeUrl)) links.push({ platform, url: safeUrl });
+  };
+
+  const visit = value => {
+    if (!value) return;
+    if (typeof value === 'string') {
+      const urlMatches = value.match(/https?:\/\/[^\s"'<>]+/gi) || [];
+      urlMatches.forEach(url => add(platformKeyFromUrl(url), url));
+      if (/<a\b/i.test(value)) {
+        const doc = new DOMParser().parseFromString(value, 'text/html');
+        doc.querySelectorAll('a[href]').forEach(anchor => add(platformKeyFromUrl(anchor.href), anchor.href));
+      }
+      return;
+    }
+    if (Array.isArray(value)) {
+      value.forEach(visit);
+      return;
+    }
+    if (typeof value === 'object') {
+      Object.entries(value).forEach(([key, child]) => {
+        if (typeof child === 'string' && /^https?:\/\//i.test(child)) add(platformKeyFromUrl(child) || key, child);
+        else visit(child);
+      });
+    }
+  };
+
+  visit(payload);
+  return [...new Map(links.map(link => [link.platform, link])).values()];
+}
+
+function applyFeatureFmLinks(links) {
+  const fields = {
+    spotify: ['spotifyTrack', value => extractSpotifyId(value, 'track')],
+    apple: ['appleUrl', value => value],
+    youtube: ['youtubeId', value => extractYouTubeId(value)],
+    youtubeMusic: ['youtubeMusicId', value => extractYouTubeId(value)],
+    deezer: ['deezerTrackId', value => extractDeezerTrackId(value)],
+    tidal: ['tidalUrl', value => value],
+    amazon: ['amazonUrl', value => value],
+    soundcloud: ['soundcloudUrl', value => value],
+  };
+  let applied = 0;
+  links.forEach(({ platform, url }) => {
+    const field = fields[platform];
+    if (!field) return;
+    document.getElementById(field[0]).value = field[1](url) || '';
+    applied += 1;
+  });
+  return applied;
+}
+
+async function resolveFeatureFmLinks(value) {
+  const featureFmUrl = normalizeFeatureFmUrl(value);
+  const resolverUrl = `${API_BASE}/resolve-feature-link?url=${encodeURIComponent(featureFmUrl)}`;
+  try {
+    const response = await fetch(resolverUrl, { headers: authHeaders({ Accept: 'application/json, text/html' }) });
+    if (!response.ok) throw new Error(`Resolver API error ${response.status}`);
+    const contentType = response.headers.get('content-type') || '';
+    const payload = contentType.includes('json') ? await response.json() : await response.text();
+    const links = collectFeatureFmLinks(payload?.links || payload?.platforms || payload?.data || payload);
+    if (links.length === 0) throw new Error('Tidak ada link platform yang ditemukan pada smartlink tersebut.');
+    return { featureFmUrl, links };
+  } catch (resolverError) {
+    try {
+      const response = await fetch(featureFmUrl, { headers: { Accept: 'text/html' } });
+      if (!response.ok) throw new Error(`Feature.fm error ${response.status}`);
+      const links = collectFeatureFmLinks(await response.text());
+      if (links.length === 0) throw new Error('Tidak ada link platform yang ditemukan pada halaman Feature.fm.');
+      return { featureFmUrl, links };
+    } catch (_) {
+      throw new Error(`Gagal mengambil link Feature.fm. Pastikan Worker menyediakan /resolve-feature-link dan URL dapat diakses. (${resolverError.message})`);
+    }
   }
 }
 
@@ -696,6 +818,7 @@ function fillFormForEdit(index) {
   setInputValue('mixing', item.mixing);
   setInputValue('mastering', item.mastering);
   setInputValue('studioLabel', item.studioLabel);
+  setInputValue('featureFmUrl', item.featureFmUrl);
 
   document.getElementById('saveBtn').textContent = 'Simpan Edit';
   els.cancelEditBtn.hidden = false;
@@ -723,6 +846,9 @@ function buildReleaseFromForm() {
     cover: cleanValue(document.getElementById('cover').value),
     artist: document.getElementById('artist').value.trim(),
   };
+
+  const featureFmUrl = cleanValue(document.getElementById('featureFmUrl').value);
+  if (featureFmUrl) item.featureFmUrl = normalizeFeatureFmUrl(featureFmUrl);
 
   const album = cleanValue(document.getElementById('album').value);
   if (album) item.album = album;
@@ -906,6 +1032,22 @@ els.releaseDateBtn.addEventListener('click', () => {
     input.showPicker();
   } else {
     input.focus();
+  }
+});
+
+els.featureFmImportBtn.addEventListener('click', async () => {
+  els.featureFmImportBtn.disabled = true;
+  setStatus(els.saveStatus, 'Mengambil link platform dari Feature.fm...');
+  try {
+    const result = await resolveFeatureFmLinks(els.featureFmUrl.value);
+    els.featureFmUrl.value = result.featureFmUrl;
+    const applied = applyFeatureFmLinks(result.links);
+    const names = result.links.map(link => link.platform).join(', ');
+    setStatus(els.saveStatus, `${applied} link platform berhasil diisi: ${names}. Periksa data lalu simpan rilisan.`, 'ok');
+  } catch (error) {
+    setStatus(els.saveStatus, error.message, 'error');
+  } finally {
+    els.featureFmImportBtn.disabled = false;
   }
 });
 

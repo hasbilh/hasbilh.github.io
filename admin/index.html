@@ -151,6 +151,26 @@
   }
   .editing-badge.active { display: inline; }
   .note { font-size: 13px; margin: 8px 0 0; }
+  .isrc-candidates {
+    margin-top: 12px;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: #0d1528;
+  }
+  .isrc-candidates h3 { margin: 0 0 8px; font-size: 14px; }
+  .candidate-list { display: grid; gap: 8px; }
+  .candidate-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: center;
+    padding: 9px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+  }
+  .candidate-row small { display: block; color: var(--muted); overflow-wrap: anywhere; }
+  .candidate-row strong { color: var(--text); }
   @media (max-width: 760px) {
     header { align-items: flex-start; flex-direction: column; }
     .grid { grid-template-columns: 1fr; }
@@ -275,6 +295,7 @@
       </div>
     </form>
     <div id="saveStatus" class="status">Isi form lalu simpan ke database D1.</div>
+    <div id="isrcCandidates" class="isrc-candidates" hidden></div>
   </section>
 
   <section class="panel admin-only" hidden>
@@ -480,6 +501,56 @@ function applyPlatformLinks(links) {
     applied += 1;
   });
   return applied;
+}
+
+function platformLabel(platform) {
+  return {
+    apple: 'Apple Music',
+    youtube: 'YouTube',
+    youtubeMusic: 'YouTube Music',
+    deezer: 'Deezer',
+    tidal: 'Tidal',
+    amazon: 'Amazon Music',
+    soundcloud: 'SoundCloud',
+  }[platform] || platform;
+}
+
+function renderIsrcCandidates(candidates) {
+  const container = document.getElementById('isrcCandidates');
+  const validCandidates = Array.isArray(candidates) ? candidates.filter(item => item?.platform && item?.url) : [];
+  if (!validCandidates.length) {
+    container.hidden = true;
+    container.innerHTML = '';
+    return;
+  }
+
+  container.hidden = false;
+  container.innerHTML = `
+    <h3>Kandidat link platform — pilih yang sesuai</h3>
+    <div class="candidate-list">
+      ${validCandidates.map((candidate, index) => `
+        <div class="candidate-row">
+          <div>
+            <strong>${escapeHtml(platformLabel(candidate.platform))} · skor ${Number(candidate.score) || 0}</strong>
+            <small>${escapeHtml(candidate.label || candidate.url)}</small>
+            <small><a href="${escapeHtml(candidate.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(candidate.url)}</a></small>
+          </div>
+          <button class="secondary small" type="button" data-candidate-index="${index}">Pilih</button>
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  container.querySelectorAll('[data-candidate-index]').forEach(button => {
+    button.addEventListener('click', () => {
+      const candidate = validCandidates[Number(button.dataset.candidateIndex)];
+      if (!candidate) return;
+      const applied = applyPlatformLinks([candidate]);
+      button.textContent = applied ? 'Terpilih' : 'Tidak cocok';
+      button.disabled = true;
+      setStatus(els.saveStatus, `${platformLabel(candidate.platform)} dipilih. Periksa data lalu simpan rilisan.`, 'ok');
+    });
+  });
 }
 
 async function resolveIsrc(value) {
@@ -973,8 +1044,10 @@ els.isrcImportBtn.addEventListener('click', async () => {
     if (result.cover && !document.getElementById('cover').value.trim()) document.getElementById('cover').value = result.cover;
     if (result.spotifyTrackId) document.getElementById('spotifyTrack').value = result.spotifyTrackId;
     const applied = applyPlatformLinks(result.links || []);
+    renderIsrcCandidates(result.candidates || []);
     const names = result.links.map(link => link.platform).join(', ');
-    setStatus(els.saveStatus, `${applied} platform ditemukan: ${names || 'tidak ada'}. Periksa data lalu simpan rilisan.`, 'ok');
+    const candidateCount = Array.isArray(result.candidates) ? result.candidates.length : 0;
+    setStatus(els.saveStatus, `${applied} platform otomatis ditemukan: ${names || 'tidak ada'}. ${candidateCount} kandidat lain tersedia untuk dipilih.`, 'ok');
   } catch (error) {
     setStatus(els.saveStatus, error.message, 'error');
   } finally {
@@ -1050,6 +1123,7 @@ els.cancelEditBtn.addEventListener('click', () => {
 els.form.addEventListener('reset', () => {
   setTimeout(() => {
     document.getElementById('type').value = 'Kolaborasi';
+    renderIsrcCandidates([]);
     clearEditMode();
   }, 0);
 });

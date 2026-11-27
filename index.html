@@ -1,515 +1,1187 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hasbi LH | Bukan Music Promptducer</title>
-<link rel="icon" type="image/png" href="favicon.png">
-<link rel="canonical" href="https://hasbilh.github.io/">
-<!-- Open Graph Meta Tags -->
-<meta property="og:title" content="Hasbi LH - Bukan Music Promptducer">
-<meta property="og:description" content="All about Hasbi LH featuring discography, filmography, videos, and more.">
-<meta property="og:image" content="https://hasbilh.github.io/thumbnail.png">
-<meta property="og:image:secure_url" content="https://hasbilh.github.io/thumbnail.png">
-<meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:width" content="2160">
-<meta property="og:image:height" content="1080">
-<meta property="og:image:alt" content="Hasbi LH - Bukan Music Promptducer">
-<meta property="og:url" content="https://hasbilh.github.io/">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Hasbi LH">
-<!-- Twitter Card Meta Tags -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Hasbi LH - Bukan Music Promptducer">
-<meta name="twitter:description" content="All about Hasbi LH featuring discography, filmography, videos, and more.">
-<meta name="twitter:image" content="https://hasbilh.github.io/thumbnail.png">
-<meta name="twitter:image:alt" content="Hasbi LH - Bukan Music Promptducer">
-<meta name="theme-color" id="theme-color-meta" content="#070b16">
-<script>
-  (function () {
-    try {
-      const savedTheme = localStorage.getItem('site_theme');
-      const theme = savedTheme || 'dark';
-      document.documentElement.dataset.theme = theme;
-      document.documentElement.style.colorScheme = theme;
-      document.getElementById('theme-color-meta').content = theme === 'light' ? '#f4f7fc' : '#070b16';
-    } catch (_) {
-      document.documentElement.dataset.theme = 'dark';
-    }
-  })();
-</script>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-<link rel="stylesheet" href="styles.css?v=20260616-26">
+<title>Discography Admin | Hasbi LH</title>
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<style>
+  :root {
+    --bg: #0a0f1e;
+    --panel: #111c35;
+    --panel2: #162040;
+    --text: #f0f4ff;
+    --muted: #8899bb;
+    --border: rgba(59,130,246,0.24);
+    --accent: #3b82f6;
+    --danger: #ef4444;
+    --ok: #22c55e;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+  main {
+    width: min(1040px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 32px 0 48px;
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  h1, h2 { margin: 0; line-height: 1.1; }
+  h1 { font-size: clamp(28px, 4vw, 44px); }
+  h2 { font-size: 18px; margin-bottom: 16px; }
+  p { color: var(--muted); line-height: 1.6; }
+  a { color: var(--accent); }
+  .panel {
+    border: 1px solid var(--border);
+    background: var(--panel);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 18px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+  label {
+    display: grid;
+    gap: 7px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  input, select, textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: #0d1528;
+    color: var(--text);
+    padding: 11px 12px;
+    font: inherit;
+  }
+  textarea { min-height: 92px; resize: vertical; }
+  button {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--accent);
+    color: white;
+    padding: 11px 14px;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  button.secondary { background: var(--panel2); }
+  button.danger { background: var(--danger); border-color: rgba(239,68,68,0.55); }
+  button.small {
+    padding: 7px 9px;
+    font-size: 12px;
+  }
+  button:disabled { opacity: 0.55; cursor: not-allowed; }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .status {
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 6px;
+    background: #0d1528;
+    color: var(--muted);
+    white-space: pre-wrap;
+  }
+  .status.ok { color: var(--ok); }
+  .status.error { color: var(--danger); }
+  .span-2 { grid-column: span 2; }
+  .preview {
+    overflow: auto;
+    max-height: 560px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  th, td {
+    padding: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    text-align: left;
+    vertical-align: top;
+  }
+  th { color: var(--muted); background: #0d1528; position: sticky; top: 0; }
+  .table-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .toolbar {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin: 14px 0;
+  }
+  .toolbar input { max-width: 380px; }
+  .date-field {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+  }
+  .date-field button {
+    padding-inline: 12px;
+    white-space: nowrap;
+  }
+  .editing-badge {
+    display: none;
+    color: var(--ok);
+    font-weight: 700;
+  }
+  .editing-badge.active { display: inline; }
+  .note { font-size: 13px; margin: 8px 0 0; }
+  .isrc-candidates {
+    margin-top: 12px;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: #0d1528;
+  }
+  .isrc-candidates h3 { margin: 0 0 8px; font-size: 14px; }
+  .candidate-list { display: grid; gap: 8px; }
+  .candidate-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: center;
+    padding: 9px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+  }
+  .candidate-row small { display: block; color: var(--muted); overflow-wrap: anywhere; }
+  .candidate-row strong { color: var(--text); }
+  .candidate-row a.secondary { display: inline-block; color: var(--text); text-decoration: none; white-space: nowrap; }
+  @media (max-width: 760px) {
+    header { align-items: flex-start; flex-direction: column; }
+    .grid { grid-template-columns: 1fr; }
+    .span-2 { grid-column: auto; }
+  }
+</style>
 </head>
 <body>
+<main>
+  <header>
+    <div>
+      <h1>Discography Admin</h1>
+      <p>Anjay.</p>
+    </div>
+    <a href="../">Buka situs</a>
+  </header>
 
-<div id="progress-bar"></div>
+  <section class="panel">
+    <h2>Login Admin</h2>
+    <p class="note">Login memakai GitHub OAuth.</p>
+    <div class="actions">
+      <button id="loginBtn" type="button">Login with GitHub</button>
+      <button id="loadBtn" class="secondary" type="button" hidden>Load Database</button>
+      <button id="importLocalBtn" class="secondary" type="button" hidden>Import JSON ke D1</button>
+      <button id="syncCoversBtn" class="secondary" type="button" hidden>Sync Artwork Spotify</button>
+      <button id="logoutBtn" class="secondary" type="button" hidden>Logout</button>
+    </div>
+    <div id="connectionStatus" class="status">Belum login.</div>
+  </section>
 
-<nav>
-  <a href="#hero" class="nav-logo">
-    <img src="favicon.png" alt="Hasbi LH logo">
-  </a>
-  <button class="nav-toggle" id="nav-toggle" aria-label="Buka menu" aria-expanded="false">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M4 7h16" />
-      <path d="M4 12h16" />
-      <path d="M4 17h16" />
-    </svg>
-  </button>
-  <ul class="nav-links">
-    <li><a href="#about" data-i18n="nav.about">Tentang</a></li>
-    <li><a href="#discography" data-i18n="nav.discography">Diskografi</a></li>
-    <li><a href="#filmography" data-i18n="nav.filmography">Filmografi</a></li>
-    <li><a href="#videos" data-i18n="nav.videos">Video</a></li>
-    <li><a href="#platforms" data-i18n="nav.platforms">Platform</a></li>
-    <li><button class="nav-contact-btn" id="nav-contact-btn" type="button" data-i18n="nav.contact">Kontak</button></li>
-    <li class="nav-lang nav-preferences">
-      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Aktifkan mode terang" title="Aktifkan mode terang">
-        <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
-          <circle cx="12" cy="12" r="4"></circle>
-          <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"></path>
-        </svg>
-        <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-        </svg>
-      </button>
-      <div class="lang-select">
-        <div class="lang-switch" id="lang-select" role="tablist" aria-label="Language selector">
-          <button class="lang-btn" data-lang="en" aria-pressed="true">EN</button>
-          <button class="lang-btn" data-lang="id" aria-pressed="false">ID</button>
-          <button class="lang-btn" data-lang="ja" aria-pressed="false">JP</button>
+  <section class="panel admin-only" hidden>
+    <h2>Input / Edit Rilisan</h2>
+    <form id="releaseForm">
+      <div class="grid">
+        <label>Judul
+          <input id="title" required placeholder="Contoh: Greesel Lutuna">
+        </label>
+        <label>Artists
+          <input id="artist" required placeholder="Hasbi LH">
+        </label>
+        <label>Kategori
+          <select id="type">
+            <option selected>Solo</option>
+            <option>Kolaborasi</option>
+            <option>Grup Musik Hasbi LH</option>
+            <option>Artis Lain</option>
+          </select>
+        </label>
+        <label>Tanggal rilis
+          <span class="date-field">
+            <input id="releaseDate" type="date" required>
+            <button id="releaseDateBtn" class="secondary" type="button">Date</button>
+          </span>
+        </label>
+        <label>Album
+          <input id="album" placeholder="Nama album / single">
+        </label>
+        <label>Author / Songwriters
+          <input id="songwriters" placeholder="Hasbi LH">
+        </label>
+        <label>Composer
+          <input id="composer" placeholder="Hasbi LH">
+        </label>
+        <label>Producer
+          <input id="producer" placeholder="Hasbi LH">
+        </label>
+        <label>Mixing
+          <input id="mixing" placeholder="Hasbi LH">
+        </label>
+        <label>Mastering
+          <input id="mastering" placeholder="Hasbi LH">
+        </label>
+        <label>Studio / Label
+          <input id="studioLabel" placeholder="Nama studio atau label">
+        </label>
+        <label class="span-2">ISRC Rilisan
+          <span class="date-field">
+            <input id="isrc" type="text" placeholder="Contoh: IDABC1234567" autocomplete="off" spellcheck="false">
+            <button id="isrcImportBtn" class="secondary" type="button">Scan ISRC</button>
+          </span>
+          <small class="note">Mencari metadata dan link platform berdasarkan kode ISRC.</small>
+        </label>
+        <label>Cover URL
+          <input id="cover" placeholder="https://...jpg/png">
+        </label>
+        <label>Spotify Track ID atau URL
+          <input id="spotifyTrack" placeholder="https://open.spotify.com/track/...">
+        </label>
+        <label>Spotify Album/Release ID atau URL
+          <input id="spotifyAlbum" placeholder="https://open.spotify.com/album/...">
+        </label>
+        <label>Apple Music URL atau ID
+          <input id="appleUrl" placeholder="https://music.apple.com/... atau 1818993667">
+        </label>
+        <label>Apple Album URL atau ID
+          <input id="appleAlbum" placeholder="https://music.apple.com/id/album/... atau 1818993667">
+        </label>
+        <label>YouTube ID atau URL
+          <input id="youtubeId" placeholder="https://www.youtube.com/watch?v=...">
+        </label>
+        <label>YouTube Music ID atau URL
+          <input id="youtubeMusicId" placeholder="https://music.youtube.com/watch?v=...">
+        </label>
+        <label>Deezer Track ID atau URL
+          <input id="deezerTrackId" placeholder="https://www.deezer.com/track/...">
+        </label>
+        <label>Tidal Track ID atau URL
+          <input id="tidalUrl" placeholder="https://tidal.com/...">
+        </label>
+        <label>Amazon Music URL
+          <input id="amazonUrl" placeholder="https://music.amazon.com/...">
+        </label>
+        <label>SoundCloud URL
+          <input id="soundcloudUrl" placeholder="https://soundcloud.com/...">
+        </label>
+      </div>
+      <div class="actions">
+        <button id="saveBtn" type="submit">Tambah & Simpan</button>
+        <button id="resetBtn" class="secondary" type="reset">Reset Form</button>
+        <button id="cancelEditBtn" class="secondary" type="button" hidden>Batal Edit</button>
+        <span id="editingBadge" class="editing-badge">Mode edit aktif</span>
+      </div>
+    </form>
+    <div id="saveStatus" class="status">Isi form lalu simpan ke database D1.</div>
+    <div id="isrcCandidates" class="isrc-candidates" hidden></div>
+  </section>
+
+  <section class="panel admin-only" hidden>
+    <h2>Semua Diskografi</h2>
+    <div id="summary" class="status">Database belum dimuat.</div>
+    <div class="toolbar">
+      <input id="tableSearch" placeholder="Cari judul, artist, kategori, tahun...">
+      <button id="refreshTableBtn" class="secondary" type="button">Refresh</button>
+    </div>
+    <div class="preview">
+      <table>
+        <thead>
+          <tr><th>Judul</th><th>Artists</th><th>Kategori</th><th>Rilis</th><th>Aksi</th></tr>
+        </thead>
+        <tbody id="discographyRows"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<script>
+const API_BASE = 'https://hasbi-discography-api.21stvengenz.workers.dev';
+
+const els = {
+  loginBtn: document.getElementById('loginBtn'),
+  loadBtn: document.getElementById('loadBtn'),
+  importLocalBtn: document.getElementById('importLocalBtn'),
+  syncCoversBtn: document.getElementById('syncCoversBtn'),
+  logoutBtn: document.getElementById('logoutBtn'),
+  connectionStatus: document.getElementById('connectionStatus'),
+  form: document.getElementById('releaseForm'),
+  saveStatus: document.getElementById('saveStatus'),
+  summary: document.getElementById('summary'),
+  discographyRows: document.getElementById('discographyRows'),
+  tableSearch: document.getElementById('tableSearch'),
+  refreshTableBtn: document.getElementById('refreshTableBtn'),
+  cancelEditBtn: document.getElementById('cancelEditBtn'),
+  releaseDateBtn: document.getElementById('releaseDateBtn'),
+  isrc: document.getElementById('isrc'),
+  isrcImportBtn: document.getElementById('isrcImportBtn'),
+  editingBadge: document.getElementById('editingBadge'),
+};
+
+let database = null;
+let editingItemRef = null;
+let editingOriginalTitle = null;
+let sessionToken = sessionStorage.getItem('discography_admin_session') || '';
+
+const callbackSession = new URLSearchParams(window.location.search).get('session');
+if (callbackSession) {
+  sessionToken = callbackSession;
+  sessionStorage.setItem('discography_admin_session', sessionToken);
+  window.history.replaceState({}, document.title, window.location.pathname);
+}
+
+function setStatus(el, message, kind) {
+  el.textContent = message;
+  el.className = 'status' + (kind ? ` ${kind}` : '');
+}
+
+function setAdminPanelsVisible(visible) {
+  document.querySelectorAll('.admin-only').forEach(panel => {
+    panel.hidden = !visible;
+  });
+}
+
+function setLoginControls(loggedIn) {
+  els.loginBtn.hidden = loggedIn;
+  els.loadBtn.hidden = !loggedIn;
+  els.importLocalBtn.hidden = !loggedIn;
+  els.syncCoversBtn.hidden = !loggedIn;
+  els.logoutBtn.hidden = !loggedIn;
+}
+
+function ensureConfigured() {
+  if (API_BASE.includes('NAMA-AKUN')) {
+    throw new Error('API_BASE belum diisi. Edit admin/index.html dan ganti URL Worker terlebih dahulu.');
+  }
+}
+
+function authHeaders(extra = {}) {
+  if (!sessionToken) throw new Error('Login GitHub diperlukan.');
+  return {
+    Authorization: `Bearer ${sessionToken}`,
+    ...extra,
+  };
+}
+
+async function apiRequest(path, options = {}) {
+  ensureConfigured();
+  const response = await fetch(`${API_BASE}${path}`, {
+    ...options,
+    headers: {
+      ...(options.headers || {}),
+    },
+  });
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(body.error || `API error ${response.status}`);
+  }
+  return body;
+}
+
+async function loadDatabase() {
+  database = await apiRequest('/discography', {
+    method: 'GET',
+    headers: authHeaders(),
+  });
+  if (!Array.isArray(database.discography)) database.discography = [];
+  if (!database.platformMetadata || typeof database.platformMetadata !== 'object') database.platformMetadata = {};
+  setAdminPanelsVisible(true);
+  renderSummary();
+  return database;
+}
+
+async function loadLocalDatabase() {
+  const response = await fetch('../data/discography.json', { cache: 'no-store' });
+  if (!response.ok) throw new Error('data/discography.json gagal dimuat.');
+  const localDatabase = await response.json();
+  if (!Array.isArray(localDatabase.discography)) throw new Error('Format data/discography.json tidak valid.');
+  if (!localDatabase.platformMetadata || typeof localDatabase.platformMetadata !== 'object') {
+    localDatabase.platformMetadata = {};
+  }
+  return localDatabase;
+}
+
+function renderSummary() {
+  const items = (database?.discography || [])
+    .map((item, index) => ({ item, index }))
+    .sort((a, b) => (b.item.releaseDate || '').localeCompare(a.item.releaseDate || ''));
+  const query = els.tableSearch.value.trim().toLowerCase();
+  const visibleItems = query
+    ? items.filter(({ item }) => [item.title, item.artist, item.type, item.year, item.releaseDate].join(' ').toLowerCase().includes(query))
+    : items;
+
+  setStatus(els.summary, `${items.length} rilisan dimuat dari Cloudflare D1.`, 'ok');
+  els.discographyRows.innerHTML = visibleItems.map(({ item, index }) => `
+    <tr>
+      <td>${escapeHtml(item.title || '')}</td>
+      <td>${escapeHtml(item.artist || '')}</td>
+      <td>${escapeHtml(item.type || '')}</td>
+      <td>${escapeHtml(item.releaseDate || '')}</td>
+      <td>
+        <div class="table-actions">
+          <button class="small secondary" type="button" data-action="edit" data-index="${index}">Edit</button>
+          <button class="small danger" type="button" data-action="delete" data-index="${index}">Hapus</button>
         </div>
-      </div>
-    </li>
-  </ul>
-</nav>
+      </td>
+    </tr>
+  `).join('');
+}
 
-<!-- HERO -->
-<div id="hero">
-  <div class="hero-grid"></div>
-  <div class="hero-glow"></div>
-  <div id="particles"></div>
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;',
+  }[char]));
+}
 
-  <p class="hero-label">Bukan Music Promptducer</p>
-  <h1 class="hero-title">
-    <span class="line1">HASBI LH</span>
-  </h1>
-  <p class="hero-tagline" data-i18n="hero.tagline">Independent Musician, Songwriter, Composer & Producer.</p>
+function extractSpotifyId(value, expectedType) {
+  const text = value.trim();
+  if (!text) return null;
+  const match = text.match(new RegExp(`/intl-[a-z]+/${expectedType}/([A-Za-z0-9]+)|/${expectedType}/([A-Za-z0-9]+)`));
+  return match ? (match[1] || match[2]) : text;
+}
 
+function safeExternalUrl(value, fallback = '') {
+  try {
+    const url = new URL(String(value || ''));
+    return url.protocol === 'https:' || url.protocol === 'http:' ? url.href : fallback;
+  } catch (_) {
+    return fallback;
+  }
+}
 
-  <div class="hero-cta">
-    <a href="#discography" class="btn-primary" data-i18n="cta.discography">Lihat Diskografi</a>
-    <a href="#platforms" class="btn-outline" data-i18n="cta.listen">Dengarkan Sekarang</a>
-  </div>
+function normalizeIsrc(value) {
+  const isrc = String(value || '').toUpperCase().replace(/[\s-]/g, '');
+  if (!/^[A-Z]{2}[A-Z0-9]{3}\d{7}$/.test(isrc)) {
+    throw new Error('ISRC tidak valid. Format yang benar: CCXXX1234567.');
+  }
+  return isrc;
+}
 
-</div>
+function applyPlatformLinks(links) {
+  const fields = {
+    spotify: ['spotifyTrack', value => extractSpotifyId(value, 'track')],
+    apple: ['appleUrl', value => value],
+    youtube: ['youtubeId', value => extractYouTubeId(value)],
+    youtubeMusic: ['youtubeMusicId', value => extractYouTubeId(value)],
+    deezer: ['deezerTrackId', value => extractDeezerTrackId(value)],
+    tidal: ['tidalUrl', value => value],
+    amazon: ['amazonUrl', value => value],
+    soundcloud: ['soundcloudUrl', value => value],
+  };
+  let applied = 0;
+  links.forEach(({ platform, url }) => {
+    const field = fields[platform];
+    if (!field) return;
+    document.getElementById(field[0]).value = field[1](url) || '';
+    applied += 1;
+  });
+  return applied;
+}
 
-<div class="divider"></div>
+function platformLabel(platform) {
+  return {
+    apple: 'Apple Music',
+    youtube: 'YouTube',
+    youtubeMusic: 'YouTube Music',
+    deezer: 'Deezer',
+    tidal: 'Tidal',
+    amazon: 'Amazon Music',
+    soundcloud: 'SoundCloud',
+  }[platform] || platform;
+}
 
-<!-- ABOUT -->
-<section id="about">
-  <div class="reveal">
-    <p class="section-label" data-i18n="label.about">// 01 — Tentang</p>
-    <h2 class="section-title" data-i18n="title.about">ABOUT THE<br>ARTIST</h2>
-  </div>
+function renderIsrcCandidates(candidates) {
+  const container = document.getElementById('isrcCandidates');
+  const validCandidates = Array.isArray(candidates) ? candidates.filter(item => item?.platform && item?.url) : [];
+  if (!validCandidates.length) {
+    container.hidden = true;
+    container.innerHTML = '';
+    return;
+  }
 
-
-  <div class="disco-controls reveal reveal-delay-1">
-    <div class="about-stats-grid">
-      <div class="stat-card">
-        <div class="stat-card-num">Pop/Rock/Emo</div>
-        <div class="stat-card-label" data-i18n="stat.genre">Genre Utama</div>
-      </div>
+  container.hidden = false;
+  container.innerHTML = `
+    <h3>Kandidat link platform — pilih yang sesuai</h3>
+    <div class="candidate-list">
+      ${validCandidates.map((candidate, index) => `
+        <div class="candidate-row">
+          <div>
+            <strong>${escapeHtml(platformLabel(candidate.platform))}${candidate.isSearch ? ' · pencarian manual' : ` · skor ${Number(candidate.score) || 0}`}</strong>
+            <small>${escapeHtml(candidate.label || candidate.url)}</small>
+            <small><a href="${escapeHtml(candidate.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(candidate.url)}</a></small>
+          </div>
+          ${candidate.isSearch
+            ? `<a class="button secondary small" href="${escapeHtml(candidate.url)}" target="_blank" rel="noopener noreferrer">Buka</a>`
+            : `<button class="secondary small" type="button" data-candidate-index="${index}">Pilih</button>`}
+        </div>
+      `).join('')}
     </div>
+  `;
 
-    <p class="about-bio" data-i18n="about.bio.p1">
-      <strong>Hasbi LH</strong> adalah musisi independen, penulis lagu, komposer, dan produser musik asal <strong>Cilacap, Indonesia</strong>. Dikenal dengan lagu dan lirik yang terinspirasi dari kisah pribadi dan budaya internet.
-    </p>
-    <p class="about-bio" data-i18n="about.bio.p2">
-      Perjalanan solonya dimulai dengan perilisan lagu berjudul <strong>"Pulang."</strong> Ia kemudian dikenal di kalangan penggemar JKT48 melalui lagu <strong>"Greesel Lutuna"</strong>. Hasbi merupakan mantan anggota band pop punk <strong>Brave Party</strong> sebagai gitaris dan trio grup <strong>RGH Project</strong> sebagai gitaris/keyboardist/bassist/produser.
-    </p>
-    <p class="about-bio" data-i18n="about.bio.p3">
-      Kini ia memproduksi seluruh karya solonya secara mandiri, mulai dari rekaman hingga mastering. Memadukan pop, emo, melodic, rock, dan R&B, ia menciptakan lagu yang terasa personal dan beresonansi dengan audiens niche.
-    </p>
+  container.querySelectorAll('[data-candidate-index]').forEach(button => {
+    button.addEventListener('click', () => {
+      const candidate = validCandidates[Number(button.dataset.candidateIndex)];
+      if (!candidate) return;
+      const applied = applyPlatformLinks([candidate]);
+      button.textContent = applied ? 'Terpilih' : 'Tidak cocok';
+      button.disabled = true;
+      setStatus(els.saveStatus, `${platformLabel(candidate.platform)} dipilih. Periksa data lalu simpan rilisan.`, 'ok');
+    });
+  });
+}
 
-    <div class="tags-row">
-      <span class="tag">Pop</span>
-      <span class="tag">Rock</span>
-      <span class="tag">Emo</span>
-      <span class="tag">Melodic Rock</span>
-      <span class="tag">Pop Punk</span>
-      <span class="tag">R&B</span>
-      <span class="tag">Indie</span>
-      <span class="tag">Songwriter</span>
-      <span class="tag">Music Producer</span>
-    </div>
+async function resolveIsrc(value) {
+  const isrc = normalizeIsrc(value);
+  const response = await fetch(`${API_BASE}/resolve-isrc?isrc=${encodeURIComponent(isrc)}`, {
+    headers: authHeaders({ Accept: 'application/json' }),
+  });
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(body.error || `ISRC resolver error ${response.status}`);
+  return { ...body, isrc };
+}
 
-    <div class="spotify-embed-wrap">
-      <iframe class="spotify-embed"
-              src="https://open.spotify.com/embed/artist/0368tIB0tl0hcEp1ugjBiY?utm_source=generator&theme=0" 
-              width="100%" height="352" frameBorder="0" 
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-              loading="lazy"></iframe>
-    </div>
-  </div>
-</section>
+async function fetchSpotifyCoverUrl(spotifyTrackId) {
+  if (!spotifyTrackId || !/^[A-Za-z0-9]{22}$/.test(spotifyTrackId)) return '';
+  const oembedUrl = `https://open.spotify.com/oembed?url=https://open.spotify.com/track/${spotifyTrackId}`;
+  const response = await fetch(oembedUrl);
+  if (!response.ok) throw new Error('Artwork Spotify gagal dimuat.');
+  const data = await response.json();
+  return safeExternalUrl(data.thumbnail_url, '');
+}
 
-<div class="divider"></div>
+async function syncCoverFromSpotify({ silent = false } = {}) {
+  const spotifyTrackId = extractSpotifyId(document.getElementById('spotifyTrack').value, 'track');
+  if (!spotifyTrackId) return '';
+  if (!/^[A-Za-z0-9]{22}$/.test(spotifyTrackId)) {
+    if (!silent) setStatus(els.saveStatus, 'Spotify Track ID tidak valid untuk mengambil artwork.', 'error');
+    return '';
+  }
 
-<!-- DISCOGRAPHY -->
-<section id="discography">
-  <div class="reveal">
-    <p class="section-label" data-i18n="label.discography">// 02 — Lagu</p>
-    <h2 class="section-title" data-i18n="title.discography">DISKOGRAFI</h2>
-    <p class="section-intro" data-i18n="discography.intro">
-      Daftar lengkap rilisan mandiri Hasbi LH, lagu-lagu grup musik yang pernah dianggotai Hasbi LH, serta lagu-lagu dari artis lain yang musiknya diproduksi oleh Hasbi LH
-    </p>
-  </div>
+  if (!silent) setStatus(els.saveStatus, 'Mengambil artwork dari Spotify...');
+  const coverUrl = await fetchSpotifyCoverUrl(spotifyTrackId);
+  if (coverUrl) {
+    document.getElementById('cover').value = coverUrl;
+    if (!silent) setStatus(els.saveStatus, 'Cover URL berhasil disesuaikan dengan artwork Spotify.', 'ok');
+  }
+  return coverUrl;
+}
 
-  <div class="disco-controls reveal reveal-delay-1">
-    <div class="filter-group">
-      <p class="filter-label" data-i18n="label.year">
-        Tahun Rilis
-      </p>
-      <div class="filter-buttons" id="year-filter-buttons">
-        <button class="filter-btn active" data-year="all" data-i18n="filter.year.all">Semua</button>
-        <button class="filter-btn" data-year="2026">2026</button>
-        <button class="filter-btn" data-year="2025">2025</button>
-        <button class="filter-btn" data-year="2024">2024</button>
-        <button class="filter-btn" data-year="2023">2023</button>
-        <button class="filter-btn" data-year="2022">2022</button>
-        <button class="filter-btn" data-year="2021">2021</button>
-        <button class="filter-btn" data-year="2020">2020</button>
-        <button class="filter-btn" data-year="2019">2019</button>
-        <button class="filter-btn" data-year="2018">2018</button>
-        <button class="filter-btn" data-year="2017">2017</button>
-        <button class="filter-btn" data-year="2016">2016</button>
-        <button class="filter-btn" data-year="2015">2015</button>
-        <button class="filter-btn" data-year="2014">2014</button>
-        <button class="filter-btn" data-year="2013">2013</button>
-      </div>
-      <p class="filter-label" data-i18n="label.category">
-        Kategori
-      </p>
-      <div class="filter-buttons">
-        <button class="filter-btn filter-category active" data-category="all" data-i18n="filter.category.all">Semua</button>
-        <button class="filter-btn filter-category" data-category="Solo" data-i18n="filter.category.Solo">Solo</button>
-        <button class="filter-btn filter-category" data-category="Kolaborasi" data-i18n="filter.category.Kolaborasi">Kolaborasi</button>
-        <button class="filter-btn filter-category" data-category="Grup Musik Hasbi LH" data-i18n="filter.category.grup">Grup Musik Hasbi LH</button>
-        <button class="filter-btn filter-category" data-category="Artis Lain" data-i18n="filter.category.artis">Artis Lain</button>
-        <button class="filter-btn filter-category" data-category="Album" data-i18n="filter.category.album">Album</button>
-      </div>
-    </div>
-    <div class="sort-controls">
-      <select id="sort-select">
-        <option value="date-desc" data-i18n="sort.date.desc">Tahun Rilis ↓</option>
-        <option value="date-asc" data-i18n="sort.date.asc">Tahun Rilis ↑</option>
-        <option value="artist-asc" data-i18n="sort.artist.asc">Artis A-Z</option>
-        <option value="artist-desc" data-i18n="sort.artist.desc">Artis Z-A</option>
-        <option value="title-asc" data-i18n="sort.title.asc">Judul A-Z</option>
-        <option value="title-desc" data-i18n="sort.title.desc">Judul Z-A</option>
-      </select>
-    </div>
-    <div class="search-bar">
-      <span class="search-icon">🔍</span>
-      <input type="text" id="search-input" placeholder="Cari lagu/artis..." data-i18n="search.placeholder">
-    </div>
-  </div>
+async function syncDatabaseCoversFromSpotify() {
+  if (!database) await loadDatabase();
+  const items = database.discography || [];
+  let updated = 0;
+  let skipped = 0;
 
-  <div id="disco-grid" class="disco-grid reveal reveal-delay-2">
-    <!-- populated by JS -->
-  </div>
-</section>
+  for (let index = 0; index < items.length; index += 1) {
+    const item = items[index];
+    const spotifyTrackId = item.spotifyTrackId;
+    if (!spotifyTrackId || !/^[A-Za-z0-9]{22}$/.test(spotifyTrackId)) {
+      skipped += 1;
+      continue;
+    }
 
-<section id="filmography">
-  <div class="reveal">
-    <p class="section-label" data-i18n="label.filmography">// 03 — Film</p>
-    <h2 class="section-title" data-i18n="title.filmography">FILMOGRAFI</h2>
-    <p class="section-intro" data-i18n="film.intro">
-      Daftar film yang melibatkan Hasbi LH.
-    </p>
-  </div>
+    setStatus(els.connectionStatus, `Sinkron artwork Spotify ${index + 1}/${items.length}: ${item.title}`);
+    try {
+      const coverUrl = await fetchSpotifyCoverUrl(spotifyTrackId);
+      if (coverUrl && item.cover !== coverUrl) {
+        item.cover = coverUrl;
+        updated += 1;
+      }
+    } catch (_) {
+      skipped += 1;
+    }
+  }
 
-  <div class="filmography-grid reveal reveal-delay-1">
-    <article class="film-card">
-      <h3>Melati</h3>
-      <div class="film-meta"><span class="film-year">2019</span> • <span class="film-type" data-i18n="film.type.feature">Film Panjang</span></div>
-      <ul class="film-details">
-        <li><strong data-i18n="film.details.director">Sutradara:</strong> Mamock Ngudi Utomo</li>
-        <li><strong data-i18n="film.details.producer">Produser:</strong> Rival Prabowo</li>
-        <li><strong data-i18n="film.details.production">Production House:</strong> Rajawali Putra Serayu</li>
-      </ul>
-      <p class="film-description" data-i18n="film.description.melati">Film dengan tema pendidikan karakter yang bekerja sama dengan Pemerintahan Kabupaten Banyumas dan Dinas Pendidikan setempat.</p>
-      <p class="film-roles"><strong><span data-i18n="film.roles_label">Peran</span> Hasbi LH:</strong> <span data-i18n="film.roles.list.melati">Komposer, Soundtrack, Penata Suara, Asisten Editor</span></p>
-      <button type="button" class="film-trailer-btn" data-i18n="film.trailer" onclick="openVideoModal({id:'x-HdRDaCPjg', title:'Melati — Trailer', date:'2019'}); return false;">Tonton Trailer</button>
-    </article>
+  await saveDatabase();
+  renderSummary();
+  return { updated, skipped, total: items.length };
+}
 
-    <article class="film-card">
-      <h3>Nostalgi</h3>
-      <div class="film-meta"><span class="film-year">2020</span> • <span class="film-type" data-i18n="film.type.short">Film Pendek</span></div>
-      <ul class="film-details">
-        <li><strong data-i18n="film.details.director">Sutradara:</strong> Juan Aldisya</li>
-        <li><strong data-i18n="film.details.producer">Produser:</strong> Ahtaka Zen Oklando</li>
-        <li><strong data-i18n="film.details.production">Production House:</strong> The Kons</li>
-      </ul>
-      <p class="film-description" data-i18n="film.description.nostalgi">Film pendek dengan genre Sci-Fi yang bercerita tentang perjuangan untuk bisa hidup sementara beberapa tahun setelah ancaman virus yang menyebabkan populasi manusia hampir musnah. Film ini mendapatkan beberapa penghargaan, di antaranya: HECare Film Festival (Human-Environment Care Film Festival HECFF)/ Ontario, Canada; 	The Lift-Off Sessions / Pinewood Studios First-Time Filmmaker Sessions / United Kingdom; Indiskop Film Festival 2020 / Jakarta, Indonesia; Class of 2020 Kolektif Film / Jakarta, Indonesia. <a href="https://afy.ac.id/prestasi-mahasiswa/" target="_blank" rel="noopener noreferrer" class="source-link">(Sumber)</a></p>
-      <p class="film-roles"><strong><span data-i18n="film.roles_label">Peran</span> Hasbi LH:</strong> <span data-i18n="film.roles.list.nostalgi">Komposer, Soundtrack</span></p>
-      <button type="button" class="film-trailer-btn" data-i18n="film.trailer" onclick="openVideoModal({id:'7VUYkJ2Tf-w', title:'Nostalgi — Trailer', date:'2020'}); return false;">Tonton Trailer</button>
-    </article>
-  </div>
+function isUrl(value) {
+  return /^https?:\/\//i.test(value.trim());
+}
 
-  <div class="section-action reveal">
-    <a href="https://www.imdb.com/name/nm14633507/" target="_blank" rel="noopener noreferrer" class="btn-outline" data-i18n="film.visit_imdb">Kunjungi IMDb Hasbi LH →</a>
-  </div>
-</section>
+function extractYouTubeId(value) {
+  const text = value.trim();
+  if (!text) return null;
+  if (!isUrl(text)) return text;
+  try {
+    const url = new URL(text);
+    if (url.searchParams.get('v')) return url.searchParams.get('v');
+    const parts = url.pathname.split('/').filter(Boolean);
+    return parts.pop() || text;
+  } catch (_) {
+    return text;
+  }
+}
 
-<!-- MODAL -->
-<div class="modal-overlay" id="modal-overlay" aria-hidden="true">
-  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-artist" tabindex="-1">
-    <div class="modal-header">
-      <div id="modal-cover-container"></div>
-      <div class="modal-heading">
-        <div class="modal-title" id="modal-title"></div>
-        <div class="modal-artist" id="modal-artist"></div>
-        <div class="modal-tags" id="modal-tags"></div>
-      </div>
-      <button class="modal-close" id="modal-close" type="button" aria-label="Tutup">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="modal-embed" id="modal-embed"></div>
-      <div id="modal-platforms" class="platform-links"></div>
-    </div>
-  </div>
-</div>
+function extractDeezerTrackId(value) {
+  const text = value.trim();
+  if (!text) return null;
+  const match = text.match(/\/track\/(\d+)/i);
+  return match ? match[1] : text;
+}
 
-<div class="persistent-player" id="persistent-player" aria-hidden="true">
-  <div class="persistent-player-track">
-    <img class="persistent-player-cover" id="persistent-player-cover" src="" alt="" hidden>
-    <div class="persistent-player-info">
-      <button class="persistent-player-title" id="persistent-player-title" type="button">Pilih lagu</button>
-      <span id="persistent-player-artist"></span>
-      <a class="persistent-player-source" id="persistent-player-source" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer">Buka di Spotify</a>
-    </div>
-  </div>
-  <div class="persistent-player-controls">
-    <button class="persistent-player-play" id="persistent-player-play" type="button" aria-label="Play/Pause">
-      <svg class="persistent-play-icon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3 1.713a.7.7 0 0 1 1.05-.607l10.89 6.288a.7.7 0 0 1 0 1.134L4.05 14.787A.7.7 0 0 1 3 14.18V1.713z"/></svg>
-      <svg class="persistent-pause-icon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M2.7 1a.7.7 0 0 0-.7.7v12.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7H2.7zm8 0a.7.7 0 0 0-.7.7v12.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7h-2.6z"/></svg>
-    </button>
-    <div class="persistent-player-progress">
-      <span id="persistent-time-current">0:00</span>
-      <button class="persistent-progress-bar" id="persistent-progress-bar" type="button" aria-label="Seek audio">
-        <span class="persistent-progress-fill" id="persistent-progress-fill"></span>
-      </button>
-      <span id="persistent-time-total">0:00</span>
-    </div>
-  </div>
-  <div class="persistent-player-embed" id="persistent-player-embed"></div>
-  <button class="persistent-player-stop" id="persistent-player-stop" type="button" aria-label="Tutup player">✕</button>
-</div>
+function extractTidalTrackId(value) {
+  const text = value.trim();
+  if (!text) return null;
+  const match = text.match(/\/track\/(\d+)/i);
+  return match ? match[1] : text;
+}
 
-<div id="spotify-controller-host" class="spotify-controller-host" aria-hidden="true" hidden></div>
+function parseAppleMusicValue(value) {
+  const text = value.trim();
+  if (!text) return null;
+  const result = {};
 
-<div class="video-mini-player" id="video-mini-player" aria-hidden="true">
-  <div class="video-mini-embed" id="video-mini-embed"></div>
-  <div class="video-mini-info">
-    <button class="video-mini-title" id="video-mini-title" type="button">YouTube</button>
-    <span>Video dari YouTube</span>
-  </div>
-  <button class="video-mini-close" id="video-mini-close" type="button" aria-label="Tutup video">✕</button>
-</div>
+  const albumMatch = text.match(/\/album\/[^/]+\/(\d+)/i);
+  const idMatch = text.match(/\/album\/(\d+)/i);
+  const trackMatch = text.match(/[?&]i=(\d+)/i);
 
+  if (/^https?:\/\//i.test(text)) {
+    result.appleUrl = text;
+    if (albumMatch) result.appleAlbumId = albumMatch[1];
+    else if (idMatch) result.appleAlbumId = idMatch[1];
+    if (trackMatch) result.appleTrackId = trackMatch[1];
+    return result;
+  }
 
+  result.appleAlbumId = text;
+  return result;
+}
 
-<div class="divider"></div>
+function cleanValue(value) {
+  const text = value.trim();
+  return text || null;
+}
 
-<!-- VIDEOS -->
-<section id="videos">
-  <div class="reveal">
-    <p class="section-label" data-i18n="label.video">// 04 — Video</p>
-    <h2 class="section-title" data-i18n="title.videos">YOUTUBE</h2>
-    <p class="section-intro">
-      YouTube RSS feed
-    </p>
-  </div>
+function toGeneratedJs(value) {
+  return JSON.stringify(value || {}, null, 2)
+    .replace(/</g, '\\u003c')
+    .replace(/>/g, '\\u003e')
+    .replace(/&/g, '\\u0026')
+    .replace(/\u2028/g, '\\u2028')
+    .replace(/\u2029/g, '\\u2029');
+}
 
-  <div id="videos-grid" class="videos-grid reveal reveal-delay-1">
-    <div class="loading-spinner loading-spinner-full"><div class="spinner"></div></div>
-  </div>
+function buildDiscographyDataJs(sourceDatabase) {
+  const discography = Array.isArray(sourceDatabase?.discography) ? sourceDatabase.discography : [];
+  const platformMetadata = sourceDatabase?.platformMetadata && typeof sourceDatabase.platformMetadata === 'object'
+    ? sourceDatabase.platformMetadata
+    : {};
 
-  <div class="section-action reveal">
-    <a href="https://www.youtube.com/@hasbilh_" target="_blank" rel="noopener noreferrer" class="btn-outline" data-i18n="videos.view_all">Lihat Semua Video di YouTube →</a>
-  </div>
-</section>
+  return [
+    '// Generated fallback copy of data/discography.json.',
+    `const DISCOGRAPHY = ${toGeneratedJs(discography)};`,
+    '',
+    `const PLATFORM_METADATA = ${toGeneratedJs(platformMetadata)};`,
+    '',
+  ].join('\n');
+}
 
-<div class="divider"></div>
+function getReleaseSlug(item) {
+  return `${item?.title || ''}-${item?.artist || ''}`
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '') || 'release';
+}
 
-<!-- PLATFORMS -->
-<div id="platforms">
-  <p class="section-label section-label-center" data-i18n="label.platforms">// 05 — Platform</p>
-  <h2 class="platforms-title" data-i18n="title.platforms">TEMUKAN SAYA DI</h2>
+function getReleaseShortCode(item) {
+  const input = getReleaseSlug(item);
+  let hash = 5381;
+  for (let i = 0; i < input.length; i++) {
+    hash = ((hash << 5) + hash) ^ input.charCodeAt(i);
+  }
+  return (hash >>> 0).toString(36).padStart(6, '0').slice(0, 6);
+}
 
-  <div class="platforms-grid">
-    <a href="https://open.spotify.com/artist/0368tIB0tl0hcEp1ugjBiY" target="_blank" rel="noopener noreferrer" class="platform-card">
-      <span class="platform-card-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.6-.12-.421.18-.78.6-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.241 1.081zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.42-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.781-.18-.601.18-1.2.78-1.381 4.5-1.14 11.28-.86 15.72 1.621.479.3.599 1.02.28 1.5-.319.48-1.041.6-1.52.28z"/>
-        </svg>
-      </span>
-      <span class="platform-card-name">Spotify</span>
-    </a>
-    <a href="https://music.apple.com/id/artist/hasbi-lh/1427415458" target="_blank" rel="noopener noreferrer" class="platform-card">
-      <span class="platform-card-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-        </svg>
-      </span>
-      <span class="platform-card-name">Apple Music</span>
-    </a>
-    <a href="https://www.youtube.com/@hasbilh_" target="_blank" rel="noopener noreferrer" class="platform-card">
-      <span class="platform-card-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-        </svg>
-      </span>
-      <span class="platform-card-name">YouTube</span>
-    </a>
-    <a href="https://music.youtube.com/channel/UCzbwOQAfE1PUvvayXCBdHdw" target="_blank" rel="noopener noreferrer" class="platform-card">
-      <span class="platform-card-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M12 0C5.376 0 0 5.376 0 12s5.376 12 12 12 12-5.376 12-12S18.624 0 12 0zm0 19.104c-3.924 0-7.104-3.18-7.104-7.104S8.076 4.896 12 4.896s7.104 3.18 7.104 7.104-3.18 7.104-7.104 7.104zm0-13.332c-3.432 0-6.228 2.796-6.228 6.228S8.568 18.228 12 18.228s6.228-2.796 6.228-6.228S15.432 5.772 12 5.772zM9.684 15.54V8.46L15.816 12l-6.132 3.54z"/>
-        </svg>
-      </span>
-      <span class="platform-card-name">YT Music</span>
-    </a>
-    <a href="https://soundcloud.com/hazbi-hzz" target="_blank" rel="noopener noreferrer" class="platform-card">
-      <span class="platform-card-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M23.999 14.165c-.052 1.796-1.612 3.169-3.4 3.169h-8.18a.68.68 0 0 1-.675-.683V7.862a.747.747 0 0 1 .452-.724s.75-.513 2.333-.513a5.364 5.364 0 0 1 2.763.755 5.433 5.433 0 0 1 2.57 3.54c.282-.08.574-.121.868-.12.884 0 1.73.358 2.347.992s.948 1.49.922 2.373ZM10.721 8.421c.247 2.98.427 5.697 0 8.672a.264.264 0 0 1-.53 0c-.395-2.946-.22-5.718 0-8.672a.264.264 0 0 1 .53 0ZM9.072 9.448c.285 2.659.37 4.986-.006 7.655a.277.277 0 0 1-.55 0c-.331-2.63-.256-5.02 0-7.655a.277.277 0 0 1 .556 0Zm-1.663-.257c.27 2.726.39 5.171 0 7.904a.266.266 0 0 1-.532 0c-.38-2.69-.257-5.21 0-7.904a.266.266 0 0 1 .532 0Zm-1.647.77a26.108 26.108 0 0 1-.008 7.147.272.272 0 0 1-.542 0 27.955 27.955 0 0 1 0-7.147.275.275 0 0 1 .55 0Zm-1.67 1.769c.421 1.865.228 3.5-.029 5.388a.257.257 0 0 1-.514 0c-.21-1.858-.398-3.549 0-5.389a.272.272 0 0 1 .543 0Zm-1.655-.273c.388 1.897.26 3.508-.01 5.412-.026.28-.514.283-.54 0-.244-1.878-.347-3.54-.01-5.412a.283.283 0 0 1 .56 0Zm-1.668.911c.4 1.268.257 2.292-.026 3.572a.257.257 0 0 1-.514 0c-.241-1.262-.354-2.312-.023-3.572a.283.283 0 0 1 .563 0Z"/>
-        </svg>
-      </span>
-      <span class="platform-card-name">SoundCloud</span>
-    </a>
-    <a href="https://www.deezer.com/en/artist/50177352" target="_blank" rel="noopener noreferrer" class="platform-card">
-      <span class="platform-card-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M18.81 4.16v3.03H24V4.16h-5.19zM6.27 8.38v3.03h5.19V8.38H6.27zM18.81 8.38v3.03H24V8.38h-5.19zM6.27 12.61v3.03h5.19v-3.03H6.27zM18.81 12.61v3.03H24v-3.03h-5.19zM6.27 16.83v3.03h5.19v-3.03H6.27zM12.54 16.83v3.03h5.19v-3.03h-5.19zM0 16.83v3.03h5.19v-3.03H0zM12.54 4.16v3.03h5.19V4.16h-5.19zM0 4.16v3.03h5.19V4.16H0zM0 8.38v3.03h5.19V8.38H0zM0 12.61v3.03h5.19v-3.03H0z"/>
-        </svg>
-      </span>
-      <span class="platform-card-name">Deezer</span>
-    </a>
-    <a href="https://tidal.com/credits/15281318" target="_blank" rel="noopener noreferrer" class="platform-card">
-      <span class="platform-card-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M12.012 3.992L8.008 7.996 4.004 3.992 0 7.996 4.004 12l4.004-4.004L12.012 12l-4.004 4.004 4.004 4.004 4.004-4.004L12.012 12l4.004-4.004-4.004-4.004zM16.042 7.996l3.979-3.979L24 7.996l-3.979 3.979z"/>
-        </svg>
-      </span>
-      <span class="platform-card-name">Tidal</span>
-    </a>
-    <a href="https://www.amazon.com/music/player/artists/B07PPWWV1N/hasbi-lh" target="_blank" rel="noopener noreferrer" class="platform-card">
-      <span class="platform-card-icon">
-        <i class="fa-brands fa-amazon" aria-hidden="true"></i>
-      </span>
-      <span class="platform-card-name">Amazon Music</span>
-    </a>
-  </div>
+async function getSmartlinkTemplate() {
+  const response = await fetch('../link/index.html', { cache: 'no-store' });
+  if (!response.ok) throw new Error('Template link/index.html gagal dimuat.');
+  return response.text();
+}
 
-  <h2 class="socials-title" data-i18n="title.socials">MEDIA SOSIAL</h2>
-  <div class="social-row">
-    <a href="https://www.instagram.com/hasbilh_" target="_blank" rel="noopener noreferrer" class="social-btn">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-      </svg>
-      Instagram
-    </a>
-    <a href="https://x.com/hasbilh_" target="_blank" rel="noopener noreferrer" class="social-btn">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-      </svg>
-      Twitter / X
-    </a>
-    <a href="https://www.tiktok.com/@vengenz21" target="_blank" rel="noopener noreferrer" class="social-btn">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
-      </svg>
-      TikTok
-    </a>
-  </div>
-</div>
+function buildSmartlinkMeta(item, code) {
+  const title = escapeHtml(`${item.title} by ${item.artist || 'Hasbi LH'}`);
+  const description = escapeHtml(`Dengarkan ${item.title} by ${item.artist || 'Hasbi LH'}`);
+  const image = escapeHtml(item.cover || '../thumbnail.png');
+  const url = `https://hasbilh.github.io/link/${code}/`;
+  return [
+    `<title>${title}</title>`,
+    `<meta name="description" content="${description}">`,
+    `<meta property="og:title" content="${title}">`,
+    `<meta property="og:description" content="${description}">`,
+    `<meta property="og:image" content="${image}">`,
+    `<meta property="og:image:secure_url" content="${image}">`,
+    `<meta property="og:image:type" content="image/jpeg">`,
+    '<meta property="og:image:width" content="640">',
+    '<meta property="og:image:height" content="640">',
+    `<meta property="og:url" content="${url}">`,
+    '<meta property="og:type" content="music.song">',
+    '<meta name="twitter:card" content="summary_large_image">',
+    `<meta name="twitter:title" content="${title}">`,
+    `<meta name="twitter:description" content="${description}">`,
+    `<meta name="twitter:image" content="${image}">`,
+  ].join('\n');
+}
 
-<!-- FOOTER -->
-<footer>
-  <p>© 2026 Hasbi LH / Hasubi Eruha</p>
-  <p>Created by <a href="https://hasbilh.github.io/biolink" target="_blank" rel="noopener noreferrer">Hasbi LH</a> | Data via Spotify & YouTube RSS</p>
-</footer>
+function buildSmartlinkPage(template, item) {
+  const code = getReleaseShortCode(item);
+  return template
+    .replace('<title>Smartlink</title>', buildSmartlinkMeta(item, code))
+    .replaceAll('href="../favicon.png"', 'href="../../favicon.png"')
+    .replaceAll('src="../data/discography-data.js"', 'src="../../data/discography-data.js"')
+    .replaceAll("fetch('../data/discography.json'", "fetch('../../data/discography.json'")
+    .replaceAll('href="../"', 'href="../../"');
+}
 
-<button class="floating-action contact-fab" id="contact-fab" type="button" aria-label="Kontak kerja sama" title="Kontak kerja sama" aria-haspopup="dialog" aria-controls="contact-dialog">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-    <path d="M4 4h16v16H4z"></path>
-    <path d="m4 6 8 6 8-6"></path>
-  </svg>
-</button>
+async function buildGeneratedFiles(smartlinkItems = []) {
+  const generatedFiles = {
+    'data/discography-data.js': buildDiscographyDataJs(database),
+  };
+  const items = smartlinkItems.filter(Boolean);
+  if (items.length === 0) return generatedFiles;
+  const template = await getSmartlinkTemplate();
+  items.forEach(item => {
+    generatedFiles[`link/${getReleaseShortCode(item)}/index.html`] = buildSmartlinkPage(template, item);
+  });
+  return generatedFiles;
+}
 
-<button class="back-to-top" id="back-to-top" type="button" aria-label="Kembali ke atas" title="Kembali ke atas">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-    <path d="M6 15l6-6 6 6"></path>
-  </svg>
-</button>
+function setInputValue(id, value) {
+  document.getElementById(id).value = value || '';
+}
 
-<div class="contact-dialog-overlay" id="contact-dialog-overlay" hidden>
-  <div class="contact-dialog" id="contact-dialog" role="dialog" aria-modal="true" aria-labelledby="contact-dialog-title" aria-describedby="contact-dialog-description">
-    <button class="contact-dialog-close" id="contact-dialog-close" type="button" aria-label="Tutup">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-        <path d="M6 6l12 12M18 6 6 18"></path>
-      </svg>
-    </button>
-    <div class="contact-dialog-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M4 4h16v16H4z"></path>
-        <path d="m4 6 8 6 8-6"></path>
-      </svg>
-    </div>
-    <p class="contact-dialog-label" data-i18n="contact.label">Kontak</p>
-    <h2 id="contact-dialog-title" data-i18n="contact.title">Mari Bekerja Sama</h2>
-    <p id="contact-dialog-description" data-i18n="contact.description">Untuk kolaborasi dan kerja sama, silakan hubungi melalui kontak berikut.</p>
-    <a class="contact-email" href="mailto:hasbilh_@outlook.com">
-      <svg class="contact-email-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M4 5h16v14H4z"></path>
-        <path d="m4 7 8 6 8-6"></path>
-      </svg>
-      <span class="contact-email-content">
-        <strong data-i18n="contact.send_email">Kirim Email</strong>
-        <small>hasbilh_@outlook.com</small>
-      </span>
-    </a>
-    <div class="contact-socials">
-      <a class="contact-social contact-social-x" href="https://x.com/messages/compose?recipient_id=156588231" target="_blank" rel="noopener noreferrer">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
-        </svg>
-        <span>
-          <strong data-i18n="contact.dm_x">DM di X</strong>
-          <small>@hasbilh_</small>
-        </span>
-      </a>
-      <a class="contact-social contact-social-instagram" href="https://ig.me/m/hasbilh_" target="_blank" rel="noopener noreferrer">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path>
-        </svg>
-        <span>
-          <strong data-i18n="contact.dm_instagram">DM di Instagram</strong>
-          <small>@hasbilh_</small>
-        </span>
-      </a>
-    </div>
-  </div>
-</div>
+function clearEditMode() {
+  editingItemRef = null;
+  editingOriginalTitle = null;
+  document.getElementById('saveBtn').textContent = 'Tambah & Simpan';
+  els.cancelEditBtn.hidden = true;
+  els.editingBadge.classList.remove('active');
+}
 
-<script src="data/translations.js?v=20260616-2"></script>
-<script src="data/discography-data.js?v=20260616-2"></script>
-<script src="data/video-data.js?v=20260616-2"></script>
-<script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
-<script src="script.js?v=20260911-default-en"></script>
+function fillFormForEdit(index) {
+  if (!database || !database.discography[index]) return;
+  const item = database.discography[index];
+  const platformMeta = database.platformMetadata[item.title] || {};
+
+  editingItemRef = item;
+  editingOriginalTitle = item.title;
+  setInputValue('title', item.title);
+  setInputValue('artist', item.artist);
+  document.getElementById('type').value = item.type || 'Kolaborasi';
+  setInputValue('releaseDate', item.releaseDate);
+  setInputValue('spotifyTrack', item.spotifyTrackId);
+  setInputValue('spotifyAlbum', item.spotifyId);
+  setInputValue('appleUrl', platformMeta.appleUrl || item.appleUrl || platformMeta.appleAlbumId || item.appleAlbumId || item.appleId);
+  setInputValue('appleAlbum', platformMeta.appleAlbumUrl || platformMeta.appleAlbumId || item.appleAlbumId || item.appleId);
+  setInputValue('tidalUrl', platformMeta.tidalUrl || item.tidalUrl || platformMeta.tidalTrackId || item.tidalTrackId);
+  setInputValue('youtubeId', item.youtubeId || platformMeta.youtubeId);
+  setInputValue('youtubeMusicId', item.youtubeMusicId || platformMeta.youtubeMusicId);
+  setInputValue('deezerTrackId', platformMeta.deezerUrl || item.deezerUrl || item.deezerTrackId || platformMeta.deezerTrackId);
+  setInputValue('amazonUrl', platformMeta.amazonUrl || item.amazonUrl);
+  setInputValue('soundcloudUrl', platformMeta.soundcloudUrl || item.soundcloudUrl);
+  setInputValue('cover', item.cover);
+  setInputValue('album', item.album);
+  setInputValue('songwriters', item.songwriters);
+  setInputValue('composer', item.composer);
+  setInputValue('producer', item.producer);
+  setInputValue('mixing', item.mixing);
+  setInputValue('mastering', item.mastering);
+  setInputValue('studioLabel', item.studioLabel);
+  setInputValue('isrc', item.isrc);
+
+  document.getElementById('saveBtn').textContent = 'Simpan Edit';
+  els.cancelEditBtn.hidden = false;
+  els.editingBadge.classList.add('active');
+  setStatus(els.saveStatus, `Mengedit "${item.title}".`);
+  window.scrollTo({ top: document.getElementById('releaseForm').offsetTop - 24, behavior: 'smooth' });
+}
+
+function buildReleaseFromForm() {
+  const releaseDate = document.getElementById('releaseDate').value;
+  const title = document.getElementById('title').value.trim();
+  const spotifyTrackId = extractSpotifyId(document.getElementById('spotifyTrack').value, 'track');
+  const spotifyId = extractSpotifyId(document.getElementById('spotifyAlbum').value, 'album');
+
+  if (!title) throw new Error('Judul wajib diisi.');
+  if (!releaseDate) throw new Error('Tanggal rilis wajib diisi.');
+
+  const item = {
+    title,
+    year: Number(releaseDate.slice(0, 4)),
+    releaseDate,
+    type: document.getElementById('type').value,
+    spotifyId,
+    spotifyTrackId,
+    cover: cleanValue(document.getElementById('cover').value),
+    artist: document.getElementById('artist').value.trim(),
+  };
+
+  const isrc = cleanValue(document.getElementById('isrc').value);
+  if (isrc) item.isrc = normalizeIsrc(isrc);
+
+  const album = cleanValue(document.getElementById('album').value);
+  if (album) item.album = album;
+
+  const songwriters = cleanValue(document.getElementById('songwriters').value);
+  if (songwriters) item.songwriters = songwriters;
+
+  const composer = cleanValue(document.getElementById('composer').value);
+  if (composer) item.composer = composer;
+
+  const producer = cleanValue(document.getElementById('producer').value);
+  if (producer) item.producer = producer;
+
+  const mixing = cleanValue(document.getElementById('mixing').value);
+  if (mixing) item.mixing = mixing;
+
+  const mastering = cleanValue(document.getElementById('mastering').value);
+  if (mastering) item.mastering = mastering;
+
+  const studioLabel = cleanValue(document.getElementById('studioLabel').value);
+  if (studioLabel) item.studioLabel = studioLabel;
+
+  const platformMeta = {};
+  const youtubeValue = cleanValue(document.getElementById('youtubeId').value);
+  const youtubeMusicValue = cleanValue(document.getElementById('youtubeMusicId').value);
+  const appleUrl = cleanValue(document.getElementById('appleUrl').value);
+  const appleAlbumValue = cleanValue(document.getElementById('appleAlbum').value);
+  const deezerValue = cleanValue(document.getElementById('deezerTrackId').value);
+  const tidalValue = cleanValue(document.getElementById('tidalUrl').value);
+  const amazonValue = cleanValue(document.getElementById('amazonUrl').value);
+  const soundcloudValue = cleanValue(document.getElementById('soundcloudUrl').value);
+
+  if (youtubeValue) platformMeta.youtubeId = extractYouTubeId(youtubeValue);
+  if (youtubeMusicValue) platformMeta.youtubeMusicId = extractYouTubeId(youtubeMusicValue);
+  if (appleUrl) {
+    const appleMeta = parseAppleMusicValue(appleUrl);
+    if (appleMeta.appleUrl) platformMeta.appleUrl = appleMeta.appleUrl;
+    if (appleMeta.appleTrackId) platformMeta.appleTrackId = appleMeta.appleTrackId;
+    if (appleMeta.appleAlbumId) platformMeta.appleAlbumId = appleMeta.appleAlbumId;
+  }
+  if (appleAlbumValue) {
+    const appleAlbumMeta = parseAppleMusicValue(appleAlbumValue);
+    if (appleAlbumMeta.appleUrl) platformMeta.appleAlbumUrl = appleAlbumMeta.appleUrl;
+    if (appleAlbumMeta.appleAlbumId) platformMeta.appleAlbumId = appleAlbumMeta.appleAlbumId;
+  }
+  if (deezerValue) {
+    if (isUrl(deezerValue)) platformMeta.deezerUrl = deezerValue;
+    platformMeta.deezerTrackId = extractDeezerTrackId(deezerValue);
+  }
+  if (tidalValue) {
+    if (isUrl(tidalValue)) platformMeta.tidalUrl = tidalValue;
+    else platformMeta.tidalTrackId = extractTidalTrackId(tidalValue);
+  }
+  if (amazonValue) {
+    if (!isUrl(amazonValue)) throw new Error('Amazon Music URL harus berupa link https://...');
+    platformMeta.amazonUrl = amazonValue;
+  }
+  if (soundcloudValue) {
+    if (!isUrl(soundcloudValue)) throw new Error('SoundCloud URL harus berupa link https://...');
+    platformMeta.soundcloudUrl = soundcloudValue;
+  }
+
+  return { item, platformMeta };
+}
+
+function validateDeletedFilePath(path) {
+  return /^link\/[a-z0-9]{6}\/index\.html$/.test(path);
+}
+
+async function saveDatabase() {
+  if (!database) throw new Error('Database belum dimuat.');
+  await apiRequest('/discography', {
+    method: 'PUT',
+    headers: authHeaders({ 'Content-Type': 'application/json' }),
+    body: JSON.stringify({
+      discography: database.discography || [],
+      platformMetadata: database.platformMetadata || {},
+    }),
+  });
+}
+
+async function checkSession() {
+  if (!sessionToken) {
+    setAdminPanelsVisible(false);
+    setLoginControls(false);
+    setStatus(els.connectionStatus, 'Belum login.');
+    return;
+  }
+  try {
+    const me = await apiRequest('/me', {
+      method: 'GET',
+      headers: authHeaders(),
+    });
+    const expiry = me.expiresAt ? new Date(me.expiresAt * 1000).toLocaleString('id-ID') : 'tidak diketahui';
+    setAdminPanelsVisible(true);
+    setLoginControls(true);
+    setStatus(els.connectionStatus, `Login sebagai ${me.login}. Session berlaku sampai ${expiry}.`, 'ok');
+  } catch (error) {
+    sessionToken = '';
+    sessionStorage.removeItem('discography_admin_session');
+    setAdminPanelsVisible(false);
+    setLoginControls(false);
+    setStatus(els.connectionStatus, error.message, 'error');
+  }
+}
+
+els.loginBtn.addEventListener('click', () => {
+  try {
+    ensureConfigured();
+    window.location.href = `${API_BASE}/auth/github/start`;
+  } catch (error) {
+    setStatus(els.connectionStatus, error.message, 'error');
+  }
+});
+
+els.loadBtn.addEventListener('click', async () => {
+  els.loadBtn.disabled = true;
+  setStatus(els.connectionStatus, 'Memuat database...');
+  try {
+    await loadDatabase();
+    setStatus(els.connectionStatus, 'Database berhasil dimuat.', 'ok');
+  } catch (error) {
+    setStatus(els.connectionStatus, error.message, 'error');
+  } finally {
+    els.loadBtn.disabled = false;
+  }
+});
+
+els.importLocalBtn.addEventListener('click', async () => {
+  const ok = confirm('Import isi data/discography.json lokal ke Cloudflare D1? Data D1 saat ini akan diganti.');
+  if (!ok) return;
+
+  els.importLocalBtn.disabled = true;
+  setStatus(els.connectionStatus, 'Mengimpor data lokal ke D1...');
+  try {
+    database = await loadLocalDatabase();
+    await syncDatabaseCoversFromSpotify();
+    await loadDatabase();
+    setStatus(els.connectionStatus, 'Import JSON ke D1 berhasil.', 'ok');
+  } catch (error) {
+    setStatus(els.connectionStatus, error.message, 'error');
+  } finally {
+    els.importLocalBtn.disabled = false;
+  }
+});
+
+els.syncCoversBtn.addEventListener('click', async () => {
+  const ok = confirm('Sinkronkan semua Cover URL di D1 dengan artwork Spotify?');
+  if (!ok) return;
+
+  els.syncCoversBtn.disabled = true;
+  try {
+    const result = await syncDatabaseCoversFromSpotify();
+    setStatus(
+      els.connectionStatus,
+      `Artwork Spotify selesai disinkronkan. ${result.updated} diperbarui, ${result.skipped} dilewati, total ${result.total}.`,
+      'ok',
+    );
+    await loadDatabase();
+  } catch (error) {
+    setStatus(els.connectionStatus, error.message, 'error');
+  } finally {
+    els.syncCoversBtn.disabled = false;
+  }
+});
+
+els.logoutBtn.addEventListener('click', () => {
+  sessionToken = '';
+  database = null;
+  sessionStorage.removeItem('discography_admin_session');
+  els.discographyRows.innerHTML = '';
+  setAdminPanelsVisible(false);
+  setLoginControls(false);
+  setStatus(els.connectionStatus, 'Logout berhasil.');
+  setStatus(els.summary, 'Database belum dimuat.');
+});
+
+els.releaseDateBtn.addEventListener('click', () => {
+  const input = document.getElementById('releaseDate');
+  if (typeof input.showPicker === 'function') {
+    input.showPicker();
+  } else {
+    input.focus();
+  }
+});
+
+els.isrcImportBtn.addEventListener('click', async () => {
+  els.isrcImportBtn.disabled = true;
+  setStatus(els.saveStatus, 'Mencari rilisan berdasarkan ISRC...');
+  try {
+    const result = await resolveIsrc(els.isrc.value);
+    els.isrc.value = result.isrc;
+    if (result.title && !document.getElementById('title').value.trim()) document.getElementById('title').value = result.title;
+    if (result.artist && !document.getElementById('artist').value.trim()) document.getElementById('artist').value = result.artist;
+    if (result.releaseDate && !document.getElementById('releaseDate').value) document.getElementById('releaseDate').value = result.releaseDate;
+    if (result.cover && !document.getElementById('cover').value.trim()) document.getElementById('cover').value = result.cover;
+    if (result.spotifyTrackId) document.getElementById('spotifyTrack').value = result.spotifyTrackId;
+    const applied = applyPlatformLinks(result.links || []);
+    renderIsrcCandidates(result.candidates || []);
+    const names = result.links.map(link => link.platform).join(', ');
+    const candidateCount = Array.isArray(result.candidates) ? result.candidates.length : 0;
+    const version = result.resolverVersion ? ` Resolver ${result.resolverVersion}.` : ' Worker lama terdeteksi; deploy ulang worker.js.';
+    setStatus(els.saveStatus, `${applied} platform otomatis ditemukan: ${names || 'tidak ada'}. ${candidateCount} kandidat lain tersedia untuk dipilih.${version}`, 'ok');
+  } catch (error) {
+    setStatus(els.saveStatus, error.message, 'error');
+  } finally {
+    els.isrcImportBtn.disabled = false;
+  }
+});
+
+document.getElementById('spotifyTrack').addEventListener('change', () => {
+  syncCoverFromSpotify().catch(error => {
+    setStatus(els.saveStatus, error.message, 'error');
+  });
+});
+
+els.tableSearch.addEventListener('input', () => {
+  if (database) renderSummary();
+});
+
+els.refreshTableBtn.addEventListener('click', async () => {
+  els.refreshTableBtn.disabled = true;
+  setStatus(els.summary, 'Memuat ulang database...');
+  try {
+    await loadDatabase();
+  } catch (error) {
+    setStatus(els.summary, error.message, 'error');
+  } finally {
+    els.refreshTableBtn.disabled = false;
+  }
+});
+
+els.discographyRows.addEventListener('click', async (event) => {
+  const button = event.target.closest('button[data-action]');
+  if (!button) return;
+  const index = Number(button.dataset.index);
+  const item = database?.discography[index];
+  if (!item) return;
+
+  if (button.dataset.action === 'edit') {
+    fillFormForEdit(index);
+    return;
+  }
+
+  if (button.dataset.action === 'delete') {
+    const ok = confirm(`Hapus "${item.title}" dari database D1?`);
+    if (!ok) return;
+
+    button.disabled = true;
+    try {
+      const removed = database.discography.splice(index, 1)[0];
+      if (removed?.title && database.platformMetadata[removed.title]) {
+        delete database.platformMetadata[removed.title];
+      }
+      await saveDatabase();
+      if (removed === editingItemRef) {
+        els.form.reset();
+        clearEditMode();
+      }
+      renderSummary();
+      setStatus(els.saveStatus, `Rilisan "${removed.title}" berhasil dihapus dari D1.`, 'ok');
+    } catch (error) {
+      setStatus(els.saveStatus, error.message, 'error');
+      await loadDatabase().catch(() => {});
+    }
+  }
+});
+
+els.cancelEditBtn.addEventListener('click', () => {
+  els.form.reset();
+  document.getElementById('type').value = 'Kolaborasi';
+  clearEditMode();
+  setStatus(els.saveStatus, 'Mode edit dibatalkan.');
+});
+
+els.form.addEventListener('reset', () => {
+  setTimeout(() => {
+    document.getElementById('type').value = 'Kolaborasi';
+    renderIsrcCandidates([]);
+    clearEditMode();
+  }, 0);
+});
+
+els.form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const saveBtn = document.getElementById('saveBtn');
+  saveBtn.disabled = true;
+  setStatus(els.saveStatus, 'Menyiapkan data...');
+  try {
+    if (!database) await loadDatabase();
+    await syncCoverFromSpotify({ silent: true });
+    const { item, platformMeta } = buildReleaseFromForm();
+    const duplicate = database.discography.find(existing => existing !== editingItemRef && existing.title === item.title && existing.artist === item.artist);
+    if (duplicate && !confirm('Judul dan artist yang sama sudah ada. Tetap tambahkan?')) return;
+
+    const resolvedEditingIndex = editingItemRef ? database.discography.indexOf(editingItemRef) : -1;
+    if (editingItemRef && resolvedEditingIndex === -1) {
+      throw new Error('Rilisan yang sedang diedit sudah berubah atau dihapus. Muat ulang database lalu coba lagi.');
+    }
+
+    if (!editingItemRef) {
+      database.discography.unshift(item);
+    } else {
+      database.discography[resolvedEditingIndex] = item;
+      if (editingOriginalTitle && editingOriginalTitle !== item.title && database.platformMetadata[editingOriginalTitle]) {
+        delete database.platformMetadata[editingOriginalTitle];
+      }
+    }
+
+    if (Object.keys(platformMeta).length > 0) {
+      database.platformMetadata[item.title] = {
+        ...(database.platformMetadata[item.title] || {}),
+        ...platformMeta,
+      };
+    } else if (editingItemRef && database.platformMetadata[item.title]) {
+      delete database.platformMetadata[item.title];
+    }
+
+    const action = editingItemRef ? 'Update' : 'Add';
+    await saveDatabase();
+    setStatus(els.saveStatus, `Rilisan "${item.title}" berhasil ${editingItemRef ? 'diperbarui' : 'ditambahkan'} di D1.`, 'ok');
+    await loadDatabase();
+    els.form.reset();
+    document.getElementById('type').value = 'Kolaborasi';
+    clearEditMode();
+  } catch (error) {
+    setStatus(els.saveStatus, error.message, 'error');
+  } finally {
+    saveBtn.disabled = false;
+  }
+});
+
+checkSession();
+</script>
 </body>
 </html>

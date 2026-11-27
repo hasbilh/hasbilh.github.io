@@ -495,10 +495,17 @@ function applyPlatformLinks(links) {
     soundcloud: ['soundcloudUrl', value => value],
   };
   let applied = 0;
-  links.forEach(({ platform, url }) => {
+  links.forEach(({ platform, url, isSearch }) => {
     const field = fields[platform];
     if (!field) return;
-    document.getElementById(field[0]).value = field[1](url) || '';
+    const searchFields = {
+      youtube: 'youtubeId',
+      youtubeMusic: 'youtubeMusicId',
+      deezer: 'deezerTrackId',
+      tidal: 'tidalUrl',
+    };
+    const value = isSearch && searchFields[platform] === field[0] ? url : field[1](url);
+    document.getElementById(field[0]).value = value || '';
     applied += 1;
   });
   return applied;
@@ -881,9 +888,16 @@ function buildReleaseFromForm() {
   const amazonValue = cleanValue(document.getElementById('amazonUrl').value);
   const soundcloudValue = cleanValue(document.getElementById('soundcloudUrl').value);
 
-  if (youtubeValue) platformMeta.youtubeId = extractYouTubeId(youtubeValue);
-  if (youtubeMusicValue) platformMeta.youtubeMusicId = extractYouTubeId(youtubeMusicValue);
+  if (youtubeValue) {
+    if (/\/results\?search_query=/i.test(youtubeValue)) platformMeta.youtubeUrl = youtubeValue;
+    else platformMeta.youtubeId = extractYouTubeId(youtubeValue);
+  }
+  if (youtubeMusicValue) {
+    if (/\/search\?q=/i.test(youtubeMusicValue)) platformMeta.youtubeMusicUrl = youtubeMusicValue;
+    else platformMeta.youtubeMusicId = extractYouTubeId(youtubeMusicValue);
+  }
   if (appleUrl) {
+    if (isUrl(appleUrl)) platformMeta.appleUrl = appleUrl;
     const appleMeta = parseAppleMusicValue(appleUrl);
     if (appleMeta.appleUrl) platformMeta.appleUrl = appleMeta.appleUrl;
     if (appleMeta.appleTrackId) platformMeta.appleTrackId = appleMeta.appleTrackId;
@@ -896,7 +910,7 @@ function buildReleaseFromForm() {
   }
   if (deezerValue) {
     if (isUrl(deezerValue)) platformMeta.deezerUrl = deezerValue;
-    platformMeta.deezerTrackId = extractDeezerTrackId(deezerValue);
+    if (!/\/search\//i.test(deezerValue)) platformMeta.deezerTrackId = extractDeezerTrackId(deezerValue);
   }
   if (tidalValue) {
     if (isUrl(tidalValue)) platformMeta.tidalUrl = tidalValue;
@@ -1050,7 +1064,8 @@ els.isrcImportBtn.addEventListener('click', async () => {
     renderIsrcCandidates(result.candidates || []);
     const names = result.links.map(link => link.platform).join(', ');
     const candidateCount = Array.isArray(result.candidates) ? result.candidates.length : 0;
-    setStatus(els.saveStatus, `${applied} platform otomatis ditemukan: ${names || 'tidak ada'}. ${candidateCount} kandidat lain tersedia untuk dipilih.`, 'ok');
+    const version = result.resolverVersion ? ` Resolver ${result.resolverVersion}.` : ' Worker lama terdeteksi; deploy ulang worker.js.';
+    setStatus(els.saveStatus, `${applied} platform otomatis ditemukan: ${names || 'tidak ada'}. ${candidateCount} kandidat lain tersedia untuk dipilih.${version}`, 'ok');
   } catch (error) {
     setStatus(els.saveStatus, error.message, 'error');
   } finally {
